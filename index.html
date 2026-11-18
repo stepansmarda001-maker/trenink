@@ -714,7 +714,7 @@ function DbBackend(db){
 /* ================= state ================= */
 var ROLE={coach:false,mode:''},B=null;
 var D={teams:{},players:{},events:{},plan:{},att:{},rate:{}};
-var CUSTOM_KR={},KRC={sig:'',list:[]},GEAR_DEF=['Kužely nízké','Kužely vysoké','Překážky 15 cm','Překážky 23 cm','Překážky 30 cm','Rebounder','Slalom komplet','Tyče na slalom','Medicimbal','Míč','Žebřík','Stepper','Švihadlo','Odporová guma','Foam roller'],CUSTOM_GEAR={},GEAR_HID={},HIDDEN={},CUSTOM_CATS={},CUSTOM_LIB={},CUSTOM_RECS={},CUSTOM_ILL={},CUSTOM_SEA={},CUSTOM_AWD={},CUSTOM_SHOP={},CUSTOM_GOAL={},CUSTOM_GROW={},BASE_LIB=null,curTeam=null,teamSubs=[],teamsUnsub=null,lastJson={},teamsJson='',teamsLoaded=false,slow=false,dirty={},saveT=null,rT=null;
+var GEAR_REN={},CUSTOM_KR={},KRC={sig:'',list:[]},GEAR_DEF=['Kužely nízké','Kužely vysoké','Překážky 15 cm','Překážky 23 cm','Překážky 30 cm','Rebounder','Slalom komplet','Tyče na slalom','Medicimbal','Míč','Žebřík','Stepper','Švihadlo','Odporová guma','Foam roller'],CUSTOM_GEAR={},GEAR_HID={},HIDDEN={},CUSTOM_CATS={},CUSTOM_LIB={},CUSTOM_RECS={},CUSTOM_ILL={},CUSTOM_SEA={},CUSTOM_AWD={},CUSTOM_SHOP={},CUSTOM_GOAL={},CUSTOM_GROW={},BASE_LIB=null,curTeam=null,teamSubs=[],teamsUnsub=null,lastJson={},teamsJson='',teamsLoaded=false,slow=false,dirty={},saveT=null,rT=null;
 var view={tab:'tyden',sel:key(new Date()),week:monday(new Date()),filter:'all',open:{},rfilter:'all',sort:{k:'ga',d:-1},pdet:{},planHide:{},season:'all',recopen:{}};
 var undo=null;
 
@@ -1172,6 +1172,7 @@ async function init(){
   B.sub('cats',function(list){CUSTOM_CATS=listToMap(list);applyCats();rebuildLib();scheduleRender()});
   B.sub('kr',function(list){CUSTOM_KR=listToMap(list);scheduleRender()});
   B.sub('gear',function(list){CUSTOM_GEAR=listToMap(list);scheduleRender()});
+  B.sub('gearren',function(list){GEAR_REN=listToMap(list);scheduleRender()});
   B.sub('gearhide',function(list){GEAR_HID=listToMap(list);scheduleRender()});
   B.sub('libhide',function(list){HIDDEN=listToMap(list);rebuildLib();scheduleRender()});
   B.sub('lib',function(list){CUSTOM_LIB=listToMap(list);rebuildLib();scheduleRender()});
@@ -1263,7 +1264,7 @@ function knihovnaHtml(){
   });
   if(!any)h+='<div class="empty">Knihovna je prázdná.</div>';
   var cg=Object.keys(CUSTOM_GEAR).map(function(k){return {k:k,n:CUSTOM_GEAR[k].n,c:CUSTOM_GEAR[k].created||0}}).sort(function(a,b){return a.c-b.c});
-  h+='</div></section><section class="panel"><div class="sect"><div class="sect-h"><h2>Pomůcky</h2></div><p class="hint">Pomůcky vybereš u každého cvičení. Nahoře u tréninku se pak ukáže soupis věcí, které vzít s sebou. Nepotřebné pomůcky smaž, novou přidáš přímo v úpravě cvičení.</p><div class=\"lrows\" style=\"margin-top:10px\">'+GEAR_DEF.filter(function(g){return !GEAR_HID[bkey(g)]}).map(function(g){return '<div class=\"lrow\"><div><b>'+esc(g)+'</b></div><div class=\"acts\"><button class=\"btn\" data-act=\"hidegear\" data-id=\"'+bkey(g)+'\">Smazat</button></div></div>'}).join('')+cg.map(function(g){return '<div class=\"lrow\"><div><b>'+esc(g.n)+'</b> <small>vlastní</small></div><div class=\"acts\"><button class=\"btn\" data-act=\"delgear\" data-id=\"'+g.k+'\">Smazat</button></div></div>'}).join('')+'</div>'+(Object.keys(GEAR_HID).length?'<p class=\"hint\"><button class=\"btn small\" data-act=\"restoregear\">Obnovit smazané pomůcky ('+Object.keys(GEAR_HID).length+')</button></p>':'');
+  h+='</div></section><section class="panel"><div class="sect"><div class="sect-h"><h2>Pomůcky</h2><button class="btn primary" data-act="newgear">'+IC.plus+'Přidat pomůcku</button></div><p class="hint">Pomůcky vybereš u každého cvičení. Nahoře u tréninku se pak ukáže soupis věcí, které vzít s sebou. Pomůcku můžeš přidat, přejmenovat nebo smazat. Přejmenování se projeví u všech cvičení.</p><div class=\"lrows\" style=\"margin-top:10px\">'+GEAR_DEF.filter(function(g){return !GEAR_HID[bkey(g)]}).map(function(g){return '<div class=\"lrow\"><div><b>'+esc(gnorm(g))+'</b></div><div class=\"acts\"><button class=\"btn\" data-act=\"rengear\" data-n=\"'+esc(gnorm(g))+'\">Přejmenovat</button><button class=\"btn\" data-act=\"hidegear\" data-id=\"'+bkey(g)+'\">Smazat</button></div></div>'}).join('')+cg.map(function(g){return '<div class=\"lrow\"><div><b>'+esc(gnorm(g.n))+'</b> <small>vlastní</small></div><div class=\"acts\"><button class=\"btn\" data-act=\"rengear\" data-n=\"'+esc(gnorm(g.n))+'\">Přejmenovat</button><button class=\"btn\" data-act=\"delgear\" data-id=\"'+g.k+'\">Smazat</button></div></div>'}).join('')+'</div>'+(Object.keys(GEAR_HID).length?'<p class=\"hint\"><button class=\"btn small\" data-act=\"restoregear\">Obnovit smazané pomůcky ('+Object.keys(GEAR_HID).length+')</button></p>':'');
   var nh=Object.keys(HIDDEN).length;
   if(nh)h+='<p class="hint"><button class="btn small" data-act="restorebase">Obnovit smazaná základní cvičení ('+nh+')</button></p>';
   return h+'</div></section>';
@@ -1463,7 +1464,7 @@ function detailHtml(x,imgs){
   var h='<div class="detail">';
   h+=x.desc?'<p>'+esc(x.desc)+'</p>':'<p class="muted">Zatím tu není žádný popis. Doplníš ho v úpravách cvičení.</p>';
   if(imgs.length)h+='<div class="gal">'+imgs.map(function(u,i){return '<button type="button" data-act="zoom" data-n="'+i+'" aria-label="Zvětšit obrázek '+(i+1)+'"><img src="'+u+'" alt="Obrázkový návod '+(i+1)+': '+esc(x.name)+'"></button>'}).join('')+'</div>';
-  if((x.gear||[]).length)h+='<div class="gearline"><b>Pomůcky:</b> '+gearChips(x.gear)+'</div>';
+  if((x.gear||[]).length)h+='<div class="gearline"><b>Pomůcky:</b> '+gearChips(gearOf([x]))+'</div>';
   var v=safeUrl(x.video);
   h+='<div class="links">';
   if(v)h+='<a class="btn vid" href="'+esc(v)+'" target="_blank" rel="noopener noreferrer">Otevřít video návod</a>';
@@ -1505,8 +1506,12 @@ function applyCats(){
     CAT[o.id]={n:o.c.n,c:o.c.c,custom:true};FOCUS.push(o.id);ORDER.splice(ORDER.indexOf('sila'),0,o.id);
   });
 }
-function gearAll(){var c=Object.keys(CUSTOM_GEAR).map(function(k){return CUSTOM_GEAR[k]}).sort(function(a,b){return (a.created||0)-(b.created||0)}).map(function(g){return g.n}).filter(function(n){return GEAR_DEF.indexOf(n)<0});return GEAR_DEF.filter(function(n){return !GEAR_HID[bkey(n)]}).concat(c)}
-function gearOf(items){var seen={},out=[];(items||[]).forEach(function(x){(x.gear||[]).forEach(function(g){if(!seen[g]){seen[g]=1;out.push(g)}})});var all=gearAll();return out.sort(function(a,b){var i=all.indexOf(a),j=all.indexOf(b);return (i<0?999:i)-(j<0?999:j)})}
+function gnorm(n){var i=0;while(GEAR_REN[bkey(n)]&&i++<10)n=GEAR_REN[bkey(n)].to;return n}
+function gearAll(){
+  var c=Object.keys(CUSTOM_GEAR).map(function(k){return CUSTOM_GEAR[k]}).sort(function(a,b){return (a.created||0)-(b.created||0)}).map(function(g){return g.n}).filter(function(n){return GEAR_DEF.indexOf(n)<0});
+  var seen={},out=[];GEAR_DEF.filter(function(n){return !GEAR_HID[bkey(n)]}).concat(c).forEach(function(n){var m=gnorm(n);if(!seen[m]){seen[m]=1;out.push(m)}});return out;
+}
+function gearOf(items){var seen={},out=[];(items||[]).forEach(function(x){(x.gear||[]).forEach(function(g0){var g=gnorm(g0);if(!seen[g]){seen[g]=1;out.push(g)}})});var all=gearAll();return out.sort(function(a,b){var i=all.indexOf(a),j=all.indexOf(b);return (i<0?999:i)-(j<0?999:j)})}
 function gearChips(a){return a.map(function(g){return '<span class="chip gchip">'+esc(g)+'</span>'}).join('')}
 function bkey(n){var h=5381;for(var i=0;i<n.length;i++)h=((h<<5)+h+n.charCodeAt(i))|0;return 'h'+(h>>>0).toString(36)}
 function rebuildLib(){
@@ -1560,6 +1565,21 @@ function krPanel(){
   h+='<div class="lrows">'+ids.map(function(id){var k=CUSTOM_KR[id];
     return '<div class="lrow"><div><b>'+esc(k.name)+'</b> <small>'+(k.days||[]).map(function(d){return DAYS_S[d]}).join(', ')+(k.time?' · '+esc(k.time):'')+(k.dur?' · '+k.dur+' min':'')+(k.place?' · '+esc(k.place):'')+'</small><div class="hint">od '+esc(fmt(parse(k.from),{day:'numeric',month:'numeric',year:'numeric'}))+(k.to?' do '+esc(fmt(parse(k.to),{day:'numeric',month:'numeric',year:'numeric'})):'')+'</div></div><div class="acts"><button class="btn" data-act="editkr" data-id="'+id+'">Upravit</button><button class="btn" data-act="delkr" data-id="'+id+'">Smazat</button></div></div>'}).join('')+'</div>';
   return h+'</div></section>';
+}
+var gearCtx=null;
+function openGearDlg(cur){
+  gearCtx=cur||null;
+  openModal('<h3 id="mtitle">'+(cur?'Přejmenovat pomůcku':'Nová pomůcka')+'</h3><form id="gearform" novalidate><div class="fld"><label for="g-name">Název pomůcky</label><input id="g-name" type="text" maxlength="40" value="'+esc(cur||'')+'" placeholder="např. Kužely žluté" autocomplete="off"></div><div class="err" id="f-err" role="alert"></div><div class="dact"><button type="button" class="btn" data-act="closemodal">Zrušit</button><button type="submit" class="btn primary">Uložit</button></div></form>','g-name');
+}
+function submitGearDlg(){
+  var n=$('g-name').value.trim(),err=$('f-err');if(!n){err.textContent='Napiš název pomůcky.';return}
+  var low=n.toLowerCase();
+  if(gearAll().some(function(g){return g.toLowerCase()===low&&g!==gearCtx})){err.textContent='Pomůcka s tímto názvem už existuje.';return}
+  if(GEAR_REN[bkey(n)]&&n!==gearCtx){err.textContent='Tento název se dřív přejmenoval. Zvol jiný.';return}
+  if(gearCtx){
+    if(n!==gearCtx){var from=gearCtx,o={from:from,to:n,created:Date.now()};GEAR_REN[bkey(from)]=o;W('gearren/'+bkey(from),o)}
+  }else{var id='g_'+uid(),o2={n:n,created:Date.now()};CUSTOM_GEAR[id]=o2;W('gear/'+id,o2)}
+  closeModal();renderAll();toast(gearCtx?'Pomůcka přejmenována':'Pomůcka přidána');
 }
 var krId=null;
 function openKrForm(id){
@@ -2580,7 +2600,7 @@ function openExForm(item,lib){
     '</div>'+
     '<div class="fld"><label for="f-desc">Krátký popis</label><textarea id="f-desc" maxlength="500" placeholder="Jak se cvičení provádí">'+esc(x.desc)+'</textarea></div>'+
     '<div class="fld"><label for="f-video">Odkaz na video návod</label><input id="f-video" type="text" inputmode="url" autocomplete="off" placeholder="https://www.youtube.com/..." value="'+esc(x.video)+'"></div>'+
-    '<fieldset class="fld gearf"><legend>Pomůcky, které budu potřebovat</legend><div class="fchips" id="f-gear">'+gearAll().concat((x.gear||[]).filter(function(g){return gearAll().indexOf(g)<0})).map(function(g){return gearChk(g,(x.gear||[]).indexOf(g)>=0)}).join('')+'</div><div class="gadd"><input id="f-newgear" type="text" maxlength="40" placeholder="Další pomůcka, např. Kužely žluté" autocomplete="off"><button type="button" class="btn" data-act="addgear">Přidat</button></div></fieldset>'+
+    '<fieldset class="fld gearf"><legend>Pomůcky, které budu potřebovat</legend><div class="fchips" id="f-gear">'+(function(){var xg=(x.gear||[]).map(gnorm),al=gearAll();return al.concat(xg.filter(function(g){return al.indexOf(g)<0})).map(function(g){return gearChk(g,xg.indexOf(g)>=0)}).join('')})()+'</div><div class="gadd"><input id="f-newgear" type="text" maxlength="40" placeholder="Další pomůcka, např. Kužely žluté" autocomplete="off"><button type="button" class="btn" data-act="addgear">Přidat</button></div></fieldset>'+
     '<div class="fld"><label for="f-files">Obrázkový návod</label><input id="f-files" type="file" accept="image/*" multiple><div class="fimgs" id="f-imgs"></div></div>'+
     '<p class="hint">Až 8 obrázků, zmenší se automaticky. Video se otevře v nové záložce.</p>'+
     (lib?'':'<div class="fld"><label for="f-note">Poznámka pro sebe</label><textarea id="f-note" maxlength="300" style="min-height:60px">'+esc(x.note)+'</textarea></div>')+
@@ -2838,6 +2858,8 @@ document.addEventListener('click',function(e){
     case 'krunskip':var k2=CUSTOM_KR[rid],kd2=b.getAttribute('data-d');if(k2){var k3=clone(k2);delete (k3.skip||{})[kd2];CUSTOM_KR[rid]=k3;W('kr/'+rid,k3);closeModal();openKrForm(rid);scheduleRender()}break;
     case 'phist':histOpen();break;
     case 'phrestore':histRestore(+b.getAttribute('data-i'));break;
+    case 'newgear':openGearDlg(null);break;
+    case 'rengear':openGearDlg(b.getAttribute('data-n'));break;
     case 'addgear':addGearFromForm();break;
     case 'hidegear':var hg=GEAR_DEF.filter(function(g){return bkey(g)===rid})[0];if(hg){GEAR_HID[rid]={n:hg,created:Date.now()};W('gearhide/'+rid,GEAR_HID[rid]);renderAll();toast('Pomůcka odebrána ze seznamu')}break;
     case 'restoregear':Object.keys(GEAR_HID).forEach(function(k){Wdel('gearhide/'+k)});GEAR_HID={};renderAll();toast('Pomůcky obnoveny');break;
@@ -2980,6 +3002,7 @@ document.addEventListener('submit',function(e){
   else if(id==='copyform')doCopy();
   else if(id==='catform')submitCat();
   else if(id==='krform')submitKr();
+  else if(id==='gearform')submitGearDlg();
   else if(id==='recform')submitRec();
   else if(id==='illform')submitIll();
   else if(id==='seaform')submitSea();
