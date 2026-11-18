@@ -160,6 +160,13 @@ h1,h2,h3,p{margin:0;text-wrap:balance}
 .itbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#eaf2ff;border:1.5px solid #b7d1fb;color:#123a73;border-radius:10px;padding:8px 12px;margin:10px 0}.itbar>span:nth-child(2){flex:1;min-width:180px}.itbar .btn,.sickbar .btn{color:var(--ink)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .itbar{background:#13294a;border-color:#2c4f86;color:#d6e4ff}:root:not([data-theme="light"]) .gchip{background:var(--surface);border-color:#2c4f86;color:var(--ink)}:root:not([data-theme="light"]) .sickbar{background:#3a2a12;border-color:#7a5a24;color:#ffd9a0}}
 :root[data-theme="dark"] .itbar{background:#13294a;border-color:#2c4f86;color:#d6e4ff}:root[data-theme="dark"] .gchip{background:var(--surface);border-color:#2c4f86;color:var(--ink)}:root[data-theme="dark"] .sickbar{background:#3a2a12;border-color:#7a5a24;color:#ffd9a0}
+.xppop{position:fixed;left:50%;bottom:30%;transform:translateX(-50%);z-index:60;pointer-events:none;text-align:center;width:0;height:0}
+.xppop b{position:absolute;left:0;top:0;transform:translate(-50%,-50%);white-space:nowrap;font:800 52px/1 var(--display);color:#ffd27a;-webkit-text-stroke:1.5px #9a6a00;text-shadow:0 3px 0 #9a6a00,0 8px 22px rgba(0,0,0,.5);animation:xpup 1.5s ease-out forwards}
+.xppop i{position:absolute;left:0;top:0;font-style:normal;color:#ffd27a;opacity:0;animation:xpspark 1.1s ease-out forwards;text-shadow:0 0 8px rgba(255,210,122,.8)}
+@keyframes xpup{0%{transform:translate(-50%,-50%) scale(.3);opacity:0}15%{transform:translate(-50%,-50%) scale(1.3);opacity:1}30%{transform:translate(-50%,-50%) scale(1)}70%{opacity:1}100%{transform:translate(-50%,-180%) scale(1);opacity:0}}
+@keyframes xpspark{0%{transform:translate(-50%,-50%) scale(.3);opacity:1}100%{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(1.1);opacity:0}}
+@media (prefers-reduced-motion:reduce){.xppop i{display:none}.xppop b{animation:xpfade 1.5s ease-out forwards}@keyframes xpfade{0%,70%{opacity:1}100%{opacity:0}}}
+.kidlead{font-size:17px;margin:0 0 12px}.xpg{display:grid;gap:8px}.xpr{display:flex;gap:12px;align-items:center;padding:8px 12px;border:1.5px solid var(--line);border-radius:12px;background:var(--bg)}.xpr>b{flex:0 0 74px;text-align:center;font:800 26px/1 var(--display);color:var(--bib)}.xpr strong{display:block;font-size:15.5px}.xpr small{display:block;color:var(--muted);font-size:13.5px}.kidh{margin:16px 0 6px;font:700 20px var(--display);text-transform:uppercase}.kidul{margin:0;padding-left:18px;display:grid;gap:6px}.kidtip{margin:12px 0;padding:10px 12px;border-radius:12px;background:color-mix(in srgb,var(--bib) 14%,var(--surface));border:1.5px solid var(--bib)}
 .itgear{flex-basis:100%;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:14px}.gchip{background:#fff;border:1px solid #b7d1fb}.gearline{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0}.gearf{border:0;padding:0;margin:0 0 12px}.gearf legend{font-size:13px;font-weight:600;margin-bottom:6px;padding:0}.gadd{display:flex;gap:8px;margin-top:8px}.gadd input{flex:1;min-width:0}.tgear{opacity:.92;font-size:14px;margin-top:4px}
 .itb{background:#2f7de1;color:#fff;border-radius:6px;padding:2px 8px;font:700 13px var(--display);letter-spacing:.05em}
 .lbd{margin-top:2px}.lbd>summary{cursor:pointer;font-weight:600;padding:8px 0;color:var(--muted)}
@@ -1780,13 +1787,21 @@ function badgeOf(id){var b=BADGES.filter(function(b){return b.id===id})[0];if(b)
   return {id:id,fam:f.id,i:i,n:fNm(f,i),d:f.dsc.replace('{n}',fTh(f,i)),m:'d'}}
 function medalHtml(b,on,cls){return '<span class="medal m-'+b.m+(on?'':' off')+(cls?' '+cls:'')+'" aria-hidden="true">'+IC.star+'</span>'}
 /* porovná stav před změnou s nynějším a ukáže odměnu */
+function xpPop(n){
+  var old=document.querySelector('.xppop');if(old)old.remove();
+  var el=document.createElement('div');el.className='xppop';el.setAttribute('role','status');
+  var sp='';for(var i=0;i<14;i++){var a=(i/14)*Math.PI*2,r=70+Math.random()*50;sp+='<i style="--dx:'+Math.round(Math.cos(a)*r)+'px;--dy:'+Math.round(Math.sin(a)*r-20)+'px;animation-delay:'+(i%4)*40+'ms;font-size:'+(14+(i%3)*6)+'px">★</i>'}
+  el.innerHTML=sp+'<b>+'+n+' XP</b>';
+  document.body.appendChild(el);
+  setTimeout(function(){if(el.parentNode)el.remove()},1700);
+}
 function reward(pre,title){
   var post=rwSnap(),dxp=post.xp-pre.xp;
   var nb=post.badges.filter(function(id){return pre.badges.indexOf(id)<0}).map(badgeOf);
   if(dxp<=0&&!nb.length)return;
   var up=post.level>pre.level,dayDone=post.days>pre.days,rec=post.recBrk>pre.recBrk;
   var gd=post.goalsDone>pre.goalsDone,wkb=post.wk5>pre.wk5;
-  if(!nb.length&&!up&&!dayDone&&!rec&&!gd&&!wkb){toast('+'+dxp+' XP');return}
+  if(!nb.length&&!up&&!dayDone&&!rec&&!gd&&!wkb){xpPop(dxp);return}
   var t=title||(gd?'Cíl splněn!':rec?'Nový osobní rekord!':dayDone?'Trénink splněn!':up?'Nová úroveň!':'Nový odznak!');
   if(rec&&dayDone)t='Rekord a splněný trénink!';
   if(wkb)t='Týden na jedničku! 5 dní tréninku';
@@ -2103,7 +2118,23 @@ function odmenyHtml(){
         '<div class="tiers">'+(function(){var o=[],m=Math.max(f.th.length,n+1);for(var i=0;i<m;i++){var t=fTh(f,i);o.push('<span class="tp m-'+TIERC[Math.min(i,4)]+(v>=t?'':' off')+'" title="'+esc(fNm(f,i))+'">'+t+'</span>')}return o.join('')})()+'</div></div></li>';
     }).join('')+'</ul></div></section>';
   });
-  h+='<section class="panel"><div class="sect"><div class="sect-h"><h2>Jak získat XP</h2></div><ul class="how"><li><b>+10 XP</b> za každé splněné cvičení</li><li><b>+30 XP</b> za odtrénovaný klubový trénink</li><li><b>+100 XP</b> za každý týden, kdy trénuješ aspoň 5 dní (individuálně nebo v klubu)</li><li><b>+10 XP</b> za zapsaný výsledek v rekordech, <b>+50 XP</b> za překonání rekordu</li><li><b>+20 XP</b> za odehraný zápas, <b>+25 XP</b> za gól a za asistenci</li><li><b>+200 XP</b> za hattrick, <b>+30 XP</b> za hodnocení 5/5</li><li><b>+500 XP</b> za individuální ocenění (třeba nejlepší hráč nebo střelec), <b>+10 XP</b> za medaili týmu</li></ul><p class="hint">Týden se do série počítá, když máš aspoň 3 dny se splněným cvičením. Týdny s nemocí (3 a více dnů) nebo s volnem sérii nepřerušují.</p></div></section>';
+  h+='<section class="panel kid"><div class="sect"><div class="sect-h"><h2>Jak sbírám XP</h2></div>'+
+    '<p class="kidlead">XP jsou body za tvoji snahu. Nezáleží na tom, jestli tým vyhraje. Počítá se, kolik jsi toho odtrénoval ty.</p>'+
+    '<div class="xpg">'+[
+      ['+10','za každé cvičení','Splníš 7 cvičení = 70 XP.'],
+      ['+30','za klubový trénink nebo kroužek','Stačí přijít a odtrénovat.'],
+      ['+100','bonus za týden','Trénuj aspoň 5 dní v týdnu (doma, v klubu i na kroužku).'],
+      ['+20','za odehraný zápas nebo turnaj','Každý zápas se počítá.'],
+      ['+25','za každý gól a každou asistenci','Střílej a nahrávej.'],
+      ['+30','za hodnocení 5 z 5','Když tě trenér ohodnotí nejlíp.'],
+      ['+200','za hattrick','Tři góly v jednom zápase.'],
+      ['+10','za zapsaný rekord','A <b>+50</b>, když ho překonáš.'],
+      ['+500','za individuální ocenění','Třeba nejlepší hráč nebo střelec turnaje.'],
+      ['+10','za medaili týmu','Hezká třešnička, ale hlavní je tvoje snaha.']
+    ].map(function(r){return '<div class="xpr"><b>'+r[0]+'</b><div><strong>'+r[1]+'</strong><small>'+r[2]+'</small></div></div>'}).join('')+'</div>'+
+    '<h3 class="kidh">K čemu jsou XP</h3><ul class="kidul"><li><b>Úrovně.</b> Čím víc XP, tím vyšší úroveň, od Nováčka až po Zlatý míč. Úroveň ti nikdy neklesne.</li><li><b>Odměny.</b> Za XP si můžeš koupit odměny, které ti nastavili rodiče. Při koupi se XP odečtou, ale úroveň ti zůstane.</li><li><b>Odznaky.</b> Za dlouhodobé snažení svítí hvězdičky na nástěnce úspěchů.</li></ul>'+
+    '<p class="kidtip"><b>Tip:</b> Nejrychleji roste XP, když trénuješ pravidelně. Týden s 5 tréninky po 7 cvičeních dá kolem 450 XP.</p>'+
+    '<p class="hint">Týden se do série počítá, když máš aspoň 3 dny se splněným cvičením nebo tréninkem. Nemoc a volno sérii nepřerušují.</p></div></section>';
   return h;
 }
 var AWT=['Nejlepší střelec','Nejlepší hráč (MVP)','Nejlepší brankář','Nejlepší nahrávač','Fair play','Jiné ocenění'];
