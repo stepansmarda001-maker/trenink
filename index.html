@@ -1243,6 +1243,7 @@ function weekNav(){
 /* ================= render: week ================= */
 function badgesFor(k,d){
   var h=evOfDay(k).map(function(e){var T=EVT[e.type]||EVT.trenink;return '<span class="eb" style="background:'+T.c+'">'+T.s+'</span>'}).join('');
+  if(ROLE.coach&&!d.rest&&(d.items||[]).length)h+='<span class="eb" style="background:#0f766e" title="Individuální trénink">IT</span>';
   var il=illOn(k);if(il)h+='<span class="eb" style="background:#b45309" title="'+ILLT[il.type]+'">'+(il.type==='nemoc'?'N':'Z')+'</span>';
   if(ROLE.coach)h+=(d.focus||[]).filter(function(c){return CAT[c]}).map(function(c){return '<i style="background:'+CAT[c].c+';width:6px;height:6px;border-radius:50%;display:inline-block;align-self:center"></i>'}).join('');
   return '<span class="badges">'+h+'</span>';
@@ -1366,14 +1367,14 @@ function planSection(k,d){
 function renderPanel(){
   var k=view.sel,d=dayOf(k),dt=parse(k),wd=(dt.getDay()+6)%7,ev=evOfDay(k);
   var h='<div class="ph"><div><h2>'+DNL[wd]+' '+fmt(dt,{day:'numeric',month:'long'})+'</h2><div class="sub">';
-  h+=ev.length?ev.length+' '+(ev.length===1?'událost':ev.length<5?'události':'událostí')+' · '+fmtMin(dayMin(k)):'Žádná událost';
+  h+=ev.length?ev.length+' '+(ev.length===1?'událost':ev.length<5?'události':'událostí')+' · '+fmtMin(dayMin(k)):(ROLE.coach&&!d.rest&&(d.items||[]).length?'Individuální trénink · '+fmtMin(dayMin(k)):'Žádná událost');
   h+='</div></div>';
   if(ROLE.coach)h+='<div class="acts"><button class="btn" data-act="addev" data-t="trenink">'+IC.plus+'Klubový trénink</button><button class="btn" data-act="addev" data-t="zapas">'+IC.plus+'Zápas</button><button class="btn" data-act="addev" data-t="turnaj">'+IC.plus+'Turnaj</button><button class="btn" data-act="newill" data-k="'+k+'">'+IC.plus+'Nemoc</button></div>';
   h+='</div>';
   if(ROLE.coach&&!d.rest&&(d.items||[]).length){var itn=d.items.length,itd=d.items.filter(function(x){return x.done}).length;h+='<div class="itbar" role="status"><span class="itb">IT</span><span><b>Individuální trénink</b> · '+itn+' '+(itn===1?'cvičení':itn<5?'cvičení':'cvičení')+' · '+fmtMin(mins(d))+' · hotovo '+itd+' z '+itn+'</span><button class="btn small" data-act="scrollplan">Zobrazit plán</button>'+(gearOf(d.items).length?'<div class="itgear"><b>Vzít s sebou:</b> '+gearChips(gearOf(d.items))+'</div>':'')+'</div>'}
   var ill=illOn(k);if(ill)h+='<div class="sickbar" role="status"><b>'+ILLT[ill.type]+'</b>'+(ill.note?' · '+esc(ill.note):'')+'<button class="btn small" data-act="editill" data-id="'+ill.id+'">Upravit</button></div>';
   if(ev.length)h+='<div class="evs">'+ev.map(function(e){return eventCard(e)}).join('')+'</div>';
-  else h+='<div class="empty">'+(ROLE.coach?'V tento den není naplánovaný trénink ani zápas. Přidej ho tlačítky nahoře.':'V tento den nic není naplánované.')+'</div>';
+  else if(!(ROLE.coach&&!d.rest&&(d.items||[]).length))h+='<div class="empty">'+(ROLE.coach?'V tento den není klubový trénink ani zápas. Přidej ho tlačítky nahoře nebo si naplánuj individuální trénink níže.':'V tento den nic není naplánované.')+'</div>';
   if(ROLE.coach)h+=planSection(k,d);
   $('panel').innerHTML=h;
 }
@@ -1413,7 +1414,6 @@ function exRow(x,idx,n,filtered){
     '<div class="ex-tools">'+
       '<button class="ib" data-act="detail" aria-expanded="'+open+'" aria-label="Popis a návody">'+IC.info+'</button>'+
       '<button class="ib run" data-act="runone" aria-label="Spustit cvičení">'+IC.play+'</button>'+
-      '<button class="ib" data-act="swap" aria-label="Vyměnit za jiné cvičení ze skupiny">'+IC.swap+'</button>'+
       '<button class="ib" data-act="edit" aria-label="Upravit">'+IC.edit+'</button>'+
       (filtered?'':'<button class="ib" data-act="up" aria-label="Posunout výš"'+(idx===0?' disabled style="opacity:.3"':'')+'>'+IC.up+'</button>'+
       '<button class="ib" data-act="down" aria-label="Posunout níž"'+(idx===n-1?' disabled style="opacity:.3"':'')+'>'+IC.down+'</button>')+
@@ -2726,7 +2726,7 @@ document.addEventListener('click',function(e){
     case 'undo':
       if(undo){D.plan[undo.k]=JSON.parse(undo.snap);dirty[undo.k]=1;undo=null;save();renderAll();$('toast').classList.remove('show')}
       break;
-    case 'swap':
+    case 'swap':if(1)break;
       var sd=ensure(view.sel),si=sd.items.findIndex(function(x){return x.id===id});
       if(si<0)break;
       var cands=[];
