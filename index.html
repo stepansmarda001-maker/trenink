@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#17408a">
+<meta name="theme-color" content="#141414">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Trénink">
 <link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" type="image/png" href="icon-192.png">
@@ -14,24 +14,24 @@
 <style>
 /* Layout: pitch-coloured header band with week stats, 7-day strip, then the selected day as a numbered drill sheet. */
 :root{
-  --bg:#eef2f8; --surface:#fafcff; --ink:#0f1f38; --muted:#56657d; --line:#d3dbe8;
-  --bib:#2f6fe4; --bib-ink:#ffffff; --flash:#a9ccff; --ok:#2563c9; --danger:#b3321f; --focus:#1d4fb0;
-  --pitch:#17408a; --pitch-2:#143877; --chalk:#f2f6fc;
+  --bg:#f4f4f1; --surface:#ffffff; --ink:#141414; --muted:#5f5f5a; --line:#dcdcd5;
+  --bib:#ffd60a; --bib-ink:#141414; --flash:#fff3b0; --ok:#1a7f54; --danger:#b3321f; --focus:#8a6a00;
+  --pitch:#141414; --pitch-2:#1f1f1f; --chalk:#f5f5f2; --xp:#8a6500;
   --display:'Barlow Condensed','Arial Narrow',Impact,sans-serif;
   --body:'Figtree',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
   color-scheme:light;
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --bg:#0a1424; --surface:#111f36; --ink:#e6edf8; --muted:#8ea1bf; --line:#243653;
-    --bib:#5b97ff; --bib-ink:#06142e; --flash:#c4dcff; --ok:#6aa6ff; --danger:#ff7a63; --focus:#8db8ff;
-    --pitch:#0f2a58; --pitch-2:#0c2349; color-scheme:dark;
+    --bg:#0b0b0c; --surface:#161617; --ink:#f3f3f1; --muted:#9a9a94; --line:#2a2a2c;
+    --bib:#ffd60a; --bib-ink:#141414; --flash:#ffe97a; --ok:#35c58a; --danger:#ff7a63; --focus:#ffd60a;
+    --pitch:#111111; --pitch-2:#0b0b0c; --xp:#ffd60a; color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#0a1424; --surface:#111f36; --ink:#e6edf8; --muted:#8ea1bf; --line:#243653;
-  --bib:#5b97ff; --bib-ink:#06142e; --flash:#c4dcff; --ok:#6aa6ff; --danger:#ff7a63; --focus:#8db8ff;
-  --pitch:#0f2a58; --pitch-2:#0c2349; color-scheme:dark;
+  --bg:#0b0b0c; --surface:#161617; --ink:#f3f3f1; --muted:#9a9a94; --line:#2a2a2c;
+  --bib:#ffd60a; --bib-ink:#141414; --flash:#ffe97a; --ok:#35c58a; --danger:#ff7a63; --focus:#ffd60a;
+  --pitch:#111111; --pitch-2:#0b0b0c; --xp:#ffd60a; color-scheme:dark;
 }
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -131,7 +131,7 @@ h1,h2,h3,p{margin:0;text-wrap:balance}
 .fb{flex:1;min-width:0}
 .fb small{color:var(--muted);font-size:13px}
 .fbar{height:8px;background:var(--line);border-radius:5px;overflow:hidden;margin:6px 0 4px}
-.fbar i{display:block;height:100%;background:linear-gradient(90deg,#2f7de1,#1fa37a);border-radius:5px}
+.fbar i{display:block;height:100%;background:linear-gradient(90deg,#ffd60a,#f2a900);border-radius:5px}
 .tiers{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
 .tp{font:700 12px var(--display);color:#fff;border-radius:99px;padding:2px 9px;font-variant-numeric:tabular-nums}
 .tp.off{background:var(--line);color:var(--muted)}
@@ -157,9 +157,9 @@ h1,h2,h3,p{margin:0;text-wrap:balance}
 .lc .ll{fill:var(--ink);font:700 13px system-ui,sans-serif}
 .lc circle[data-tip]:focus{outline:none;stroke:#0f1b2d;stroke-width:2}
 .ctip{position:fixed;z-index:200;background:#0f1b2d;color:#fff;font-size:13px;padding:5px 9px;border-radius:7px;pointer-events:none;white-space:nowrap}
-.itbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#eaf2ff;border:1.5px solid #b7d1fb;color:#123a73;border-radius:10px;padding:8px 12px;margin:10px 0}.itbar>span:nth-child(2){flex:1;min-width:180px}.itbar .btn,.sickbar .btn{color:var(--ink)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .itbar{background:#13294a;border-color:#2c4f86;color:#d6e4ff}:root:not([data-theme="light"]) .gchip{background:var(--surface);border-color:#2c4f86;color:var(--ink)}:root:not([data-theme="light"]) .sickbar{background:#3a2a12;border-color:#7a5a24;color:#ffd9a0}}
-:root[data-theme="dark"] .itbar{background:#13294a;border-color:#2c4f86;color:#d6e4ff}:root[data-theme="dark"] .gchip{background:var(--surface);border-color:#2c4f86;color:var(--ink)}:root[data-theme="dark"] .sickbar{background:#3a2a12;border-color:#7a5a24;color:#ffd9a0}
+.itbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#fff6cc;border:1.5px solid #e6d27a;color:#4a3a00;border-radius:10px;padding:8px 12px;margin:10px 0}.itbar>span:nth-child(2){flex:1;min-width:180px}.itbar .btn,.sickbar .btn{color:var(--ink)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .itbar{background:#1c1a10;border-color:#4a4220;color:#ffe9a0}:root:not([data-theme="light"]) .gchip{background:var(--surface);border-color:#4a4220;color:var(--ink)}:root:not([data-theme="light"]) .sickbar{background:#3a2a12;border-color:#7a5a24;color:#ffd9a0}}
+:root[data-theme="dark"] .itbar{background:#1c1a10;border-color:#4a4220;color:#ffe9a0}:root[data-theme="dark"] .gchip{background:var(--surface);border-color:#4a4220;color:var(--ink)}:root[data-theme="dark"] .sickbar{background:#3a2a12;border-color:#7a5a24;color:#ffd9a0}
 .xppop{position:fixed;left:50%;bottom:30%;transform:translateX(-50%);z-index:60;pointer-events:none;text-align:center;width:0;height:0}
 .xppop b{position:absolute;left:0;top:0;transform:translate(-50%,-50%);white-space:nowrap;font:800 52px/1 var(--display);color:#ffd27a;-webkit-text-stroke:1.5px #9a6a00;text-shadow:0 3px 0 #9a6a00,0 8px 22px rgba(0,0,0,.5);animation:xpup 1.5s ease-out forwards}
 .xppop i{position:absolute;left:0;top:0;font-style:normal;color:#ffd27a;opacity:0;animation:xpspark 1.1s ease-out forwards;text-shadow:0 0 8px rgba(255,210,122,.8)}
@@ -169,14 +169,19 @@ h1,h2,h3,p{margin:0;text-wrap:balance}
 .kidlead{font-size:17px;margin:0 0 12px}.xpg{display:grid;gap:8px}.xpr{display:flex;gap:12px;align-items:center;padding:8px 12px;border:1.5px solid var(--line);border-radius:12px;background:var(--bg)}.xpr>b{flex:0 0 74px;text-align:center;font:800 26px/1 var(--display);color:var(--bib)}.xpr strong{display:block;font-size:15.5px}.xpr small{display:block;color:var(--muted);font-size:13.5px}.kidh{margin:16px 0 6px;font:700 20px var(--display);text-transform:uppercase}.kidul{margin:0;padding-left:18px;display:grid;gap:6px}.kidtip{margin:12px 0;padding:10px 12px;border-radius:12px;background:color-mix(in srgb,var(--bib) 14%,var(--surface));border:1.5px solid var(--bib)}
 .lgh{display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line);padding:2px 0}.lgt{all:unset;cursor:pointer;display:flex;align-items:center;gap:8px;padding:8px 0;flex:1;min-width:0;font-size:16px}.lgt .arr{width:16px;color:var(--muted)}.lgt b{font:700 17px var(--display);text-transform:uppercase;letter-spacing:.04em}.lgt small{color:var(--muted)}.lgt:focus-visible{outline:3px solid var(--focus)}
 .itwhen{margin:6px 0 2px;font-weight:600}.peekbar{background:rgba(255,255,255,.12);border-radius:10px;padding:8px 12px;font-size:14px;margin-bottom:10px}.peekimgs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:8px 0}.peekimgs img{max-width:46%;max-height:160px;border-radius:8px}
+.dn{display:flex;flex-direction:column;gap:14px}.dn-hello{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#ffe14d,#f2b705);color:#1a1300;border-radius:20px;padding:16px 18px;box-shadow:0 6px 18px rgba(242,183,5,.25)}.dn-ring circle:first-child{stroke:rgba(26,19,0,.18)}.dn-ring circle:last-child{stroke:#1a1300}.dn-ring{position:relative;width:56px;height:56px;flex:0 0 auto}.dn-ring svg{width:56px;height:56px;transform:rotate(-90deg)}.dn-ring b{position:absolute;inset:0;display:grid;place-items:center;font:800 20px var(--body)}.dn-hi{flex:1;min-width:0}.dn-hi h2{font:800 22px/1.15 var(--body)}.dn-hi p{color:rgba(26,19,0,.78);font-size:14px}.dn-flame{display:flex;align-items:center;gap:4px;font-weight:800;color:#1a1300}.dn-date{margin:-4px 0 0;color:var(--muted);font-size:14px;}.dn-xp{color:var(--xp)}
+.dn-card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 2px 10px rgba(15,31,56,.07);display:flex;flex-direction:column;gap:10px}.dn-slim{gap:6px;padding:14px 18px}.dn-win{border-color:#f2b705;box-shadow:0 0 0 3px rgba(242,183,5,.18)}.dn-row{display:flex;justify-content:space-between;align-items:center;gap:10px}.dn-k{font:700 12px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}.dn-t{font:800 24px/1.15 var(--body)}.dn-t2{font:700 17px/1.25 var(--body)}.dn-sub{font-size:14px;color:var(--muted)}.dn-sub b{color:var(--ink)}.dn-meta{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--muted)}
+.dn-bar{height:10px;border-radius:6px;background:var(--line);overflow:hidden}.dn-bar i{display:block;height:100%;background:#f2b705;border-radius:6px}.dn-big{min-height:56px;border:0;border-radius:14px;background:var(--bib);color:var(--bib-ink);font:800 18px var(--body);display:flex;gap:10px;align-items:center;justify-content:center}.dn-big svg{width:20px;height:20px}
+.dn-alt{min-height:48px;padding:0 16px;border-radius:12px;border:2px solid var(--xp);background:transparent;color:var(--xp);font:700 15px var(--body)}.dn-alt small{font-weight:700;color:var(--xp)}.dn-alt.on{background:var(--bib);color:var(--bib-ink)}
+.dn-days{display:flex;gap:2px}.dn-day{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:0;padding:0;min-height:56px;color:var(--muted);font-size:12px}.dn-day i{width:36px;height:36px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font:700 14px var(--body);font-style:normal;color:var(--ink)}.dn-day i svg{width:18px;height:18px}.dn-day.now i{border-color:var(--xp)}.dn-day.on i{background:#f2b705;border-color:#f2b705;color:#3a2a00}
 .subnav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px}.plan-h .kmw{align-self:flex-start}.finish{text-align:center;padding:10px 0}.fintrophy{font-size:72px;animation:finpop .7s cubic-bezier(.3,1.6,.5,1) both}.finxp{font:800 54px var(--display);color:#ffd27a;animation:finpop .8s .15s cubic-bezier(.3,1.6,.5,1) both}.finrec{font-weight:700}.finrec.new{color:#ffd27a;font-size:1.1rem}
 @keyframes finpop{from{transform:scale(.2);opacity:0}to{transform:scale(1);opacity:1}}
 .confetti{position:absolute;inset:0;overflow:hidden;pointer-events:none}.confetti i{position:absolute;top:-12px;width:10px;height:14px;border-radius:2px;background:hsl(var(--h) 90% 60%);animation:conf 2.6s var(--d) ease-in forwards}
 @keyframes conf{to{transform:translateY(105vh) rotate(540deg);opacity:.9}}
 @media (prefers-reduced-motion:reduce){.fintrophy,.finxp{animation:none}.confetti{display:none}}
 .kmw{position:relative;flex:0 0 auto}.kdots{width:36px;height:36px}.kmenu{position:absolute;right:0;top:100%;z-index:6;min-width:150px;background:var(--surface);border:1.5px solid var(--line);border-radius:10px;box-shadow:0 10px 24px rgba(0,0,0,.28);padding:4px;display:flex;flex-direction:column}.kmenu button{all:unset;cursor:pointer;padding:10px 12px;border-radius:8px;font-weight:600;font-size:15px;color:var(--ink)}.kmenu button:hover,.kmenu button:focus-visible{background:var(--bg)}.kmenu button.dng{color:var(--danger)}
-.itgear{flex-basis:100%;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:14px}.gchip{background:#fff;border:1px solid #b7d1fb}.gearline{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0}.gearf{border:0;padding:0;margin:0 0 12px}.gearf legend{font-size:13px;font-weight:600;margin-bottom:6px;padding:0}.gadd{display:flex;gap:8px;margin-top:8px}.gadd input{flex:1;min-width:0}.tgear{opacity:.92;font-size:14px;margin-top:4px}
-.itb{background:#2f7de1;color:#fff;border-radius:6px;padding:2px 8px;font:700 13px var(--display);letter-spacing:.05em}
+.itgear{flex-basis:100%;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:14px}.gchip{background:#fff;border:1px solid #e6d27a}.gearline{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0}.gearf{border:0;padding:0;margin:0 0 12px}.gearf legend{font-size:13px;font-weight:600;margin-bottom:6px;padding:0}.gadd{display:flex;gap:8px;margin-top:8px}.gadd input{flex:1;min-width:0}.tgear{opacity:.92;font-size:14px;margin-top:4px}
+.itb{background:#ffd60a;color:#141414;border-radius:6px;padding:2px 8px;font:700 13px var(--display);letter-spacing:.05em}
 .lbd{margin-top:2px}.lbd>summary{cursor:pointer;font-weight:600;padding:8px 0;color:var(--muted)}
 .sickbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;background:#fff4e5;border:1.5px solid #f0c27a;color:#7a3e00;border-radius:10px;padding:8px 12px;margin:10px 0}
 .medal{flex:0 0 auto;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#fff;box-shadow:inset 0 -3px 0 rgba(0,0,0,.18)}
@@ -190,7 +195,7 @@ h1,h2,h3,p{margin:0;text-wrap:balance}
 .bd small,.nb small{display:block;color:var(--muted);font-size:13px}
 .bd.locked b{color:var(--muted)}
 .xpbar{height:14px;background:var(--line);border-radius:8px;overflow:hidden;margin:6px 0}
-.xpbar i{display:block;height:100%;background:linear-gradient(90deg,#2f7de1,#1fa37a);border-radius:8px;transition:width .4s}
+.xpbar i{display:block;height:100%;background:linear-gradient(90deg,#ffd60a,#f2a900);border-radius:8px;transition:width .4s}
 .lvname{font:700 22px var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0 0 6px}
 .how{margin:0 0 8px;padding-left:20px;line-height:1.7}
 .rbars{display:flex;align-items:flex-end;gap:6px;height:70px;margin:4px 0 6px}
@@ -200,7 +205,7 @@ h1,h2,h3,p{margin:0;text-wrap:balance}
 .presets button{border:1.5px solid var(--line);background:var(--surface);border-radius:99px;padding:7px 14px;font-size:14px}
 .cele{position:relative;text-align:center;overflow:hidden;padding-top:6px}
 .cele h3{font:700 26px var(--display);text-transform:uppercase;letter-spacing:.04em}
-.xpbig{font:700 44px/1.1 var(--display);color:#2f7de1;margin:6px 0}
+.xpbig{font:700 44px/1.1 var(--display);color:var(--xp);margin:6px 0}
 .lvup{margin:0 0 10px;font-size:17px}
 .newb{display:grid;gap:8px;text-align:left;margin:10px 0}
 .nb{display:flex;gap:12px;align-items:center}
@@ -216,7 +221,7 @@ h1,h2,h3,p{margin:0;text-wrap:balance}
 .srow .sn{display:flex;gap:10px;font-size:13px;color:var(--muted);white-space:nowrap}
 .srow .sn b{font:700 18px var(--display);color:var(--ink);font-variant-numeric:tabular-nums}
 .sbar{height:5px;background:var(--line);border-radius:3px;margin-top:6px;overflow:hidden}
-.sbar i{display:block;height:100%;background:#2f7de1;border-radius:3px}
+.sbar i{display:block;height:100%;background:#f2b705;border-radius:3px}
 .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:7px;vertical-align:baseline}
 .lrow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
 .lrow small{color:var(--muted);font-size:13px;font-weight:500}
@@ -382,7 +387,7 @@ a.btn.vid{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .pl .ps{font-size:12.5px;color:var(--muted)}
 .pl .grow1{flex:1;min-width:0}
 .pl.mine{border-color:var(--bib);box-shadow:inset 4px 0 0 var(--bib)}
-.star[aria-pressed="true"]{color:var(--bib)}
+.star[aria-pressed="true"]{color:var(--xp)}
 .star[aria-pressed="true"] svg{fill:currentColor}
 
 .tw{overflow-x:auto;border:1.5px solid var(--line);border-radius:10px}
@@ -460,7 +465,7 @@ table.tbl{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;
   .bnav{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:15;background:var(--surface);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -6px 20px rgba(15,31,56,.08)}
   .bnav button{flex:1;border:0;background:transparent;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;font:600 11px var(--body);border-radius:12px;min-height:52px}
   .bnav button svg{width:24px;height:24px}
-  .bnav button[aria-current="page"]{color:var(--bib)}
+  .bnav button[aria-current="page"]{color:var(--xp)}
   .bnav button[aria-current="page"] svg{transform:translateY(-1px) scale(1.08)}
   .foot{display:none}
 }
@@ -482,9 +487,9 @@ table.tbl{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;
 .today .tring b{position:absolute;inset:0;display:grid;place-items:center;font:700 22px var(--display)}
 .today h2{font:700 24px/1 var(--display);text-transform:uppercase;letter-spacing:.02em}
 .today p{margin:4px 0 10px;font-size:14px;opacity:.9}
-.today .btn.primary{background:#fff;color:#0f2a58;border-color:#fff;font-weight:700}
+.today .btn.primary{background:#ffd60a;color:#141414;border-color:#fff;font-weight:700}
 .today .btn{background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.4)}
-.today .btn.primary{color:#0f2a58}
+.today .btn.primary{color:#141414}
 .wkrev{margin:0 0 14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:10px 14px}
 .wkrev summary{cursor:pointer;font-weight:700}
 .wkrev .rec{margin-top:10px}
@@ -500,7 +505,7 @@ table.tbl{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;
 .more .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .more .btn{width:100%;justify-content:center}
 .more .btn[aria-pressed="true"]{background:var(--bib);color:var(--bib-ink);border-color:var(--bib)}
-.phases{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 10px}.tclub{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}.today .tclub .btn[aria-pressed="true"]{background:#fff;color:#0f2a58}
+.phases{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 10px}.tclub{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}.today .tclub .btn[aria-pressed="true"]{background:#ffd60a;color:#141414}
 .lvbox summary{cursor:pointer;padding:4px 0}.lvbox summary small{color:var(--muted);margin-left:6px}
 .lvlist{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:6px}
 .lvrow{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;border:1px solid var(--line);color:var(--muted)}
@@ -723,7 +728,7 @@ function DbBackend(db){
 var ROLE={coach:false,mode:''},B=null;
 var D={teams:{},players:{},events:{},plan:{},att:{},rate:{}};
 var GEAR_REN={},CUSTOM_KR={},KRC={sig:'',list:[]},GEAR_DEF=['Kužely nízké','Kužely vysoké','Překážky 15 cm','Překážky 23 cm','Překážky 30 cm','Rebounder','Slalom komplet','Tyče na slalom','Medicimbal','Míč','Žebřík','Stepper','Švihadlo','Odporová guma','Foam roller'],CUSTOM_GEAR={},GEAR_HID={},HIDDEN={},CUSTOM_CATS={},CUSTOM_LIB={},CUSTOM_RECS={},CUSTOM_ILL={},CUSTOM_SEA={},CUSTOM_AWD={},CUSTOM_SHOP={},CUSTOM_GOAL={},CUSTOM_GROW={},BASE_LIB=null,curTeam=null,teamSubs=[],teamsUnsub=null,lastJson={},teamsJson='',teamsLoaded=false,slow=false,dirty={},saveT=null,rT=null;
-var view={tab:'tyden',sel:key(new Date()),week:monday(new Date()),filter:'all',open:{},rfilter:'all',sort:{k:'ga',d:-1},pdet:{},planHide:{},season:'all',recopen:{}};
+var view={wm:'d',tab:'tyden',sel:key(new Date()),week:monday(new Date()),filter:'all',open:{},rfilter:'all',sort:{k:'ga',d:-1},pdet:{},planHide:{},season:'all',recopen:{}};
 var undo=null;
 
 function status(t){var el=$('save');if(el)el.textContent=t}
@@ -1036,7 +1041,7 @@ function applyTheme(){
   var t=lsGet('trenink-theme')||'auto',r=document.documentElement;
   if(t==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',t);
   var dark=t==='dark'||(t==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches);
-  var m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content',dark?'#0c2349':'#17408a');
+  var m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content',dark?'#0b0b0c':'#141414');
 }
 function enterAnim(){var m=$('main');if(!m)return;m.classList.remove('enter');void m.offsetWidth;m.classList.add('enter');clearTimeout(enterAnim.t);enterAnim.t=setTimeout(function(){m.classList.remove('enter')},900)}
 function renderBnav(){
@@ -1076,6 +1081,61 @@ function todayHtml(){
   var lab=all?done+'/'+all:(clubs.length?cdone+'/'+clubs.length:(d.rest||ill?'✓':'–'));
   return '<section class="today" aria-label="Dnes"><div class="tring"><svg viewBox="0 0 72 72" aria-hidden="true"><circle cx="36" cy="36" r="30" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="7"/><circle cx="36" cy="36" r="30" fill="none" stroke="#ffd27a" stroke-width="7" stroke-linecap="round" stroke-dasharray="'+(C*pct).toFixed(1)+' '+C.toFixed(1)+'"/></svg><b>'+lab+'</b></div>'+
     '<div><h2>'+ttl+'</h2><p>'+esc(txt)+'</p>'+(tg.length&&!ill?'<p class="tgear">Vzít s sebou: '+esc(tg.join(', '))+'</p>':'')+btn+clubRow+'</div></section>';
+}
+function dnesHtml(){
+  var S=rwSnap(),son=sonP(),now=new Date(),tk=key(now),d=dayOf(tk),items=d.items||[],all=items.length,done=items.filter(function(x){return x.done}).length,left=items.filter(function(x){return !x.done}),ill=illOn(tk);
+  var nm=son?son.name.split(' ')[0]:'',lo=lvFrom(S.level),hi=lvFrom(S.level+1),pct=Math.max(0,Math.min(1,(S.xp-lo)/(hi-lo))),C=2*Math.PI*20;
+  var evs=evOfDay(tk),clubs=evs.filter(function(e){return e.type==='trenink'}),others=evs.filter(function(e){return e.type!=='trenink'});
+  var attOf=function(e){var a=D.att[e.id];return !!(son&&a&&a.st&&a.st[son.id]==='y')};
+  var pot=(d.rest||ill)?0:left.length*10+clubs.filter(function(e){return !attOf(e)}).length*30;
+  var ic=function(p){return '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+p+'</svg>'};
+  var clk=ic('<circle cx="12" cy="12" r="8.500"/><path d="M12 7.500V12l3 2"/>'),pin=ic('<path d="M12 21s6.500-5.700 6.500-11a6.500 6.500 0 0 0-13 0C5.500 15.300 12 21 12 21z"/><circle cx="12" cy="10" r="2.300"/>');
+  var h='<div class="dn">';
+  h+='<header class="dn-hello"><div class="dn-ring" title="Úroveň '+S.level+'"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="20" fill="none" stroke="var(--line)" stroke-width="5"/><circle cx="24" cy="24" r="20" fill="none" stroke="#f2b705" stroke-width="5" stroke-linecap="round" stroke-dasharray="'+(C*pct).toFixed(1)+' '+C.toFixed(1)+'"/></svg><b>'+S.level+'</b></div>'+
+    '<div class="dn-hi"><h2>Ahoj'+(nm?', '+esc(nm):'')+'</h2><p>'+esc(lvName(S.level))+' · '+S.xp+' / '+hi+' XP</p></div>'+(S.streak>0?'<div class="dn-flame" title="Týdny v řadě">'+FLAME+S.streak+'</div>':'')+'</header>';
+  h+='<p class="dn-date">'+esc((function(t){return t.charAt(0).toUpperCase()+t.slice(1)})(fmt(now,{weekday:'long',day:'numeric',month:'long'})))+(pot?' · dnes můžeš získat až <b class="dn-xp">+'+pot+' XP</b>':'')+'</p>';
+  /* trénink */
+  if(ill)h+='<section class="dn-card"><div class="dn-k">Dnes</div><div class="dn-t">Dnes odpočívej</div><p class="dn-sub">'+esc(ILLT[ill.type])+'. Série tréninků se kvůli tomu nepřeruší.</p></section>';
+  else if(d.rest)h+='<section class="dn-card"><div class="dn-k">Dnes</div><div class="dn-t">Dnes je volno</div><p class="dn-sub">Odpočinek je taky součást tréninku.</p></section>';
+  else if(!all)h+='<section class="dn-card"><div class="dn-k">Dnešní trénink</div><div class="dn-t">Individuální trénink zatím není</div><p class="dn-sub">Naplánuj si pár cvičení.</p><button type="button" class="dn-big" data-act="gotoday" data-k="'+tk+'">Naplánovat dnešek</button></section>';
+  else if(!left.length){
+    h+='<section class="dn-card dn-win"><div class="dn-k">Dnešní trénink</div><div class="dn-t">Hotovo! Skvělá práce</div><div class="dn-sub">Splněno '+done+' z '+all+' cvičení · <b class="dn-xp">+'+(done*10)+' XP</b></div><div class="dn-bar"><i style="width:100%"></i></div></section>';
+  }else{
+    var m=left.reduce(function(a,x){return a+(x.min||0)},0);
+    h+='<section class="dn-card"><div class="dn-row"><div class="dn-k">Dnešní trénink</div>'+(d.time?'<div class="dn-meta">'+clk+esc(d.time)+'</div>':'')+'</div>'+
+      '<div class="dn-t">Individuální trénink</div>'+
+      '<div class="dn-meta">'+(d.place?pin+esc(d.place)+' · ':'')+all+' '+(all===1?'cvičení':all<5?'cvičení':'cvičení')+' · '+fmtMin(mins({items:items}))+'</div>'+
+      '<div class="dn-bar" role="progressbar" aria-valuemin="0" aria-valuemax="'+all+'" aria-valuenow="'+done+'"><i style="width:'+Math.round(done/all*100)+'%"></i></div>'+
+      '<div class="dn-sub">Hotovo <b>'+done+' z '+all+'</b>'+(m?' · zbývá asi '+fmtMin(m):'')+'</div>'+
+      '<div class="dn-sub">Další: <b>'+esc(left[0].name)+'</b></div>'+
+      '<button type="button" class="dn-big" data-act="runtoday" data-p="0">'+IC.play+(done?'Pokračovat v tréninku':'Začít trénink')+'</button></section>';
+    var tg=gearOf(left);
+    if(tg.length)h+='<section class="dn-card dn-slim"><div class="dn-k">Vzít s sebou</div><div class="gearline" style="margin:0">'+gearChips(tg)+'</div></section>';
+  }
+  /* kroužky a kluby */
+  clubs.forEach(function(e){var y=attOf(e);
+    h+='<section class="dn-card dn-slim"><div class="dn-row"><div><div class="dn-k">'+(e.kr?'Kroužek dnes':'Klubový trénink')+'</div><div class="dn-t2">'+esc(e.kr?e.title:'Trénink v klubu')+(e.time?' · '+esc(e.time):'')+'</div>'+(e.place?'<div class="dn-meta">'+pin+esc(e.place)+'</div>':'')+'</div>'+
+      (son&&ROLE.coach?'<button type="button" class="dn-alt'+(y?' on':'')+'" data-act="clubdone" data-id="'+e.id+'" aria-pressed="'+y+'">'+(y?'✓ Odtrénováno':'Byl jsem <small>+30 XP</small>')+'</button>':'')+'</div></section>';});
+  others.forEach(function(e){
+    h+='<section class="dn-card dn-slim"><div class="dn-k">'+(e.type==='turnaj'?'Turnaj dnes':'Zápas dnes')+'</div><div class="dn-t2">'+esc(evTitle(e))+(e.time?' · '+esc(e.time):'')+'</div>'+(e.place?'<div class="dn-meta">'+pin+esc(e.place)+'</div>':'')+
+      (ROLE.coach&&!e.played?'<button type="button" class="dn-alt" data-act="resev" data-id="'+e.id+'">Zapsat výsledek</button>':'')+'</section>';});
+  /* týden */
+  var mon=monday(now),act=weekActiveDays(mon),dn=['Po','Út','St','Čt','Pá','So','Ne'];
+  h+='<section class="dn-card"><div class="dn-row"><div class="dn-k">Tento týden</div><div class="dn-meta">'+act+' '+(act===1?'den':(act>=2&&act<5)?'dny':'dní')+' · cíl 5</div></div><div class="dn-days">'+
+    dn.map(function(l,i){var dd=addDays(mon,i),kk=key(dd),dnn=((dayOf(kk).items||[]).some(function(x){return x.done}))||clubAtt(kk)>0,isT=kk===tk;
+      return '<button type="button" class="dn-day'+(dnn?' on':'')+(isT?' now':'')+'" data-act="gotoday" data-k="'+kk+'" aria-label="'+esc(fmt(dd,{weekday:'long',day:'numeric',month:'long'})+(dnn?', splněno':''))+'"><i>'+(dnn?IC.chk:dd.getDate())+'</i><span>'+l+'</span></button>'}).join('')+'</div>'+
+    '<button type="button" class="dn-alt" data-act="wmplan">Naplánovat další dny</button></section>';
+  /* zítra */
+  if(!left.length||ill||d.rest){
+    var tm=addDays(now,1),tmk=key(tm),td=dayOf(tmk),te=evOfDay(tmk),tn=(td.items||[]).length;
+    h+='<section class="dn-card dn-slim"><div class="dn-k">Zítra</div>'+
+      (te.length?te.map(function(e){return '<div class="dn-t2">'+esc(e.type==='trenink'?(e.kr?e.title:'Klubový trénink'):evTitle(e))+(e.time?' · '+esc(e.time):'')+'</div>'}).join(''):'')+
+      (tn?'<div class="dn-t2">Individuální trénink · '+tn+' cvičení</div>':'')+
+      ((!te.length&&!tn)?'<div class="dn-sub">Zatím nic naplánovaného.</div>':'')+
+      (tn?'':'<button type="button" class="dn-alt" data-act="gotoday" data-k="'+tmk+'">Naplánovat zítřek</button>')+'</section>';
+  }
+  if(!son)h+='<p class="hint">Tip: na Kartě hráče označ hvězdičkou svého hráče, ať se tu ukáže jeho jméno a body za kroužky.</p>';
+  return h+'</div>';
 }
 function lastWeekHtml(){
   var m=monday(new Date());if(key(view.week)!==key(m))return '';
@@ -1282,7 +1342,7 @@ function knihovnaHtml(){
 }
 function normTab(){
   if(['rekordy','kariera','zdravi'].indexOf(view.tab)>=0){view.sub=view.tab;view.tab='syn'}
-  if(view.tab==='rozpis'){view.tab='tyden';view.rz=true}
+  if(view.tab==='rozpis'){view.tab='tyden';view.wm='r'}
   if(view.tab==='soupiska')view.tab='syn';
 }
 function subnav(act,cur,items){return '<div class="subnav" role="group">'+items.map(function(t){return '<button type="button" class="fbtn" data-act="'+act+'" data-v="'+t[0]+'" aria-pressed="'+(cur===t[0])+'">'+t[1]+'</button>'}).join('')+'</div>'}
@@ -1304,9 +1364,10 @@ function renderMain(){
   }
   if(!curTeam){el.innerHTML=noTeamHtml();return}
   if(view.tab==='tyden'){
-    var sn=subnav('rz',view.rz?'r':'t',[['t','Plán týdne'],['r','Rozpis']]);
-    if(view.rz)el.innerHTML=sn+rozpisHtml();
-    else{el.innerHTML=sn+todayHtml()+lastWeekHtml()+weekNav()+'<div class="strip" id="strip" role="tablist" aria-label="Dny v týdnu"></div><section class="panel" id="panel"></section>';
+    var wm=view.wm||'d',sn=subnav('rz',wm,[['d','Dnes'],['t','Plán týdne'],['r','Rozpis']]);
+    if(wm==='r')el.innerHTML=sn+rozpisHtml();
+    else if(wm==='d')el.innerHTML=sn+dnesHtml();
+    else{el.innerHTML=sn+lastWeekHtml()+weekNav()+'<div class="strip" id="strip" role="tablist" aria-label="Dny v týdnu"></div><section class="panel" id="panel"></section>';
     renderStrip();renderPanel()}
   }else if(false){}
   else if(view.tab==='soupiska')el.innerHTML=soupiskaHtml();
@@ -2842,14 +2903,16 @@ document.addEventListener('click',function(e){
   if(coachOnly.indexOf(a)>=0&&!ROLE.coach)return;
   if(view.km&&a!=='kmenu')view.km=null;
   switch(a){
-    case 'rz':view.rz=b.getAttribute('data-v')==='r';enterAnim();renderMain();window.scrollTo(0,0);break;
+    case 'wmplan':view.wm='t';enterAnim();renderMain();window.scrollTo(0,0);break;
+    case 'runtoday':view.sel=key(new Date());view.week=monday(new Date());startRunner(null,+b.getAttribute('data-p')||0);break;
+    case 'rz':view.wm=b.getAttribute('data-v')||'d';enterAnim();renderMain();window.scrollTo(0,0);break;
     case 'sub':view.sub=b.getAttribute('data-v');enterAnim();renderMain();window.scrollTo(0,0);break;
-    case 'tab':view.tab=b.getAttribute('data-t');if(view.tab==='tyden')view.rz=false;if(view.tab==='syn')view.sub='stat';enterAnim();renderAll();window.scrollTo(0,0);break;
+    case 'tab':view.tab=b.getAttribute('data-t');if(view.tab==='tyden')view.wm='d';if(view.tab==='syn')view.sub='stat';enterAnim();renderAll();window.scrollTo(0,0);break;
     case 'more':openModal(moreHtml());break;
     case 'phase':view.phase=+b.getAttribute('data-p')||1;renderAll();break;
     case 'addphase':var mxp=view.phase||1;dayOf(view.sel).items.forEach(function(x){mxp=Math.max(mxp,x.ph||1)});view.phase=Math.min(3,mxp+1);renderAll();break;
     case 'clubdone':var cid=b.getAttribute('data-id'),cson=sonP();if(!cson||!evFind(cid))break;var cpre=rwSnap(),ca=clone(D.att[cid]||{st:{},why:{}});ca.st=ca.st||{};ca.why=ca.why||{};if(ca.st[cson.id]==='y')delete ca.st[cson.id];else ca.st[cson.id]='y';D.att[cid]=ca;W('staff/'+curTeam+'/att/'+cid,ca);scheduleRender();if(ca.st[cson.id]==='y')ding();reward(cpre);break;
-    case 'moretab':closeModal();view.tab=b.getAttribute('data-t');if(view.tab==='tyden')view.rz=false;enterAnim();renderAll();window.scrollTo(0,0);break;
+    case 'moretab':closeModal();view.tab=b.getAttribute('data-t');if(view.tab==='tyden')view.wm='d';enterAnim();renderAll();window.scrollTo(0,0);break;
     case 'theme':lsSet('trenink-theme',b.getAttribute('data-v'));applyTheme();$('dlg').innerHTML=moreHtml();break;
     case 'snd':lsSet('trenink-snd',sndOn()?'0':'1');$('dlg').innerHTML=moreHtml();if(sndOn())ding();break;
     case 'install':if(DEFERRED){DEFERRED.prompt();DEFERRED=null;closeModal()}break;
@@ -2911,7 +2974,7 @@ document.addEventListener('click',function(e){
     case 'editlib':if(CUSTOM_LIB[rid]){var cl=CUSTOM_LIB[rid];openExForm({name:cl.name,cat:cl.cat,sets:cl.sets,reps:cl.reps,min:cl.min,rest:cl.rest,desc:cl.desc,video:cl.video,imgs:cl.imgs||[],gear:cl.gear||[],note:''},{id:rid,created:cl.created})}break;
     case 'hidebase':openConfirm('Cvičení se smaže z knihovny. Už naplánované tréninky zůstanou beze změny. Smazaná základní cvičení jde kdykoli obnovit dole v Knihovně.','hidebase',rid);break;
     case 'restorebase':Object.keys(HIDDEN).forEach(function(k){Wdel('libhide/'+k)});HIDDEN={};rebuildLib();renderAll();toast('Základní cvičení obnovena');break;
-    case 'gotoday':view.phase=1;view.tab='tyden';view.rz=false;view.sel=b.getAttribute('data-k');view.week=monday(parse(view.sel));enterAnim();renderAll();window.scrollTo(0,0);break;
+    case 'gotoday':view.phase=1;view.tab='tyden';view.wm='t';view.sel=b.getAttribute('data-k');view.week=monday(parse(view.sel));enterAnim();renderAll();window.scrollTo(0,0);break;
     case 'newkr':openKrForm(null);break;
     case 'editkr':openKrForm(rid);break;
     case 'delkr':openConfirm('Kroužek se smaže i s docházkou v historii, XP za něj ubyde. Pokud kroužek jen skončil, raději ho uprav a vyplň Do data.','delkr',rid);break;
