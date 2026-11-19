@@ -169,6 +169,8 @@ h1,h2,h3,p{margin:0;text-wrap:balance}
 .kidlead{font-size:17px;margin:0 0 12px}.xpg{display:grid;gap:8px}.xpr{display:flex;gap:12px;align-items:center;padding:8px 12px;border:1.5px solid var(--line);border-radius:12px;background:var(--bg)}.xpr>b{flex:0 0 74px;text-align:center;font:800 26px/1 var(--display);color:var(--bib)}.xpr strong{display:block;font-size:15.5px}.xpr small{display:block;color:var(--muted);font-size:13.5px}.kidh{margin:16px 0 6px;font:700 20px var(--display);text-transform:uppercase}.kidul{margin:0;padding-left:18px;display:grid;gap:6px}.kidtip{margin:12px 0;padding:10px 12px;border-radius:12px;background:color-mix(in srgb,var(--bib) 14%,var(--surface));border:1.5px solid var(--bib)}
 .lgh{display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line);padding:2px 0}.lgt{all:unset;cursor:pointer;display:flex;align-items:center;gap:8px;padding:8px 0;flex:1;min-width:0;font-size:16px}.lgt .arr{width:16px;color:var(--muted)}.lgt b{font:700 17px var(--display);text-transform:uppercase;letter-spacing:.04em}.lgt small{color:var(--muted)}.lgt:focus-visible{outline:3px solid var(--focus)}
 .itwhen{margin:6px 0 2px;font-weight:600}.peekbar{background:rgba(255,255,255,.12);border-radius:10px;padding:8px 12px;font-size:14px;margin-bottom:10px}.peekimgs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:8px 0}.peekimgs img{max-width:46%;max-height:160px;border-radius:8px}
+.pcard{display:grid;grid-template-columns:minmax(120px,36%) 1fr;gap:16px;align-items:start}.pcard.nop{grid-template-columns:1fr}.pfig{background:var(--line);border-radius:16px;overflow:hidden;display:grid;place-items:center;position:sticky;top:8px}.pfig img{width:100%;max-height:460px;object-fit:contain;display:block}.pmain{min-width:0}.pmain .sect-h{flex-direction:column;align-items:flex-start;gap:8px}.pmain .rec{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 10px}.pmain .rec span{font-size:11px;letter-spacing:0}@media (min-width:640px){.pmain .rec{grid-template-columns:repeat(auto-fit,minmax(110px,1fr))}.pmain .rec span{font-size:12px}}
+.av{display:inline-grid;place-items:center;border-radius:50%;overflow:hidden;background:var(--line);color:var(--ink);font-weight:800;flex:0 0 auto}.av img{width:100%;height:100%;object-fit:cover}.bd{display:inline-grid;place-items:center;border-radius:14px;overflow:hidden;background:var(--line);flex:0 0 auto}.bd img{width:100%;height:100%;object-fit:contain}.dn-hello .bd{background:rgba(26,19,0,.12);border-radius:10px}.phd{display:flex;align-items:center;gap:12px;min-width:0}.phrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:relative}.dn-hello .av{background:rgba(26,19,0,.15);color:#1a1300}
 .dn{display:flex;flex-direction:column;gap:14px}.dn-hello{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#ffe14d,#f2b705);color:#1a1300;border-radius:20px;padding:16px 18px;box-shadow:0 6px 18px rgba(242,183,5,.25)}.dn-ring circle:first-child{stroke:rgba(26,19,0,.18)}.dn-ring circle:last-child{stroke:#1a1300}.dn-ring{position:relative;width:56px;height:56px;flex:0 0 auto}.dn-ring svg{width:56px;height:56px;transform:rotate(-90deg)}.dn-ring b{position:absolute;inset:0;display:grid;place-items:center;font:800 20px var(--body)}.dn-hi{flex:1;min-width:0}.dn-hi h2{font:800 22px/1.15 var(--body)}.dn-hi p{color:rgba(26,19,0,.78);font-size:14px}.dn-flame{display:flex;align-items:center;gap:4px;font-weight:800;color:#1a1300}.dn-date{margin:-4px 0 0;color:var(--muted);font-size:14px;}.dn-xp{color:var(--xp)}
 .dn-card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 2px 10px rgba(15,31,56,.07);display:flex;flex-direction:column;gap:10px}.dn-slim{gap:6px;padding:14px 18px}.dn-win{border-color:#f2b705;box-shadow:0 0 0 3px rgba(242,183,5,.18)}.dn-row{display:flex;justify-content:space-between;align-items:center;gap:10px}.dn-k{font:700 12px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}.dn-t{font:800 24px/1.15 var(--body)}.dn-t2{font:700 17px/1.25 var(--body)}.dn-sub{font-size:14px;color:var(--muted)}.dn-sub b{color:var(--ink)}.dn-meta{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--muted)}
 .dn-bar{height:10px;border-radius:6px;background:var(--line);overflow:hidden}.dn-bar i{display:block;height:100%;background:#f2b705;border-radius:6px}.dn-big{min-height:56px;border:0;border-radius:14px;background:var(--bib);color:var(--bib-ink);font:800 18px var(--body);display:flex;gap:10px;align-items:center;justify-content:center}.dn-big svg{width:20px;height:20px}
@@ -1092,7 +1094,7 @@ function dnesHtml(){
   var clk=ic('<circle cx="12" cy="12" r="8.500"/><path d="M12 7.500V12l3 2"/>'),pin=ic('<path d="M12 21s6.500-5.700 6.500-11a6.500 6.500 0 0 0-13 0C5.500 15.300 12 21 12 21z"/><circle cx="12" cy="10" r="2.300"/>');
   var h='<div class="dn">';
   h+='<header class="dn-hello"><div class="dn-ring" title="Úroveň '+S.level+'"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="20" fill="none" stroke="var(--line)" stroke-width="5"/><circle cx="24" cy="24" r="20" fill="none" stroke="#f2b705" stroke-width="5" stroke-linecap="round" stroke-dasharray="'+(C*pct).toFixed(1)+' '+C.toFixed(1)+'"/></svg><b>'+S.level+'</b></div>'+
-    '<div class="dn-hi"><h2>Ahoj'+(nm?', '+esc(nm):'')+'</h2><p>'+esc(lvName(S.level))+' · '+S.xp+' / '+hi+' XP</p></div>'+(S.streak>0?'<div class="dn-flame" title="Týdny v řadě">'+FLAME+S.streak+'</div>':'')+'</header>';
+    ''+(son&&son.photo?bodyHtml(son,44,66):'')+'<div class="dn-hi"><h2>Ahoj'+(nm?', '+esc(nm):'')+'</h2><p>'+esc(lvName(S.level))+' · '+S.xp+' / '+hi+' XP</p></div>'+(S.streak>0?'<div class="dn-flame" title="Týdny v řadě">'+FLAME+S.streak+'</div>':'')+'</header>';
   h+='<p class="dn-date">'+esc((function(t){return t.charAt(0).toUpperCase()+t.slice(1)})(fmt(now,{weekday:'long',day:'numeric',month:'long'})))+(pot?' · dnes můžeš získat až <b class="dn-xp">+'+pot+' XP</b>':'')+'</p>';
   /* trénink */
   if(ill)h+='<section class="dn-card"><div class="dn-k">Dnes</div><div class="dn-t">Dnes odpočívej</div><p class="dn-sub">'+esc(ILLT[ill.type])+'. Série tréninků se kvůli tomu nepřeruší.</p></section>';
@@ -1193,12 +1195,12 @@ function shareCard(){
   var S=rwSnap(),son=sonP(),W0=1080,H0=1350,c=document.createElement('canvas');c.width=W0;c.height=H0;var g=c.getContext('2d');
   var FD="'Barlow Condensed','Arial Narrow',Impact,sans-serif",FB="'Figtree',system-ui,sans-serif";
   function rr(x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath()}
-  for(var i=0;i<9;i++){g.fillStyle=i%2?'#143877':'#17408a';g.fillRect(i*128,0,128,H0)}
+  for(var i=0;i<9;i++){g.fillStyle=i%2?'#1f1f1f':'#141414';g.fillRect(i*128,0,128,H0)}
   g.fillStyle='rgba(0,0,0,.18)';g.fillRect(0,0,W0,H0);
   g.fillStyle='#f2f6fc';rr(60,60,W0-120,H0-120,48);g.fill();
-  g.fillStyle='#17408a';g.font='700 44px '+FD;g.textBaseline='alphabetic';g.fillText('TRÉNINKOVÝ PLÁN',110,150);
+  g.fillStyle='#141414';g.font='700 44px '+FD;g.textBaseline='alphabetic';g.fillText('TRÉNINKOVÝ PLÁN',110,150);
   g.fillStyle='#0f1f38';g.font='700 120px '+FD;var nm=(son?son.name:'Hráč').toUpperCase();
-  var fs=120;while(g.measureText(nm).width>W0-220&&fs>50){fs-=6;g.font='700 '+fs+'px '+FD}
+  var fs=120;var lim=(son&&son.photo)?W0-430:W0-220;while(g.measureText(nm).width>lim&&fs>44){fs-=6;g.font='700 '+fs+'px '+FD}
   g.fillText(nm,110,290);
   /* úroveň */
   var lo=lvFrom(S.level),hi=lvFrom(S.level+1),pct=Math.max(0,Math.min(1,(S.xp-lo)/(hi-lo)));
@@ -1206,7 +1208,7 @@ function shareCard(){
   g.strokeStyle='#e0a800';g.lineCap='round';g.beginPath();g.arc(300,520,130,-Math.PI/2,-Math.PI/2+Math.PI*2*Math.max(pct,.005));g.stroke();
   g.fillStyle='#0f1f38';g.textAlign='center';g.font='700 120px '+FD;g.fillText(String(S.level),300,562);
   g.font='600 30px '+FB;g.fillStyle='#56657d';g.fillText('ÚROVEŇ',300,448);
-  g.textAlign='left';g.fillStyle='#17408a';g.font='700 70px '+FD;g.fillText(lvName(S.level).toUpperCase(),520,500);
+  g.textAlign='left';g.fillStyle='#141414';g.font='700 70px '+FD;g.fillText(lvName(S.level).toUpperCase(),520,500);
   g.fillStyle='#56657d';g.font='500 34px '+FB;g.fillText(S.xp+' XP',520,552);
   if(S.streak>0)g.fillText('Série: '+S.streak+' týdnů se 3 tréninky',520,600);
   /* čísla */
@@ -1215,13 +1217,15 @@ function shareCard(){
     g.fillStyle='#e6edf8';rr(x,y,270,160,28);g.fill();g.fillStyle='#0f1f38';g.textAlign='center';g.font='700 84px '+FD;g.fillText(String(ce[0]),x+135,y+92);g.fillStyle='#56657d';g.font='500 28px '+FB;g.fillText(ce[1],x+135,y+135)});
   /* rekordy */
   g.textAlign='left';var recs=Object.keys(CUSTOM_RECS).map(function(id){var r=CUSTOM_RECS[id];return {r:r,b:recBest(r)}}).filter(function(o){return o.b}).sort(function(a,b){return (b.r.entries||[]).length-(a.r.entries||[]).length}).slice(0,3);
-  if(recs.length){g.fillStyle='#17408a';g.font='700 40px '+FD;g.fillText('OSOBNÍ REKORDY',110,1150);g.fillStyle='#0f1f38';g.font='600 34px '+FB;
+  if(recs.length){g.fillStyle='#141414';g.font='700 40px '+FD;g.fillText('OSOBNÍ REKORDY',110,1150);g.fillStyle='#0f1f38';g.font='600 34px '+FB;
     recs.forEach(function(o,j){g.fillText(o.r.name,110,1202+j*50);g.textAlign='right';g.fillText(fmtV(o.b.v,o.r.unit),W0-110,1202+j*50);g.textAlign='left'})}
-  c.toBlob(function(blob){
+  function fin(){c.toBlob(function(blob){
     if(!blob)return;var f=null;try{f=new File([blob],'karta-hrace.png',{type:'image/png'})}catch(e){}
     if(f&&navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:'Karta hráče'}).catch(function(){})}
     else{download('karta-hrace.png',blob);toast('Obrázek se stáhl')}
-  },'image/png');
+  },'image/png')}
+  if(son&&son.photo){var im=new Image();im.onload=function(){var bx=W0-300,by=95,bw=190,bh=300,k=Math.min(bw/im.width,bh/im.height),dw=im.width*k,dh=im.height*k;g.fillStyle='#e6edf8';rr(bx,by,bw,bh,28);g.fill();g.save();rr(bx,by,bw,bh,28);g.clip();g.drawImage(im,bx+(bw-dw)/2,by+(bh-dh)/2,dw,dh);g.restore();g.lineWidth=8;g.strokeStyle='#f2b705';rr(bx,by,bw,bh,28);g.stroke();fin()};im.onerror=fin;im.src=son.photo}
+  else fin();
 }
 
 async function init(){
@@ -1335,7 +1339,14 @@ function knihovnaHtml(){
   var nco=Object.keys(CAT_OV).filter(function(k){return CAT_OV[k].hidden&&k!=='sila'}).length;
   if(nco)h+='<p class="hint"><button class="btn small" data-act="restorecats">Obnovit smazaná zaměření ('+nco+')</button></p>';
   var cg=Object.keys(CUSTOM_GEAR).map(function(k){return {k:k,n:CUSTOM_GEAR[k].n,c:CUSTOM_GEAR[k].created||0}}).sort(function(a,b){return a.c-b.c});
-  h+='</div></section><section class="panel"><div class="sect"><div class="sect-h"><h2>Pomůcky</h2><button class="btn primary" data-act="newgear">'+IC.plus+'Přidat pomůcku</button></div><p class="hint">Pomůcky vybereš u každého cvičení. Nahoře u tréninku se pak ukáže soupis věcí, které vzít s sebou. Pomůcku můžeš přidat, přejmenovat nebo smazat. Přejmenování se projeví u všech cvičení.</p><div class=\"lrows\" style=\"margin-top:10px\">'+GEAR_DEF.filter(function(g){return !GEAR_HID[bkey(g)]}).map(function(g){return '<div class=\"lrow\"><div><b>'+esc(gnorm(g))+'</b></div><div class=\"acts\"><button class=\"btn\" data-act=\"rengear\" data-n=\"'+esc(gnorm(g))+'\">Přejmenovat</button><button class=\"btn\" data-act=\"hidegear\" data-id=\"'+bkey(g)+'\">Smazat</button></div></div>'}).join('')+cg.map(function(g){return '<div class=\"lrow\"><div><b>'+esc(gnorm(g.n))+'</b> <small>vlastní</small></div><div class=\"acts\"><button class=\"btn\" data-act=\"rengear\" data-n=\"'+esc(gnorm(g.n))+'\">Přejmenovat</button><button class=\"btn\" data-act=\"delgear\" data-id=\"'+g.k+'\">Smazat</button></div></div>'}).join('')+'</div>'+(Object.keys(GEAR_HID).length?'<p class=\"hint\"><button class=\"btn small\" data-act=\"restoregear\">Obnovit smazané pomůcky ('+Object.keys(GEAR_HID).length+')</button></p>':'');
+  var gl=GEAR_DEF.filter(function(g){return !GEAR_HID[bkey(g)]}).map(function(g){return {n:gnorm(g),k:'b:'+bkey(g),del:['hidegear',bkey(g)]}}).concat(cg.map(function(g){return {n:gnorm(g.n),k:'c:'+g.k,del:['delgear',g.k]}}));
+  var gopen=(view.lb||{}).gear===true;
+  h+='</div></section><section class="panel"><div class="sect"><div class="sect-h"><button type="button" class="lgt" data-act="cgtoggle" data-k="gear" data-def="0" aria-expanded="'+gopen+'"><span class="arr">'+(gopen?'▾':'▸')+'</span><b>Pomůcky</b> <small>'+gl.length+'</small></button><button class="btn primary" data-act="newgear">'+IC.plus+'Přidat pomůcku</button></div>';
+  if(gopen){
+    h+='<p class="hint">Pomůcky vybereš u každého cvičení. Nahoře u tréninku se pak ukáže soupis věcí, které vzít s sebou. Přejmenování se projeví u všech cvičení.</p><div class="lrows" style="margin-top:6px">'+
+      gl.map(function(g){return '<div class="lrow"><div><b>'+esc(g.n)+'</b></div>'+kdots('gr:'+g.k,[['rengear','Přejmenovat',g.n],[g.del[0],'Smazat',g.del[1],'dng']])+'</div>'}).join('')+'</div>'+
+      (Object.keys(GEAR_HID).length?'<p class="hint"><button class="btn small" data-act="restoregear">Obnovit smazané pomůcky ('+Object.keys(GEAR_HID).length+')</button></p>':'');
+  }
   var nh=Object.keys(HIDDEN).length;
   if(nh)h+='<p class="hint"><button class="btn small" data-act="restorebase">Obnovit smazaná základní cvičení ('+nh+')</button></p>';
   return h+'</div></section>';
@@ -1421,7 +1432,7 @@ function resultHtml(e){
   if(e.type==='turnaj'&&(e.games||[]).length){
     h+='<ul class="games">'+e.games.map(function(g){
       var sc=(typeof g.a==='number'&&typeof g.b==='number')?g.a+' : '+g.b:'';
-      var ex=[];if(typeof g.min==='number')ex.push(g.min+' min');if(typeof g.g==='number'||typeof g.as==='number')ex.push('góly '+(g.g||0)+' · asist. '+(g.as||0));
+      var ex=[];if(typeof g.min==='number')ex.push((typeof g.pm==='number'?'hrál '+g.pm+' z ':'')+g.min+' min');if(typeof g.g==='number'||typeof g.as==='number')ex.push('góly '+(g.g||0)+' · asist. '+(g.as||0));
       return '<li><b>'+esc(g.t||'')+'</b><span>'+esc(g.opp||'')+(ex.length?'<small class="gx"> · '+ex.join(' · ')+'</small>':'')+'</span><span>'+sc+'</span></li>';
     }).join('')+'</ul>';
   }
@@ -1762,7 +1773,7 @@ function computeStats(){
 }
 /* ================= rekordy, body, odznaky ================= */
 var LVX=[0,300,1050,2900,5500,9400,14700,22000,32500,45000,60800,81800,109000,147000,210000],LVSTEP=30000;
-var LVN=['Nováček','Střídající','Základní sestava','Pilný trenér','Střelec','Kanonýr','Kapitán','Hvězda týmu','Tahoun','Mistr','Reprezentant','Legenda','Ikona','Fenomén','Zlatý míč'];
+var LVN=['Nováček','Střídající','Základní sestava','Pilný hráč','Střelec','Kanonýr','Kapitán','Hvězda týmu','Tahoun','Mistr','Reprezentant','Legenda','Ikona','Fenomén','Zlatý míč'];
 function lvOf(xp){var l=1;for(var i=1;i<LVX.length;i++)if(xp>=LVX[i])l=i+1;if(xp>=LVX[LVX.length-1])l=LVX.length+Math.floor((xp-LVX[LVX.length-1])/LVSTEP);return l}
 function lvName(l){return LVN[Math.min(l,LVN.length)-1]}
 function lvFrom(l){return l<=LVX.length?LVX[l-1]:LVX[LVX.length-1]+(l-LVX.length)*LVSTEP}
@@ -2345,15 +2356,17 @@ function synHtml(){
     rows.push({e:e,g:s2.g||0,a:s2.a||0,rt:rt||0,note:nt||''});
   });
   var wd={w:0,d:0,l:0,gf:0,ga:0};rows.forEach(function(r){var e=r.e;if(e.type==='zapas'&&typeof e.a==='number'&&typeof e.b==='number'){wd.gf+=e.a;wd.ga+=e.b;if(e.a>e.b)wd.w++;else if(e.a<e.b)wd.l++;else wd.d++}});
-  var n=rows.length,tt=tp+tx+tn,max=1;rows.forEach(function(r){if(r.g+r.a>max)max=r.g+r.a});
-  var h='<section class="panel"><div class="sect"><div class="sect-h"><h2>'+esc(p.name)+'</h2><div class="acts"><button class="btn" data-act="editplayer" data-id="'+p.id+'">Upravit</button><button class="btn" data-act="addev" data-t="zapas">'+IC.plus+'Zápas</button><button class="btn" data-act="addev" data-t="turnaj">'+IC.plus+'Turnaj</button></div></div>'+
+  var gm=0,mn=0,allmin=true;
+  rows.forEach(function(r){var e=r.e;if(e.type==='turnaj'){var gs=(e.games||[]).filter(function(x){return typeof x.a==='number'||typeof x.b==='number'||typeof x.min==='number'||typeof x.g==='number'||typeof x.as==='number'});if(!gs.length){gm++;allmin=false}else{gm+=gs.length;gs.forEach(function(x){if(typeof x.pm==='number')mn+=x.pm;else if(typeof x.min==='number'&&x.min>0)mn+=x.min;else allmin=false})}}else{gm++;if(typeof e.pm==='number')mn+=e.pm;else if(e.dur)mn+=e.dur;else allmin=false}});
+  var n=gm,tt=tp+tx+tn,max=1;rows.forEach(function(r){if(r.g+r.a>max)max=r.g+r.a});
+  var h='<section class="panel"><div class="sect"><div class="pcard'+(p.photo?'':' nop')+'">'+(p.photo?'<div class="pfig"><img src="'+esc(p.photo)+'" alt="Fotka hráče"></div>':'')+'<div class="pmain"><div class="sect-h"><h2>'+esc(p.name)+'</h2><div class="acts"><button class="btn" data-act="editplayer" data-id="'+p.id+'">Upravit</button><button class="btn" data-act="addev" data-t="zapas">'+IC.plus+'Zápas</button><button class="btn" data-act="addev" data-t="turnaj">'+IC.plus+'Turnaj</button></div></div>'+
     '<p class="evt-meta">'+(p.num?'#'+p.num+' · ':'')+(POS[p.pos]||'')+'</p>';
   if(seasons.length>1)h+='<div class="fld" style="max-width:220px"><label for="syn-season">Sezóna</label><select id="syn-season"><option value="all">Všechny</option>'+seasons.map(function(k){return '<option value="'+k+'"'+(sf===k?' selected':'')+'>'+k+'</option>'}).join('')+'</select></div>';
   h+='<div class="rec"><div><b>'+n+'</b><span>odehraných zápasů</span></div><div><b>'+g+'</b><span>góly</span></div><div><b>'+a+'</b><span>asistence</span></div><div><b>'+(g+a)+'</b><span>G + A</span></div></div>'+
-    '<h4 style="margin:14px 0 4px">Moje aktivity</h4><div class="rec"><div><b>'+cind+'</b><span>individuálních tréninků</span></div><div><b>'+ckr+'</b><span>kroužků</span></div><div><b>'+cclub+'</b><span>klubových tréninků</span></div><div><b>'+cgame+'</b><span>zápasů</span></div><div><b>'+ctur+'</b><span>turnajů</span></div></div>'+
-    '<div class="rec"><div><b>'+(n?(g/n).toFixed(1).replace('.',','):'–')+'</b><span>gólů na zápas</span></div><div><b>'+(rn?(rs/rn).toFixed(1).replace('.',','):'–')+'</b><span>průměr hodnocení</span></div>'+
+    '<h4 style="margin:14px 0 4px">Moje aktivity</h4><div class="rec"><div><b>'+cind+'</b><span>tréninků doma</span></div><div><b>'+ckr+'</b><span>kroužků</span></div><div><b>'+cclub+'</b><span>klubových tréninků</span></div><div><b>'+cgame+'</b><span>zápasů</span></div><div><b>'+ctur+'</b><span>turnajů</span></div></div>'+
+    '<div class="rec"><div><b>'+(n?(g/n).toFixed(1).replace('.',','):'–')+'</b><span>gólů na zápas</span></div>'+(mn>0?'<div><b>'+mn+'</b><span>minut na hřišti'+(allmin?'':' (zapsané)')+'</span></div>':'')+(mn>0&&allmin?'<div><b>'+(g/mn*60).toFixed(1).replace('.',',')+'</b><span>gólů na 60 minut</span></div>':'')+'<div><b>'+(rn?(rs/rn).toFixed(1).replace('.',','):'–')+'</b><span>průměr hodnocení</span></div>'+
     '<div><b>'+(tt?Math.round(tp/tt*100)+' %':'–')+'</b><span>docházka'+(tt?' ('+tp+'/'+tt+')':'')+'</span></div></div>'+
-    '<div class="rec"><div><b>'+wd.w+' · '+wd.d+' · '+wd.l+'</b><span>výhry · remízy · prohry</span></div><div><b>'+wd.gf+' : '+wd.ga+'</b><span>skóre týmu</span></div></div></div></section>';
+    '<div class="rec"><div><b>'+wd.w+' · '+wd.d+' · '+wd.l+'</b><span>výhry · remízy · prohry</span></div><div><b>'+wd.gf+' : '+wd.ga+'</b><span>skóre týmu</span></div></div></div></div></div></section>';
   if(todo.length){
     h+='<section class="panel"><div class="sect"><div class="sect-h"><h2>Čeká na zadání</h2></div><ul class="srows">'+todo.map(function(e){
       var fut=e.date>today;
@@ -2454,11 +2467,29 @@ function submitTeam(){
 
 /* ================= dialogs: players ================= */
 var playerForm=null;
+function avatarHtml(p,sz){
+  var ini=p&&p.name?p.name.trim().charAt(0).toUpperCase():'?';
+  return '<span class="av" style="width:'+sz+'px;height:'+sz+'px;font-size:'+Math.round(sz*.4)+'px">'+(p&&p.photo?'<img src="'+esc(p.photo)+'" alt="">':esc(ini))+'</span>';
+}
+function bodyHtml(p,w,h){
+  if(!p||!p.photo)return avatarHtml(p,Math.min(w,h));
+  return '<span class="bd" style="width:'+w+'px;height:'+h+'px"><img src="'+esc(p.photo)+'" alt=""></span>';
+}
+function photoFromFile(f,cb){
+  var r=new FileReader();
+  r.onload=function(){var im=new Image();im.onload=function(){var M=720,k=Math.min(1,M/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);var g=c.getContext('2d');g.drawImage(im,0,0,c.width,c.height);cb(c.toDataURL('image/jpeg',.8))};im.onerror=function(){cb(null)};im.src=r.result};
+  r.onerror=function(){cb(null)};r.readAsDataURL(f);
+}
+document.addEventListener('change',function(e){
+  var t=e.target;if(!t||t.id!=='p-photo'||!t.files||!t.files[0]||!playerForm)return;
+  photoFromFile(t.files[0],function(u){if(!u){toast('Fotku se nepodařilo načíst');return}playerForm.photo=u;var pv=$('p-prev');if(pv)pv.className='bd';pv.style.cssText='width:72px;height:108px;font-size:26px';pv.innerHTML='<img src="'+u+'" alt="">'});
+});
 function openPlayerForm(pid){
   var p=pid?D.players[pid]:null,x=p||{name:'',num:'',pos:'Z'};
-  playerForm={id:pid||null};
+  playerForm={id:pid||null,photo:(p&&p.photo)||''};
   openModal('<h3 id="mtitle">'+(p?'Upravit hráče':'Nový hráč')+'</h3><form id="playerform" novalidate>'+
     '<div class="fld"><label for="p-name">Jméno a příjmení</label><input id="p-name" type="text" maxlength="60" value="'+esc(x.name)+'" autocomplete="off"></div>'+
+    '<div class="fld"><label>Fotka</label><div class="phrow"><span id="p-prev" class="'+(x.photo?'bd':'av')+'" style="'+(x.photo?'width:72px;height:108px':'width:64px;height:64px')+';font-size:26px">'+(x.photo?'<img src="'+esc(x.photo)+'" alt="">':esc((x.name||'?').charAt(0).toUpperCase()))+'</span><label class="btn" for="p-photo">Vybrat fotku</label><input id="p-photo" type="file" accept="image/*" style="position:absolute;opacity:0;width:1px;height:1px"><button type="button" class="btn" data-act="rmphoto">Odebrat</button></div></div>'+
     '<div class="g2"><div class="fld"><label for="p-num">Číslo dresu</label><input id="p-num" type="number" inputmode="numeric" min="0" max="99" value="'+(x.num||'')+'"></div>'+
     '<div class="fld"><label for="p-pos">Post</label><select id="p-pos">'+Object.keys(POS).map(function(k){return '<option value="'+k+'"'+(x.pos===k?' selected':'')+'>'+POS[k]+'</option>'}).join('')+'</select></div></div>'+
     '<label class="cool"><input type="checkbox" id="p-act"'+(x.off?'':' checked')+'>Aktivní v týmu (nabízí se do nominace)</label>'+
@@ -2474,6 +2505,7 @@ function submitPlayer(){
   if(!name){$('f-err').textContent='Napiš jméno hráče.';return}
   var p={name:name,num:num($('p-num').value),pos:$('p-pos').value};
   if(!$('p-act').checked)p.off=true;
+  if(playerForm.photo)p.photo=playerForm.photo;
   if(!playerForm.id)pinSon();
   var id=playerForm.id||uid();
   D.players[id]=p;closeModal();W('teams/'+curTeam+'/players/'+id,p);scheduleRender();
@@ -2503,18 +2535,19 @@ function gamesRows(){
   return evForm.games.map(function(g,i){
     return '<div class="tg"><div class="tgh"><b>Zápas '+(i+1)+'</b><button type="button" class="ib" data-act="rmgame" data-n="'+i+'" aria-label="Odebrat zápas turnaje '+(i+1)+'">'+IC.del+'</button></div>'+
       '<div class="tgr tgr2">'+inp(i,'t',g.t,'Čas','time')+inp(i,'opp',g.opp,'Soupeř','text','Soupeř')+'</div>'+
-      '<div class="tgr tgr5">'+inp(i,'a',g.a,'My','n')+inp(i,'b',g.b,'Oni','n')+inp(i,'min',g.min,'Minut','n')+inp(i,'g',g.g,'Mé góly','n')+inp(i,'as',g.as,'Mé asist.','n')+'</div></div>';
+      '<div class="tgr tgr5">'+inp(i,'a',g.a,'My','n')+inp(i,'b',g.b,'Oni','n')+inp(i,'min',g.min,'Minut','n')+inp(i,'g',g.g,'Mé góly','n')+inp(i,'as',g.as,'Mé asist.','n')+'</div><div class="tgr">'+inp(i,'pm',g.pm,'Já na hřišti (min)','n','celý zápas')+'</div></div>';
   }).join('');
 }
 function openEventForm(o){
   var e=o.id?D.events[o.id]:null,t=e?e.type:(o.type||'trenink'),T=EVT[t];
   var x=e?clone(e):{type:t,date:o.date||view.sel,time:T.time,dur:T.dur,place:'',opp:'',title:'',where:'home',note:'',games:[],nomMax:teamSize()};
-  evForm={id:e?o.id:null,games:(x.games||[]).map(function(g){return {t:g.t||'',opp:g.opp||'',a:g.a,b:g.b,min:g.min,g:g.g,as:g.as}})};
+  evForm={id:e?o.id:null,games:(x.games||[]).map(function(g){return {t:g.t||'',opp:g.opp||'',a:g.a,b:g.b,min:g.min,g:g.g,as:g.as,pm:g.pm}})};
   openModal('<h3 id="mtitle">'+(e?'Upravit událost':'Nová událost')+'</h3><form id="evform" class="ef" data-t="'+t+'" novalidate>'+
     '<div class="fld"><label for="ef-type">Druh</label><select id="ef-type">'+Object.keys(EVT).map(function(k){return '<option value="'+k+'"'+(t===k?' selected':'')+'>'+EVT[k].n+'</option>'}).join('')+'</select></div>'+
     '<div class="g2"><div class="fld"><label for="ef-date">Datum</label><input id="ef-date" type="date" value="'+esc(x.date)+'"></div><div class="fld"><label for="ef-time">Začátek</label><input id="ef-time" type="time" value="'+esc(x.time||'')+'"></div></div>'+
     '<div class="g2"><div class="fld"><label for="ef-dur">Délka (min)</label><input id="ef-dur" type="number" inputmode="numeric" min="1" max="600" value="'+(x.dur||'')+'"></div>'+
     '</div>'+
+    '<div class="fld" data-only="zapas"><label for="ef-pm">Já na hřišti (min)</label><input id="ef-pm" type="number" inputmode="numeric" min="0" max="600" value="'+(typeof x.pm==='number'?x.pm:'')+'" placeholder="celý zápas"></div>'+
     '<div class="fld" data-only="zapas"><label for="ef-opp">Soupeř</label><input id="ef-opp" type="text" maxlength="60" value="'+esc(x.opp||'')+'" autocomplete="off"></div>'+
     '<div class="fld" data-only="zapas"><label for="ef-where">Kde se hraje</label><select id="ef-where"><option value="home"'+(x.where==='home'?' selected':'')+'>Doma</option><option value="away"'+(x.where==='away'?' selected':'')+'>Venku</option><option value="neutral"'+(x.where==='neutral'?' selected':'')+'>Neutrální hřiště</option></select></div>'+
     '<div class="fld" data-only="turnaj trenink"><label for="ef-title">Název</label><input id="ef-title" type="text" maxlength="60" value="'+esc(x.title||'')+'" placeholder="např. Zimní pohár" autocomplete="off"></div>'+
@@ -2531,13 +2564,13 @@ function submitEvent(){
   var date=$('ef-date').value;
   if(!date){$('f-err').textContent='Vyber datum.';return}
   var t=$('ef-type').value,old=evForm.id?D.events[evForm.id]:null,e=old?clone(old):{};
-  e.type=t;e.date=date;e.time=$('ef-time').value||'';e.dur=num($('ef-dur').value)||EVT[t].dur;
+  e.type=t;e.date=date;e.time=$('ef-time').value||'';e.pm=(t==='zapas'&&$('ef-pm')&&$('ef-pm').value!=='')?num($('ef-pm').value):null;e.dur=num($('ef-dur').value)||EVT[t].dur;
   e.place=$('ef-place').value.trim();
   e.opp=t==='zapas'?$('ef-opp').value.trim():'';e.where=t==='zapas'?$('ef-where').value:'';
   e.title=t==='zapas'?'':$('ef-title').value.trim();
   e.nomMax=t==='trenink'?0:(old&&old.nomMax)||teamSize();
   var preE=rwSnap(),isn=function(v){return typeof v==='number'};
-  e.games=t==='turnaj'?evForm.games.filter(function(g){return g.t||g.opp||isn(g.a)||isn(g.b)||isn(g.min)||isn(g.g)||isn(g.as)}).map(function(g){return {t:g.t||'',opp:g.opp||'',a:isn(g.a)?g.a:null,b:isn(g.b)?g.b:null,min:isn(g.min)?g.min:null,g:isn(g.g)?g.g:null,as:isn(g.as)?g.as:null}}):[];
+  e.games=t==='turnaj'?evForm.games.filter(function(g){return g.t||g.opp||isn(g.a)||isn(g.b)||isn(g.min)||isn(g.g)||isn(g.as)}).map(function(g){return {t:g.t||'',opp:g.opp||'',a:isn(g.a)?g.a:null,b:isn(g.b)?g.b:null,min:isn(g.min)?g.min:null,g:isn(g.g)?g.g:null,as:isn(g.as)?g.as:null,pm:isn(g.pm)?g.pm:null}}):[];
   if(t==='turnaj'){var dv=tourDerived(e),sn=sonP();
     if(dv&&sn){e.stats=e.stats||{};if(dv.g||dv.a)e.stats[sn.id]={g:dv.g,a:dv.a};else delete e.stats[sn.id]}
     if(e.games.some(function(g){return isn(g.a)||isn(g.b)||isn(g.g)||isn(g.as)}))e.played=true}
@@ -2916,6 +2949,7 @@ document.addEventListener('click',function(e){
     case 'theme':lsSet('trenink-theme',b.getAttribute('data-v'));applyTheme();$('dlg').innerHTML=moreHtml();break;
     case 'snd':lsSet('trenink-snd',sndOn()?'0':'1');$('dlg').innerHTML=moreHtml();if(sndOn())ding();break;
     case 'install':if(DEFERRED){DEFERRED.prompt();DEFERRED=null;closeModal()}break;
+    case 'rmphoto':if(playerForm){playerForm.photo='';var pv2=$('p-prev');if(pv2){pv2.className='av';pv2.style.cssText='width:64px;height:64px;font-size:26px';pv2.innerHTML=esc(($('p-name').value||'?').trim().charAt(0).toUpperCase())}}break;
     case 'sharecard':shareCard();break;
     case 'icsall':var fut=elist().filter(function(e){return e.date>=key(new Date())});if(!fut.length){toast('Nejsou žádné budoucí události.')}else{icsDownload(fut,'treninky.ics');toast('Soubor kalendáře se stáhl. Otevři ho a přidej události.')}break;
     case 'ics':var ev1=D.events[b.getAttribute('data-id')];if(ev1){var e1=clone(ev1);e1.id=b.getAttribute('data-id');icsDownload([e1],'udalost.ics')}break;
@@ -2983,12 +3017,12 @@ document.addEventListener('click',function(e){
     case 'phist':histOpen();break;
     case 'phrestore':histRestore(+b.getAttribute('data-i'));break;
     case 'newgear':openGearDlg(null);break;
-    case 'rengear':openGearDlg(b.getAttribute('data-n'));break;
+    case 'rengear':openGearDlg(b.getAttribute('data-n')||rid);break;
     case 'addgear':addGearFromForm();break;
     case 'hidegear':var hg=GEAR_DEF.filter(function(g){return bkey(g)===rid})[0];if(hg){GEAR_HID[rid]={n:hg,created:Date.now()};W('gearhide/'+rid,GEAR_HID[rid]);renderAll();toast('Pomůcka odebrána ze seznamu')}break;
     case 'restoregear':Object.keys(GEAR_HID).forEach(function(k){Wdel('gearhide/'+k)});GEAR_HID={};renderAll();toast('Pomůcky obnoveny');break;
     case 'delgear':var gk=b.getAttribute('data-id');if(CUSTOM_GEAR[gk]){delete CUSTOM_GEAR[gk];Wdel('gear/'+gk);renderAll();toast('Pomůcka odebrána ze seznamu')}break;
-    case 'cgtoggle':var gk2=b.getAttribute('data-k');view.lb=view.lb||{};view.lb[gk2]=(view.lb[gk2]===undefined)?false:!view.lb[gk2];renderMain();break;
+    case 'cgtoggle':var gk2=b.getAttribute('data-k');view.lb=view.lb||{};view.lb[gk2]=(gk2==='gear')?!(view.lb.gear===true):((view.lb[gk2]===undefined)?false:!view.lb[gk2]);renderMain();break;
     case 'kmenu':var kk2=b.getAttribute('data-k');view.km=(view.km===kk2)?null:kk2;renderMain();break;
     case 'editbase':var eb=LIB[+rid];if(eb)openExForm({name:eb.n,cat:eb.c,sets:eb.s,reps:eb.r,min:eb.m,rest:eb.p,desc:eb.d,video:eb.video||'',imgs:(eb.imgs||[]).slice(),gear:(eb.gear||[]).slice(),note:''},{id:null,replace:bkey(eb.n)});break;
     case 'restorecats':Object.keys(CAT_OV).forEach(function(k){if(CAT_OV[k].hidden){var o3=clone(CAT_OV[k]);delete o3.hidden;CAT_OV[k]=o3;W('catov/'+k,o3)}});applyCats();rebuildLib();renderAll();toast('Zaměření obnovena');break;
