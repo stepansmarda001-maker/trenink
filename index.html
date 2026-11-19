@@ -2104,7 +2104,7 @@ function shopHtml(S){
   cl.sort(function(a,b){return a.c.d<b.c.d?1:a.c.d>b.c.d?-1:0});
   function crow(o){
     return '<li class="srow"><div class="sd">'+esc(fmt(parse(o.c.d),{day:'numeric',month:'numeric'}))+'</div><div class="sm"><b>'+esc(o.n)+'</b> <small>'+o.c.c+' XP · '+(o.c.done?'předáno':'čeká na předání')+'</small></div>'+
-      (o.c.done?'':'<div class="acts"><button class="btn small" data-act="handed" data-id="'+o.i+'" data-e="'+o.c.id+'">Předáno</button><button class="btn small" data-act="unclaim" data-id="'+o.i+'" data-e="'+o.c.id+'">Zrušit</button></div>')+'</li>';
+      (o.c.done?kdots('cl'+o.c.id,[['revask','Vrátit body (opravit chybu)',o.i+'|'+o.c.id,'danger']]):'<div class="acts"><button class="btn small" data-act="handed" data-id="'+o.i+'" data-e="'+o.c.id+'">Předáno</button><button class="btn small" data-act="unclaim" data-id="'+o.i+'" data-e="'+o.c.id+'">Zrušit</button></div>')+'</li>';
   }
   var pend=cl.filter(function(o){return !o.c.done}),dn=cl.filter(function(o){return o.c.done});
   if(pend.length)h+='<h3 class="subh">Čeká na předání <small>('+pend.length+')</small></h3><ul class="srows">'+pend.map(crow).join('')+'</ul>';
@@ -2975,6 +2975,9 @@ function doConfirm(what,id){
   }else if(what==='hidebase'){
     var bl2=BASE_LIB.filter(function(l){return bkey(l.n)===id})[0];
     if(bl2){HIDDEN[id]={n:bl2.n,created:Date.now()};rebuildLib();W('libhide/'+id,HIDDEN[id]);renderAll();toast('Cvičení odebráno z knihovny')}
+  }else if(what==='revclaim'){
+    var rq=String(id).split('|'),rso=CUSTOM_SHOP[rq[0]];
+    if(rso){var rs2=clone(rso);rs2.claims=(rs2.claims||[]).filter(function(c){return c.id!==rq[1]});CUSTOM_SHOP[rq[0]]=rs2;W('shop/'+rq[0],rs2);closeModal();renderAll();toast('Odměna vrácena, body jsou zpět')}
   }else if(what==='dellib'){
     delete CUSTOM_LIB[id];rebuildLib();Wdel('lib/'+id);renderAll();toast('Cvičení odebráno z knihovny');
   }else if(what==='claim'){
@@ -3044,6 +3047,7 @@ document.addEventListener('click',function(e){
       if(a==='unclaim')s2.claims=(s2.claims||[]).filter(function(c){return c.id!==ce});
       else (s2.claims||[]).forEach(function(c){if(c.id===ce)c.done=true});
       CUSTOM_SHOP[rid]=s2;W('shop/'+rid,s2);renderAll();toast(a==='unclaim'?'Výběr zrušen, XP se vrátily':'Označeno jako předané')}break;
+    case 'revask':var rv=String(rid).split('|'),rvs=CUSTOM_SHOP[rv[0]],rvc=rvs&&(rvs.claims||[]).filter(function(c){return c.id===rv[1]})[0];if(rvc)openConfirm('Vrátit odměnu „'+rvs.name+'“ a připsat zpět '+rvc.c+' XP? Odměna zmizí z historie.','revclaim',rid);break;
     case 'newgoal':openGoalForm(null);break;
     case 'editgoal':openGoalForm(rid);break;
     case 'delgoal':delete CUSTOM_GOAL[rid];Wdel('goal/'+rid);closeModal();renderAll();toast('Cíl smazán');break;
