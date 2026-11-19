@@ -1377,8 +1377,9 @@ function renderMain(){
   }
   if(!curTeam){el.innerHTML=noTeamHtml();return}
   if(view.tab==='tyden'){
-    var wm=view.wm||'d',sn=subnav('rz',wm,[['d','Dnes'],['t','Plán týdne'],['r','Rozpis']]);
+    var wm=view.wm||'d',sn=subnav('rz',wm,[['d','Dnes'],['t','Plán týdne'],['r','Rozpis']].concat(ROLE.coach?[['k','Kroužky']]:[]));
     if(wm==='r')el.innerHTML=sn+rozpisHtml();
+    else if(wm==='k')el.innerHTML=sn+krPanel();
     else if(wm==='d')el.innerHTML=sn+dnesHtml();
     else{el.innerHTML=sn+lastWeekHtml()+weekNav()+'<div class="strip" id="strip" role="tablist" aria-label="Dny v týdnu"></div><section class="panel" id="panel"></section>';
     renderStrip();renderPanel()}
@@ -1658,7 +1659,7 @@ var DAYS_S=['Po','Út','St','Čt','Pá','So','Ne'];
 function krPanel(){
   if(!ROLE.coach)return '';
   var ids=Object.keys(CUSTOM_KR).sort(function(a,b){return (CUSTOM_KR[a].created||0)-(CUSTOM_KR[b].created||0)});
-  var h='<section class="panel"><div class="sect"><div class="sect-h"><h2>Kroužky</h2><button class="btn primary" data-act="newkr">'+IC.plus+'Přidat kroužek</button></div><p class="hint">Pravidelné kroužky se samy objeví v týdnu. Docházka se zapisuje tlačítkem Byl jsem tam a za každou je 30 XP. Když kroužek odpadne, klepni na Odpadá a naplánuj si individuální trénink.</p>';
+  var h='<section class="panel"><div class="sect"><div class="sect-h"><h2>Kroužky</h2><button class="btn primary" data-act="newkr">'+IC.plus+'Přidat kroužek</button></div><p class="hint">Pravidelné kroužky se samy objeví v týdnu. Docházka se zapisuje tlačítkem Byl jsem tam a za každou minutu kroužku je 1 XP. Když kroužek odpadne, klepni na Odpadá a naplánuj si individuální trénink.</p>';
   if(!ids.length)return h+'<div class="empty">Zatím žádný kroužek.</div></div></section>';
   h+='<div class="lrows">'+ids.map(function(id){var k=CUSTOM_KR[id];
     return '<div class="lrow"><div><b>'+esc(k.name)+'</b> <small>'+(k.days||[]).map(function(d){return DAYS_S[d]}).join(', ')+(k.time?' · '+esc(k.time):'')+(k.dur?' · '+k.dur+' min':'')+(k.place?' · '+esc(k.place):'')+'</small><div class="hint">od '+esc(fmt(parse(k.from),{day:'numeric',month:'numeric',year:'numeric'}))+(k.to?' do '+esc(fmt(parse(k.to),{day:'numeric',month:'numeric',year:'numeric'})):'')+'</div></div><div class="acts"><button class="btn" data-act="editkr" data-id="'+id+'">Upravit</button><button class="btn" data-act="delkr" data-id="'+id+'">Smazat</button></div></div>'}).join('')+'</div>';
@@ -1708,6 +1709,7 @@ function itCard(k,d){
     '<div class="evt-meta">'+(d.time?'🕒 '+esc(d.time)+' · ':'')+(d.place?'📍 '+esc(d.place)+' · ':'')+(dn===n?'✓ Splněno · ':'')+'hotovo '+dn+' z '+n+'</div>'+
     '<div class="evt-meta">'+esc(d.items.map(function(x){return x.name}).join(', '))+'</div>'+
     (g.length?'<div class="gearline"><b>Vzít s sebou:</b> '+gearChips(g)+'</div>':'')+
+    (ROLE.coach&&n&&k<=key(new Date())?'<div class="live"><button type="button" class="btn'+(dn===n?'':' primary')+'" data-act="itdone" data-k="'+k+'" aria-pressed="'+(dn===n)+'">'+(dn===n?'✓ Odtrénováno':'Odtrénováno')+'</button></div>':'')+
     '<div class="evact"><button class="btn" data-act="gotoday" data-k="'+k+'">Otevřít den</button></div></article>';
 }
 function rozpisHtml(){
@@ -1716,8 +1718,16 @@ function rozpisHtml(){
     Object.keys(D.plan).forEach(function(k){var d=D.plan[k];if(d&&!d.rest&&(d.items||[]).length)all.push({it:true,date:k,d:d})});
     all=all.map(function(e,i){return {e:e,i:i}}).sort(function(a,b){return a.e.date<b.e.date?-1:a.e.date>b.e.date?1:((a.e.it?1:0)-(b.e.it?1:0))||a.i-b.i}).map(function(x){return x.e});
   }
-  var up=all.filter(function(e){return e.date>=todayK}),past=all.filter(function(e){return e.date<todayK}).reverse().slice(0,15);
-  var h=krPanel()+'<section class="panel"><div class="sect"><div class="sect-h"><h2>Rozpis</h2><div class="seg">'+
+  var nowM=new Date().getHours()*60+new Date().getMinutes(),sn0=sonP();
+  var isPast=function(e){
+    if(e.date<todayK)return true;if(e.date>todayK)return false;
+    if(e.it)return e.d.items.length>0&&e.d.items.every(function(x){return x.done});
+    if(e.type==='trenink'){var a=D.att[e.id];if(sn0&&a&&a.st&&a.st[sn0.id]==='y')return true}
+    else if(e.played)return true;
+    if(e.time){var q=String(e.time).split(':');if(+q[0]*60+(+q[1]||0)+(+e.dur||0)<nowM)return true}
+    return false};
+  var up=all.filter(function(e){return !isPast(e)}),past=all.filter(isPast).reverse().slice(0,15);
+  var h='<section class="panel"><div class="sect"><div class="sect-h"><h2>Rozpis</h2><div class="seg">'+
     [['all','Vše'],['trenink','Klubové tréninky'],['kr','Kroužky'],['indiv','Individuální'],['zapas','Zápasy'],['turnaj','Turnaje']].filter(function(t){return t[0]!=='indiv'||ROLE.coach}).map(function(t){return '<button class="fbtn" data-act="rfilter" data-f="'+t[0]+'" aria-pressed="'+(f===t[0])+'">'+t[1]+'</button>'}).join('')+'</div></div>';
   if(ROLE.coach)h+='<div class="acts" style="margin-bottom:12px"><button class="btn" data-act="addev" data-t="trenink">'+IC.plus+'Klubový trénink</button><button class="btn" data-act="addev" data-t="zapas">'+IC.plus+'Zápas</button><button class="btn" data-act="addev" data-t="turnaj">'+IC.plus+'Turnaj</button></div>';
   function group(list){
@@ -2992,6 +3002,7 @@ document.addEventListener('click',function(e){
     case 'more':openModal(moreHtml());break;
     case 'phase':view.phase=+b.getAttribute('data-p')||1;renderAll();break;
     case 'addphase':var mxp=view.phase||1;dayOf(view.sel).items.forEach(function(x){mxp=Math.max(mxp,x.ph||1)});view.phase=Math.min(3,mxp+1);renderAll();break;
+    case 'itdone':var ik=b.getAttribute('data-k'),idd=D.plan[ik];if(!idd||!idd.items||!idd.items.length)break;var ipre=rwSnap(),iall=idd.items.every(function(x){return x.done});idd.items.forEach(function(x){x.done=!iall});save();renderAll();if(!iall)ding();reward(ipre);break;
     case 'clubdone':var cid=b.getAttribute('data-id'),cson=sonP();if(!cson||!evFind(cid))break;var cpre=rwSnap(),ca=clone(D.att[cid]||{st:{},why:{}});ca.st=ca.st||{};ca.why=ca.why||{};if(ca.st[cson.id]==='y')delete ca.st[cson.id];else ca.st[cson.id]='y';D.att[cid]=ca;W('staff/'+curTeam+'/att/'+cid,ca);scheduleRender();if(ca.st[cson.id]==='y')ding();reward(cpre);break;
     case 'moretab':closeModal();view.tab=b.getAttribute('data-t');if(view.tab==='tyden')view.wm='d';enterAnim();renderAll();window.scrollTo(0,0);break;
     case 'theme':lsSet('trenink-theme',b.getAttribute('data-v'));applyTheme();$('dlg').innerHTML=moreHtml();break;
