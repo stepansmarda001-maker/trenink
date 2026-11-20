@@ -277,7 +277,10 @@ h1,h2,h3,p{margin:0;text-wrap:balance}
 .fld label{font-size:13px;font-weight:600;color:var(--muted)}
 .fld input,.fld select,.fld textarea{border:1.5px solid var(--line);background:var(--bg);border-radius:8px;padding:9px 11px;width:100%;min-height:42px}
 .fld textarea{resize:vertical;min-height:80px}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+.g2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 12px}
+.fld input[type=date],.fld input[type=time],.tgc input[type=time]{min-width:0;max-width:100%;box-sizing:border-box;-webkit-appearance:none;appearance:none;text-align:left;line-height:1.2}
+#mtitle:focus{outline:none}
+.g2>*,.tgr>*{min-width:0}.fld input[type=date],.fld input[type=time],.tgc input[type=time]{display:block;width:100%}
 .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:0 10px}
 @media (max-width:460px){.g4{grid-template-columns:1fr 1fr}}
 .err{color:var(--danger);font-size:13px;min-height:18px;margin-bottom:6px}
@@ -383,9 +386,9 @@ a.btn.vid{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .nchip.mine i{color:inherit}
 .ribbon{align-self:flex-start;background:var(--bib);color:var(--bib-ink);font-weight:700;font-size:13px;border-radius:6px;padding:3px 10px}
 .games{list-style:none;margin:0;padding:0;font-size:14px;font-variant-numeric:tabular-nums}
-.games li{display:flex;gap:10px;padding:3px 0;border-top:1px dashed var(--line)}
+.games li{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-top:1px dashed var(--line)}.games .gmain{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.games .gopp{overflow-wrap:anywhere}.games .gsc{white-space:nowrap}.games .gx{font-size:12.5px}.games .gx .nw{white-space:nowrap;margin:0;font-weight:400}
 .games li b{min-width:48px}
-.games li span:last-child{margin-left:auto;font-weight:700}
+.games li .gsc{margin-left:auto;font-weight:700}
 .evact{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}
 .evact .btn{min-height:36px;padding:5px 11px;font-size:13.5px}
 
@@ -443,7 +446,7 @@ table.tbl{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;
 .count{font:700 26px var(--display);font-variant-numeric:tabular-nums}
 .count.over{color:var(--danger)}
 .list-box{max-height:46vh;overflow:auto;border:1.5px solid var(--line);border-radius:10px;padding:2px 10px;margin-bottom:10px}
-.tg{border:1.5px solid var(--line);border-radius:10px;padding:8px 10px;margin-bottom:8px}.tgh{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}.tgr{display:grid;gap:6px;margin-bottom:6px}.tgr2{grid-template-columns:100px 1fr}.tgr5{grid-template-columns:repeat(5,1fr)}.tgc{display:flex;flex-direction:column;gap:2px;min-width:0}.tgc small{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tgc input{border:1.5px solid var(--line);background:var(--bg);border-radius:8px;padding:7px 8px;min-width:0;width:100%;min-height:38px}.gx{color:var(--muted);font-weight:400}
+.tg{border:1.5px solid var(--line);border-radius:10px;padding:8px 10px;margin-bottom:8px}.tgh{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}.tgr{display:grid;gap:6px;margin-bottom:6px}.tgr2{grid-template-columns:minmax(0,132px) minmax(0,1fr)}.tgc input[type=time]{padding-left:8px;padding-right:6px}.tgr5{grid-template-columns:repeat(5,minmax(0,1fr))}.tgc{display:flex;flex-direction:column;gap:2px;min-width:0}.tgc small{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tgc input{border:1.5px solid var(--line);background:var(--bg);border-radius:8px;padding:7px 8px;min-width:0;width:100%;min-height:38px}.gx{color:var(--muted);font-weight:400}
 .grow{display:grid;grid-template-columns:96px 1fr 56px 56px 34px;gap:6px;margin-bottom:6px;align-items:center}
 .grow input{border:1.5px solid var(--line);background:var(--bg);border-radius:8px;padding:7px 8px;min-width:0;width:100%;min-height:40px}
 .grow button{height:36px}
@@ -1231,7 +1234,7 @@ function moreHtml(){
     if(DEFERRED)h+='<button type="button" class="btn" data-act="install">Nainstalovat jako aplikaci</button>';
     else h+='<p class="hint">'+(ios?'Na iPhonu: klepni na Sdílet a pak na Přidat na plochu.':'V nabídce prohlížeče zvol Přidat na plochu nebo Nainstalovat aplikaci.')+'</p>';
   }
-  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 20. 11. · C (Rozpis 3)</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
+  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 20. 11. · D</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
   return h;
 }
 function download(name,blob){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1500)}
@@ -1487,8 +1490,12 @@ function resultHtml(e){
   if(e.type==='turnaj'&&(e.games||[]).length){
     h+='<ul class="games">'+e.games.map(function(g){
       var sc=(typeof g.a==='number'&&typeof g.b==='number')?g.a+' : '+g.b:'';
-      var ex=[];if(typeof g.min==='number')ex.push((typeof g.pm==='number'?'hrál '+g.pm+' z ':'')+g.min+' min');if(typeof g.g==='number'||typeof g.as==='number')ex.push('góly '+(g.g||0)+' · asist. '+(g.as||0));
-      return '<li><b>'+esc(g.t||'')+'</b><span>'+esc(g.opp||'')+(ex.length?'<small class="gx"> · '+ex.join(' · ')+'</small>':'')+'</span><span>'+sc+'</span></li>';
+      var ex=[],hasM=typeof g.min==='number',hasP=typeof g.pm==='number';
+      if(hasP&&g.pm<=0)ex.push('nehrál');
+      else if(hasM)ex.push('hrál '+(hasP?g.pm:g.min)+' z '+g.min+' min');
+      else if(hasP)ex.push('hrál '+g.pm+' min');
+      if(typeof g.g==='number'||typeof g.as==='number')ex.push('góly '+(g.g||0)+' · asist. '+(g.as||0));
+      return '<li><b>'+esc(g.t||'')+'</b><div class="gmain"><span class="gopp">'+esc(g.opp||'')+'</span>'+(ex.length?'<small class="gx">'+ex.map(function(x){return '<span class="nw">'+x+'</span>'}).join(' · ')+'</small>':'')+'</div><span class="gsc">'+sc+'</span></li>';
     }).join('')+'</ul>';
   }
   if(e.played&&e.stats){
@@ -2780,7 +2787,7 @@ function openEventForm(o){
   var e=o.id?D.events[o.id]:null,t=e?e.type:(o.type||'trenink'),T=EVT[t];
   var x=e?clone(e):{type:t,date:o.date||view.sel,time:T.time,dur:(t==='zapas'?'':T.dur),place:'',opp:'',title:'',where:'home',note:'',games:[],nomMax:teamSize()};
   evForm={id:e?o.id:null,games:(x.games||[]).map(function(g){return {t:g.t||'',opp:g.opp||'',a:g.a,b:g.b,min:g.min,g:g.g,as:g.as,pm:g.pm}})};
-  openModal('<h3 id="mtitle">'+(e?'Upravit událost':'Nová událost')+'</h3><form id="evform" class="ef" data-t="'+t+'" novalidate>'+
+  openModal('<h3 id="mtitle" tabindex="-1">'+(e?'Upravit událost':'Nová událost')+'</h3><form id="evform" class="ef" data-t="'+t+'" novalidate>'+
     '<div class="fld"><label for="ef-type">Druh</label><select id="ef-type">'+Object.keys(EVT).map(function(k){return '<option value="'+k+'"'+(t===k?' selected':'')+'>'+EVT[k].n+'</option>'}).join('')+'</select></div>'+
     '<div class="g2"><div class="fld"><label for="ef-date">Datum</label><input id="ef-date" type="date" value="'+esc(x.date)+'"></div><div class="fld"><label for="ef-time">Začátek</label><input id="ef-time" type="time" value="'+esc(x.time||'')+'"></div></div>'+
     '<div class="g2"><div class="fld" data-only="zapas turnaj"><label for="ef-meet">Sraz</label><input id="ef-meet" type="time" value="'+esc(x.meet||'')+'"></div>'+
@@ -2794,7 +2801,7 @@ function openEventForm(o){
     '<div class="fld"><label for="ef-place">Místo</label><input id="ef-place" type="text" maxlength="80" value="'+esc(x.place||'')+'" autocomplete="off"></div>'+
     '<div id="ef-gwrap"><div class="rth" style="margin-bottom:6px">Zápasy turnaje: skóre (my : oni), délka, mé góly a asistence</div><div id="ef-games">'+gamesRows()+'</div><button type="button" class="btn" data-act="addgame">'+IC.plus+'Přidat zápas turnaje</button></div>'+
     '<div class="err" id="f-err" role="alert"></div>'+
-    '<div class="dact">'+(e?'<button type="button" class="btn danger" data-act="delev" data-id="'+o.id+'">Smazat</button>':'')+'<button type="button" class="btn" data-act="closemodal">Zrušit</button><button type="submit" class="btn primary">Uložit</button></div></form>','ef-date',true);
+    '<div class="dact">'+(e?'<button type="button" class="btn danger" data-act="delev" data-id="'+o.id+'">Smazat</button>':'')+'<button type="button" class="btn" data-act="closemodal">Zrušit</button><button type="submit" class="btn primary">Uložit</button></div></form>','mtitle',true);
 }
 function syncEventForm(){
   var f=$('evform');if(!f)return;
@@ -3316,6 +3323,12 @@ document.addEventListener('click',function(e){
     case 'editplayer':openPlayerForm(rid);break;
     case 'delplayer':openConfirm('Hráč zmizí ze soupisky. Jeho góly a asistence v minulých zápasech se přestanou zobrazovat.','delplayer',rid);break;
     case 'bulk':openBulk();break;
+    case 'refreshapp':
+      (function(){var go=function(){location.replace(location.pathname+'?v='+Date.now())};
+        try{if(navigator.serviceWorker&&navigator.serviceWorker.getRegistrations){
+          navigator.serviceWorker.getRegistrations().then(function(rs){return Promise.all(rs.map(function(r){return r.unregister()}))})
+            .then(function(){return window.caches?caches.keys().then(function(ks){return Promise.all(ks.map(function(k){return caches.delete(k)}))}):0}).then(go,go)
+        }else go()}catch(e){go()}})();break;
     case 'rmore':view.rall=!view.rall;renderMain();break;
     case 'rfk':view.km=null;view.rfilter=rid;renderMain();break;
     case 'addevk':view.km=null;openEventForm({type:rid,date:key(new Date())});break;
