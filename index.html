@@ -94,7 +94,8 @@ h1,h2,h3,p{margin:0;text-wrap:balance}
 .plist li+li{border-top:1px solid var(--line)}
 .plist button{display:flex;align-items:center;gap:12px;width:100%;min-height:46px;padding:0 14px;background:none;border:0;text-align:left;font-size:15.5px;font-weight:600}
 .plist button i{width:10px;height:10px;border-radius:50%;flex:0 0 auto}
-.dsum li.dsdone{cursor:pointer}.dsum li.dsdone b{display:flex;align-items:center;gap:6px}.dsum li.dsdone b:before{content:"✓";color:var(--ok);font-weight:800}.dsum li.dsdone span:after{content:" ›"}
+.dsum li.dsit{cursor:pointer}.dsum li.dsit span:after{content:" ›"}.dsum li.dsdone b{display:flex;align-items:center;gap:6px}.dsum li.dsdone b:before{content:"✓";color:var(--ok);font-weight:800}
+.itcard{border:1.5px solid var(--line);border-left:6px solid #0f766e;border-radius:14px;margin:12px 0;background:var(--surface);overflow:hidden}.itcard .plan-h{border-bottom:0}.itcard .phases{padding:0 18px 10px}.itcard .list,.itcard .filters,.itcard .lib,.itcard .prog,.itcard .empty{margin-left:12px;margin-right:12px}.itcard .lib{margin-bottom:12px}
 .pmore{display:block;width:100%;text-align:left;background:none;border:0;padding:6px 0;margin:2px 0 0;font-size:14px;color:var(--muted)}
 .ph h2{font:700 30px/1 var(--display);text-transform:uppercase;letter-spacing:.01em}
 .ph .sub{color:var(--muted);font-size:14px;margin-top:4px;font-variant-numeric:tabular-nums}
@@ -1241,7 +1242,7 @@ function moreHtml(){
     if(DEFERRED)h+='<button type="button" class="btn" data-act="install">Nainstalovat jako aplikaci</button>';
     else h+='<p class="hint">'+(ios?'Na iPhonu: klepni na Sdílet a pak na Přidat na plochu.':'V nabídce prohlížeče zvol Přidat na plochu nebo Nainstalovat aplikaci.')+'</p>';
   }
-  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 20. 11. · H</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
+  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 20. 11. · J</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
   return h;
 }
 function download(name,blob){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1500)}
@@ -1540,21 +1541,21 @@ function eventCard(e,opt){
 function planSection(k,d){
   var ph=view.phase||1,mxp=ph;(d.items||[]).forEach(function(x){mxp=Math.max(mxp,x.ph||1)});if(ph>mxp)ph=mxp;
   var its=phItems(d,ph),all=its.length,done=its.filter(function(x){return x.done}).length,m=mins({items:its});
-  if(itFin(d)&&!(view.pdone&&view.pdone[k])&&!(view.pnew&&view.pnew[k]))return '';
+  var opn=view.pdone&&view.pdone[k]!==undefined?view.pdone[k]:!itFin(d);if(!opn)return '';
   var hide=view.planHide[k];
   if(hide===undefined)hide=evOfDay(k).some(function(e){return e.type!=='trenink'})&&!(d.items||[]).length&&!(d.focus&&d.focus.length);
   var gm={},gc={};
   Object.keys(CAT).forEach(function(c){gm[c]=0;gc[c]=0});
   its.forEach(function(x){var g=CAT[x.cat]?x.cat:'sila';gm[g]+=x.min||0;gc[g]++});
-  var fin=itFin(d)&&!(view.pnew&&view.pnew[k]);
-  var h='<div class="plan-h" id="plansec"><div'+(fin?' data-act="pdone" role="button" tabindex="0" style="cursor:pointer;flex:1"':'')+'><h3>Individuální trénink'+(mxp>1?' · '+ph+'. fáze':'')+'</h3><div class="sub">';
+  var fin=phItems(d,ph).length>0&&phItems(d,ph).every(function(x){return x.done});
+  var h='<div class="plan-h" id="plansec"><div data-act="pdone" role="button" tabindex="0" style="cursor:pointer;flex:1"><h3>Individuální trénink'+(mxp>1?' '+ph:'')+'</h3><div class="sub">';
   if(d.rest)h+='Volný den bez cvičení';
   else h+=all+' cvičení · '+fmtMin(m)+' · hotovo '+done+' z '+all;
   h+='</div>';
   if(!d.rest&&(d.time||d.place))h+='<div class="itwhen">'+(d.time?'🕒 '+esc(d.time):'')+(d.time&&d.place?' · ':'')+(d.place?'📍 '+esc(d.place):'')+'</div>';
   h+='</div><div class="acts">';
   if(!hide&&!d.rest&&!fin){
-    h+='<button class="btn primary" data-act="runall" data-p="'+ph+'"'+(all-done?'':' disabled')+'>'+IC.play+(mxp>1?'Spustit '+ph+'. fázi':'Spustit trénink')+'</button>';
+    h+='<button class="btn primary" data-act="runall" data-p="'+ph+'"'+(all-done?'':' disabled')+'>'+IC.play+'Spustit trénink'+'</button>';
     h+='<button class="btn" data-act="add">'+IC.plus+'Přidat cvičení</button>';
   }
   var pm=[];
@@ -1565,7 +1566,7 @@ function planSection(k,d){
   if(hide)return h;
   if(!d.rest){
     h+='<div class="phases" role="group" aria-label="Fáze tréninku">';
-    if(mxp>1){for(var q=1;q<=mxp;q++){var pi=phItems(d,q),pd=pi.filter(function(x){return x.done}).length;h+='<button type="button" class="fbtn" data-act="phase" data-p="'+q+'" aria-pressed="'+(q===ph)+'">'+q+'. fáze <small>'+pd+'/'+pi.length+'</small></button>'}}
+    if(mxp>1){for(var q=1;q<=mxp;q++){var pi=phItems(d,q),pd=pi.filter(function(x){return x.done}).length;h+='<button type="button" class="fbtn" data-act="phase" data-p="'+q+'" aria-pressed="'+(q===ph)+'">Trénink '+q+' <small>'+pd+'/'+pi.length+'</small></button>'}}
     h+='</div>';
   }
   if(!d.rest&&all&&!fin)h+='<div class="prog" aria-hidden="true"><i style="width:'+Math.round(done/all*100)+'%"></i></div>';
@@ -1603,7 +1604,9 @@ function daySumHtml(k,d,ev){
     if(e.meet)meta.push('sraz '+e.meet);if(tm)meta.push(tm);if(mn)meta.push(mn+' min');
     return '<li><i style="background:'+(EVT[e.type]||EVT.trenink).c+'"></i><b>'+esc(lab)+'</b><span>'+esc(meta.join(' · '))+'</span></li>';
   });
-  if(ROLE.coach&&!d.rest&&(d.items||[]).length)rows.push('<li'+(itFin(d)?' class="dsdone" data-act="pdone" role="button" tabindex="0"':'')+'><i style="background:#0f766e"></i><b>Individuální trénink</b><span>'+esc((d.time?d.time+' · ':'')+fmtMin(mins(d)))+'</span></li>');
+  if(ROLE.coach&&!d.rest&&(d.items||[]).length){var mxs=1;d.items.forEach(function(x){mxs=Math.max(mxs,x.ph||1)});
+    for(var q=1;q<=mxs;q++){var pq=phItems(d,q);if(!pq.length)continue;var dq=pq.every(function(x){return x.done});
+      rows.push('<li class="dsit'+(dq?' dsdone':'')+'" data-act="pdone" data-p="'+q+'" role="button" tabindex="0"><i style="background:#0f766e"></i><b>Individuální trénink'+(mxs>1?' '+q:'')+'</b><span>'+esc((q===1&&d.time?d.time+' · ':'')+fmtMin(mins({items:pq})))+'</span></li>')}}
   return rows.length?'<ul class="dsum">'+rows.join('')+'</ul>':'<div class="dsum0">Žádná událost</div>';
 }
 function renderPanel(){
@@ -1612,11 +1615,11 @@ function renderPanel(){
   if(ROLE.coach){var anyP=ev.length||(d.items||[]).length;h+='<div class="acts addrow"><button class="btn" data-act="planday" aria-expanded="'+(view.planOpen?'true':'false')+'">'+IC.plus+(anyP?'Naplánovat další aktivitu':'Naplánovat aktivitu')+'</button></div>';
     if(view.planOpen)h+='<ul class="plist">'+[['addev','Klubový trénink','trenink',EVT.trenink.c],['addev','Zápas','zapas',EVT.zapas.c],['addev','Turnaj','turnaj',EVT.turnaj.c],['additplan','Individuální trénink','','#0f766e'],['newill','Nemoc','','#9a9a94']].map(function(r){return '<li><button type="button" data-act="'+r[0]+'"'+(r[2]?' data-t="'+r[2]+'"':'')+' data-k="'+k+'"><i style="background:'+r[3]+'"></i>'+r[1]+'</button></li>'}).join('')+'</ul>'}
   h+='</div>';
-  if(ROLE.coach&&!d.rest&&(d.items||[]).length&&(!itFin(d)||(view.pnew&&view.pnew[k]))&&gearOf(d.items).length)h+='<div class="gear1" role="status"><b>Vzít s sebou:</b> '+gearChips(gearOf(d.items))+'</div>';
+  if(ROLE.coach&&!d.rest&&(d.items||[]).length&&!itFin(d)&&gearOf(d.items).length)h+='<div class="gear1" role="status"><b>Vzít s sebou:</b> '+gearChips(gearOf(d.items))+'</div>';
   var ill=illOn(k);if(ill)h+='<div class="sickbar" role="status"><b>'+ILLT[ill.type]+'</b>'+(ill.note?' · '+esc(ill.note):'')+'<button class="btn small" data-act="editill" data-id="'+ill.id+'">Upravit</button></div>';
   if(ev.length)h+='<div class="evs">'+ev.map(function(e){return eventCard(e)}).join('')+'</div>';
   else if(!(ROLE.coach&&!d.rest&&(d.items||[]).length))h+='<div class="empty">'+(ROLE.coach?'V tento den nic není naplánované. Klepni na „Naplánovat aktivitu“.':'V tento den nic není naplánované.')+'</div>';
-  if(ROLE.coach&&(((d.items||[]).length)||d.rest||(d.focus&&d.focus.length)||d.time||d.place||view.planHide[k]===false))h+=planSection(k,d);
+  if(ROLE.coach&&(((d.items||[]).length)||d.rest||(d.focus&&d.focus.length)||d.time||d.place||view.planHide[k]===false)){var ps=planSection(k,d);if(ps)h+='<section class="itcard">'+ps+'</section>'}
   $('panel').innerHTML=h;
 }
 
@@ -3357,9 +3360,13 @@ document.addEventListener('click',function(e){
     case 'sharecard':shareCard();break;
     case 'icsall':var fut=elist().filter(function(e){return e.date>=key(new Date())});if(!fut.length){toast('Nejsou žádné budoucí události.')}else{icsDownload(fut,'treninky.ics');toast('Soubor kalendáře se stáhl. Otevři ho a přidej události.')}break;
     case 'ics':var ev1=D.events[b.getAttribute('data-id')];if(ev1){var e1=clone(ev1);e1.id=b.getAttribute('data-id');icsDownload([e1],'udalost.ics')}break;
-    case 'pdone':view.pdone=view.pdone||{};view.pdone[view.sel]=!view.pdone[view.sel];renderPanel();break;
+    case 'pdone':(function(){var pk=view.sel,dd=dayOf(pk),pp=+b.getAttribute('data-p')||0;view.pdone=view.pdone||{};var open=view.pdone[pk]!==undefined?view.pdone[pk]:!itFin(dd);
+      if(pp&&(pp!==(view.phase||1)||!open)){view.phase=pp;view.pdone[pk]=true}else view.pdone[pk]=!open;
+      renderPanel();if(view.pdone[pk]){var pn=$('plansec');if(pn)pn.scrollIntoView({behavior:'smooth',block:'start'})}})();break;
     case 'planday':view.planOpen=!view.planOpen;renderPanel();break;
-    case 'additplan':view.planOpen=false;if(itFin(dayOf(view.sel))){view.pnew=view.pnew||{};view.pnew[view.sel]=true;if(view.pdone)view.pdone[view.sel]=false}view.planHide[view.sel]=false;renderPanel();(function(){var pn=$('plansec')||$('panel');if(pn)pn.scrollIntoView({behavior:'smooth',block:'start'})})();break;
+    case 'additplan':(function(){view.planOpen=false;var dd=dayOf(view.sel),its=dd.items||[];
+      if(its.length){var mx=1;its.forEach(function(x){mx=Math.max(mx,x.ph||1)});if((view.phase||1)<=mx)view.phase=mx+1}
+      view.planHide[view.sel]=false;view.pdone=view.pdone||{};view.pdone[view.sel]=true;renderPanel();var pn=$('plansec');if(pn)pn.scrollIntoView({behavior:'smooth',block:'start'})})();break;
     case 'goshop':view.tab='odmeny';view.sh=view.sh||{};view.sh.all=true;enterAnim();renderAll();window.scrollTo(0,0);break;
     case 'dntoggle':view.dnOpen=!view.dnOpen;renderMain();break;
     case 'scrollplan':var pn=$('plansec')||$('panel');if(pn)pn.scrollIntoView({behavior:'smooth',block:'start'});break;
@@ -3368,7 +3375,7 @@ document.addEventListener('click',function(e){
     case 'prevweek':view.phase=1;view.week=addDays(view.week,-7);view.sel=key(view.week);renderAll();break;
     case 'nextweek':view.phase=1;view.week=addDays(view.week,7);view.sel=key(view.week);renderAll();break;
     case 'thisweek':view.phase=1;view.week=monday(new Date());view.sel=key(new Date());renderAll();break;
-    case 'selday':view.pnew=null;view.phase=1;view.sel=b.getAttribute('data-k');renderStrip();renderPanel();break;
+    case 'selday':view.phase=1;view.sel=b.getAttribute('data-k');renderStrip();renderPanel();break;
     case 'rfilter':view.rfilter=b.getAttribute('data-f');renderMain();break;
     case 'sort':var k=b.getAttribute('data-k');view.sort=view.sort.k===k?{k:k,d:-view.sort.d}:{k:k,d:(k==='name'||k==='num')?1:-1};renderMain();break;
     case 'pdet':view.pdet[rid]=!view.pdet[rid];renderMain();break;
@@ -3510,7 +3517,7 @@ document.addEventListener('click',function(e){
     case 'rmimg':formImgs.splice(+b.getAttribute('data-n'),1);renderFormImgs();break;
     case 'add':openExForm(null);break;
     case 'lib':d=ensure(view.sel);d.rest=false;d.items.push(mk(+b.getAttribute('data-i')));save();renderAll();toast('Cvičení přidáno');break;
-    case 'toggle':var pre0=rwSnap(),nowDone=false;dayOf(view.sel).items.forEach(function(x){if(x.id===id){x.done=!x.done;nowDone=x.done}});view.pop=nowDone?id:null;save();renderAll();if(nowDone)ding();setTimeout(function(){view.pop=null},700);reward(pre0);break;
+    case 'toggle':var pre0=rwSnap(),nowDone=false;dayOf(view.sel).items.forEach(function(x){if(x.id===id){x.done=!x.done;nowDone=x.done}});if(view.pdone&&itFin(dayOf(view.sel)))delete view.pdone[view.sel];view.pop=nowDone?id:null;save();renderAll();if(nowDone)ding();setTimeout(function(){view.pop=null},700);reward(pre0);break;
     case 'edit':var it=dayOf(view.sel).items.filter(function(x){return x.id===id})[0];if(it)openExForm(it);break;
     case 'del':d=ensure(view.sel);d.items=d.items.filter(function(x){return x.id!==id});save();renderAll();toast('Cvičení smazáno');break;
     case 'up':move(id,-1);break;
