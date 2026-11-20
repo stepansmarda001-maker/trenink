@@ -1231,7 +1231,7 @@ function moreHtml(){
     if(DEFERRED)h+='<button type="button" class="btn" data-act="install">Nainstalovat jako aplikaci</button>';
     else h+='<p class="hint">'+(ios?'Na iPhonu: klepni na Sdílet a pak na Přidat na plochu.':'V nabídce prohlížeče zvol Přidat na plochu nebo Nainstalovat aplikaci.')+'</p>';
   }
-  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.</p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
+  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 20. 11. · C (Rozpis 3)</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
   return h;
 }
 function download(name,blob){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1500)}
