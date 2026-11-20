@@ -1788,7 +1788,7 @@ function rozpisHtml(){
     });
     return out;
   }
-  var LB=view.lb||{},openUp=LB.rup!==false,openPast=LB.rpast===true,N=4,shown=view.rall?up:up.slice(0,N);
+  var LB=view.lb||{},openUp=LB.rup!==false,openPast=LB.rpast===true,N=3,shown=view.rall?up:up.slice(0,N);
   h+='<div class="lgh" style="margin:6px 0 10px"><button type="button" class="lgt" data-act="cgtoggle" data-k="rup" aria-expanded="'+openUp+'"><span class="arr">'+(openUp?'▾':'▸')+'</span><b>Nadcházející</b> <small>'+up.length+'</small></button></div>';
   if(openUp){
     h+=up.length?'<div class="stack">'+group(shown)+'</div>':'<p class="evt-meta">Nic naplánováno.</p>';
