@@ -245,7 +245,7 @@ h1,h2,h3,p{margin:0;text-wrap:balance}
 .lrow small{color:var(--muted);font-size:13px;font-weight:500}
 .lrow .acts{flex-shrink:0}
 .lrow .hint{margin:2px 0 0}
-.lgrp{margin-top:14px}
+.lgrp{margin-top:0}.lgrp .lgh{padding:0}.lgrp .lgt{padding:2px 0;min-height:44px;box-sizing:border-box}.knpom{margin-top:-14px}.knpom .sect{padding-top:6px}
 .lgrp h3{font:700 16px var(--display);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
 .lgrp details summary{cursor:pointer;font-weight:600;padding:8px 0;color:var(--muted)}
 .lib .chips button.mine{border-color:var(--accent,#2f7de1)}
@@ -1049,6 +1049,7 @@ var NAVI={
   kariera:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H4.500a3 3 0 0 0 3 4M16 6h3.500a3 3 0 0 1-3 4M12 13v4M8.500 20h7M10 17h4"/></svg>',
   syn:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.500 20c.6-4 3.700-6 7.500-6s6.900 2 7.500 6"/></svg>',
   knihovna:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4.500h9.500a3 3 0 0 1 3 3V20H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h9.500"/></svg>',
+  rozpis:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>',
   vice:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5.500" cy="12" r="1.700"/><circle cx="12" cy="12" r="1.700"/><circle cx="18.500" cy="12" r="1.700"/></svg>'
 };
 function sndOn(){return lsGet('trenink-snd')!=='0'}
@@ -1070,9 +1071,9 @@ function applyTheme(){
 function enterAnim(){var m=$('main');if(!m)return;m.classList.remove('enter');void m.offsetWidth;m.classList.add('enter');clearTimeout(enterAnim.t);enterAnim.t=setTimeout(function(){m.classList.remove('enter')},900)}
 function renderBnav(){
   var el=$('bnav');if(!el)return;if(!curTeam){el.innerHTML='';return}
-  normTab();var items=[['tyden','Týden'],['odmeny','Odměny'],['syn','Karta'],['knihovna','Knihovna']],ids=items.map(function(t){return t[0]});
-  el.innerHTML=items.map(function(t){return '<button type="button" data-act="tab" data-t="'+t[0]+'"'+(view.tab===t[0]?' aria-current="page"':'')+'>'+NAVI[t[0]]+'<span>'+t[1]+'</span></button>'}).join('')+
-    '<button type="button" data-act="more"'+(ids.indexOf(view.tab)<0?' aria-current="page"':'')+'>'+NAVI.vice+'<span>Více</span></button>';
+  normTab();var items=[['tyden','Týden'],['rozpis','Rozpis'],['odmeny','Odměny'],['syn','Karta']],isR=view.tab==='tyden'&&view.wm==='r',cur=isR?'rozpis':view.tab;
+  el.innerHTML=items.map(function(t){return '<button type="button" data-act="tab" data-t="'+t[0]+'"'+(cur===t[0]?' aria-current="page"':'')+'>'+NAVI[t[0]]+'<span>'+t[1]+'</span></button>'}).join('')+
+    '<button type="button" data-act="more"'+(items.some(function(t){return t[0]===cur})?'':' aria-current="page"')+'>'+NAVI.vice+'<span>Více</span></button>';
 }
 function renderRing(){
   var el=$('hring');if(!el)return;if(!curTeam){el.innerHTML='';return}
@@ -1204,7 +1205,7 @@ function liveHtml(e){
 function moreHtml(){
   var th=lsGet('trenink-theme')||'auto',ios=/iphone|ipad|ipod/i.test(navigator.userAgent),sa=(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone;
   var h='<div class="more"><h3 id="mtitle">Více</h3><h4>Další sekce</h4><div class="grid">'+
-    [['rozpis','Rozpis'],['zdravi','Zdraví a růst']].map(function(t){return '<button type="button" class="btn" data-act="moretab" data-t="'+t[0]+'">'+esc(t[1])+'</button>'}).join('')+'</div>';
+    [['knihovna','Knihovna cvičení'],['zdravi','Zdraví a růst']].map(function(t){return '<button type="button" class="btn" data-act="moretab" data-t="'+t[0]+'">'+esc(t[1])+'</button>'}).join('')+'</div>';
   h+='<h4>Karta hráče</h4><button type="button" class="btn" data-act="sharecard">Vytvořit obrázek ke sdílení</button>';
   h+='<h4>Vzhled</h4><div class="grid" style="grid-template-columns:repeat(3,1fr)">'+[['auto','Podle telefonu'],['light','Světlý'],['dark','Tmavý']].map(function(t){return '<button type="button" class="btn" data-act="theme" data-v="'+t[0]+'" aria-pressed="'+(th===t[0])+'">'+t[1]+'</button>'}).join('')+'</div>';
   h+='<h4>Zvuk a vibrace</h4><button type="button" class="btn" data-act="snd" aria-pressed="'+sndOn()+'">'+(sndOn()?'Zapnuto':'Vypnuto')+'</button>';
@@ -1358,7 +1359,7 @@ function knihovnaHtml(){
   var h='<section class="panel"><div class="sect"><div class="sect-h"><h2>Cvičení</h2><div class="acts"><button class="btn" data-act="newcat">'+IC.plus+'Nové zaměření</button><button class="btn primary" data-act="newlib">'+IC.plus+'Nové cvičení</button></div></div>';
   var cats=FOCUS.concat(CAT.prot?['prot']:[]);
   cats.forEach(function(c){
-    var open=((view.lb||{})['cat:'+c]!==false),list=LIB.map(function(l,i){return {l:l,i:i}}).filter(function(p){return p.l.c===c});
+    var open=((view.lb||{})['cat:'+c]===true),list=LIB.map(function(l,i){return {l:l,i:i}}).filter(function(p){return p.l.c===c});
     h+='<div class="lgrp"><div class="lgh"><button type="button" class="lgt" data-act="cgtoggle" data-k="cat:'+c+'" aria-expanded="'+open+'"><span class="arr">'+(open?'▾':'▸')+'</span><i class="dot" style="background:'+CAT[c].c+'"></i><b>'+esc(CAT[c].n)+'</b> <small>'+list.length+' cvičení</small></button>'+
       kdots('cat:'+c,[['editcat','Upravit',c]].concat(c==='sila'?[]:[['delcat','Smazat',c,'dng']]))+'</div>';
     if(open){
@@ -1377,14 +1378,13 @@ function knihovnaHtml(){
   var cg=Object.keys(CUSTOM_GEAR).map(function(k){return {k:k,n:CUSTOM_GEAR[k].n,c:CUSTOM_GEAR[k].created||0}}).sort(function(a,b){return a.c-b.c});
   var gl=GEAR_DEF.filter(function(g){return !GEAR_HID[bkey(g)]}).map(function(g){return {n:gnorm(g),k:'b:'+bkey(g),del:['hidegear',bkey(g)]}}).concat(cg.map(function(g){return {n:gnorm(g.n),k:'c:'+g.k,del:['delgear',g.k]}}));
   var gopen=(view.lb||{}).gear===true;
-  h+='</div></section><section class="panel"><div class="sect"><div class="sect-h"><button type="button" class="lgt" data-act="cgtoggle" data-k="gear" data-def="0" aria-expanded="'+gopen+'"><span class="arr">'+(gopen?'▾':'▸')+'</span><b>Pomůcky</b> <small>'+gl.length+'</small></button><button class="btn primary" data-act="newgear">'+IC.plus+'Přidat pomůcku</button></div>';
+  h+='</div></section><section class="panel knpom"><div class="sect"><div class="sect-h"><button type="button" class="lgt" data-act="cgtoggle" data-k="gear" data-def="0" aria-expanded="'+gopen+'"><span class="arr">'+(gopen?'▾':'▸')+'</span><b>Pomůcky</b> <small>'+gl.length+'</small></button><button class="btn primary" data-act="newgear">'+IC.plus+'Přidat pomůcku</button></div>';
   if(gopen){
     h+='<p class="hint">Pomůcky vybereš u každého cvičení. Nahoře u tréninku se pak ukáže soupis věcí, které vzít s sebou. Přejmenování se projeví u všech cvičení.</p><div class="lrows" style="margin-top:6px">'+
       gl.map(function(g){return '<div class="lrow"><div><b>'+esc(g.n)+'</b></div>'+kdots('gr:'+g.k,[['rengear','Přejmenovat',g.n],[g.del[0],'Smazat',g.del[1],'dng']])+'</div>'}).join('')+'</div>'+
       (Object.keys(GEAR_HID).length?'<p class="hint"><button class="btn small" data-act="restoregear">Obnovit smazané pomůcky ('+Object.keys(GEAR_HID).length+')</button></p>':'');
   }
   var nh=Object.keys(HIDDEN).length;
-  if(nh)h+='<p class="hint"><button class="btn small" data-act="restorebase">Obnovit smazaná základní cvičení ('+nh+')</button></p>';
   return h+'</div></section>';
 }
 function normTab(){
@@ -1411,8 +1411,8 @@ function renderMain(){
   }
   if(!curTeam){el.innerHTML=noTeamHtml();return}
   if(view.tab==='tyden'){
-    var wm=view.wm||'d',sn=subnav('rz',wm,[['d','Dnes'],['t','Plán týdne'],['r','Rozpis']].concat(ROLE.coach?[['k','Kroužky']]:[]));
-    if(wm==='r')el.innerHTML=sn+rozpisHtml();
+    var wm=view.wm||'d',sn=subnav('rz',wm,[['d','Dnes'],['t','Plán týdne']]);
+    if(wm==='r')el.innerHTML=rozpisHtml()+krPanel();
     else if(wm==='k')el.innerHTML=sn+krPanel();
     else if(wm==='d')el.innerHTML=sn+dnesHtml();
     else{el.innerHTML=sn+lastWeekHtml()+weekNav()+'<div class="strip" id="strip" role="tablist" aria-label="Dny v týdnu"></div><section class="panel" id="panel"></section>';
@@ -3174,7 +3174,7 @@ document.addEventListener('click',function(e){
     case 'pp':view.pp=b.getAttribute('data-v')||'m';renderMain();break;
     case 'rz':view.wm=b.getAttribute('data-v')||'d';enterAnim();renderMain();window.scrollTo(0,0);break;
     case 'sub':view.sub=b.getAttribute('data-v');enterAnim();renderMain();window.scrollTo(0,0);break;
-    case 'tab':view.tab=b.getAttribute('data-t');if(view.tab==='tyden')view.wm='d';if(view.tab==='syn')view.sub='stat';enterAnim();renderAll();window.scrollTo(0,0);break;
+    case 'tab':view.tab=b.getAttribute('data-t');if(view.tab==='tyden')view.wm='d';if(view.tab==='rozpis'){view.tab='tyden';view.wm='r'}if(view.tab==='syn')view.sub='stat';enterAnim();renderAll();window.scrollTo(0,0);break;
     case 'more':openModal(moreHtml());break;
     case 'phase':view.phase=+b.getAttribute('data-p')||1;renderAll();break;
     case 'addphase':var mxp=view.phase||1;dayOf(view.sel).items.forEach(function(x){mxp=Math.max(mxp,x.ph||1)});view.phase=Math.min(3,mxp+1);renderAll();break;
@@ -3262,7 +3262,7 @@ document.addEventListener('click',function(e){
     case 'hidegear':var hg=GEAR_DEF.filter(function(g){return bkey(g)===rid})[0];if(hg){GEAR_HID[rid]={n:hg,created:Date.now()};W('gearhide/'+rid,GEAR_HID[rid]);renderAll();toast('Pomůcka odebrána ze seznamu')}break;
     case 'restoregear':Object.keys(GEAR_HID).forEach(function(k){Wdel('gearhide/'+k)});GEAR_HID={};renderAll();toast('Pomůcky obnoveny');break;
     case 'delgear':var gk=b.getAttribute('data-id');if(CUSTOM_GEAR[gk]){delete CUSTOM_GEAR[gk];Wdel('gear/'+gk);renderAll();toast('Pomůcka odebrána ze seznamu')}break;
-    case 'cgtoggle':var gk2=b.getAttribute('data-k');view.lb=view.lb||{};view.lb[gk2]=(gk2==='gear'||gk2==='fam'||gk2.indexOf('pl:')===0)?!(view.lb[gk2]===true):((view.lb[gk2]===undefined)?false:!view.lb[gk2]);renderMain();break;
+    case 'cgtoggle':var gk2=b.getAttribute('data-k');view.lb=view.lb||{};view.lb[gk2]=(gk2==='gear'||gk2==='fam'||gk2.indexOf('pl:')===0||gk2.indexOf('cat:')===0)?!(view.lb[gk2]===true):((view.lb[gk2]===undefined)?false:!view.lb[gk2]);renderMain();break;
     case 'kmenu':var kk2=b.getAttribute('data-k');view.km=(view.km===kk2)?null:kk2;renderMain();break;
     case 'editbase':var eb=LIB[+rid];if(eb)openExForm({name:eb.n,cat:eb.c,sets:eb.s,reps:eb.r,min:eb.m,rest:eb.p,desc:eb.d,video:eb.video||'',imgs:(eb.imgs||[]).slice(),gear:(eb.gear||[]).slice(),note:''},{id:null,replace:bkey(eb.n)});break;
     case 'restorecats':Object.keys(CAT_OV).forEach(function(k){if(CAT_OV[k].hidden){var o3=clone(CAT_OV[k]);delete o3.hidden;CAT_OV[k]=o3;W('catov/'+k,o3)}});applyCats();rebuildLib();renderAll();toast('Zaměření obnovena');break;
