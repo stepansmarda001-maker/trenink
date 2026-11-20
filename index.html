@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#141414">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Trénink">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Shokee">
 <link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" type="image/png" href="icon-192.png">
-<title>Tréninkový plán</title>
+<title>Shokee</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -556,7 +556,7 @@ table.tbl{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;
 <header class="band">
   <div class="wrap">
     <div class="title">
-      <h1>Tréninkový plán</h1>
+      <h1>Shokee</h1>
       <div class="range" id="range"></div>
     </div>
     <div class="hright"><span class="save" id="save" aria-live="polite"></span><div class="hring" id="hring"></div>
@@ -1231,7 +1231,7 @@ function moreHtml(){
     if(DEFERRED)h+='<button type="button" class="btn" data-act="install">Nainstalovat jako aplikaci</button>';
     else h+='<p class="hint">'+(ios?'Na iPhonu: klepni na Sdílet a pak na Přidat na plochu.':'V nabídce prohlížeče zvol Přidat na plochu nebo Nainstalovat aplikaci.')+'</p>';
   }
-  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
+  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.</p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
   return h;
 }
 function download(name,blob){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1500)}
@@ -1255,7 +1255,7 @@ function shareCard(){
   for(var i=0;i<9;i++){g.fillStyle=i%2?'#1f1f1f':'#141414';g.fillRect(i*128,0,128,H0)}
   g.fillStyle='rgba(0,0,0,.18)';g.fillRect(0,0,W0,H0);
   g.fillStyle='#f2f6fc';rr(60,60,W0-120,H0-120,48);g.fill();
-  g.fillStyle='#141414';g.font='700 44px '+FD;g.textBaseline='alphabetic';g.fillText('TRÉNINKOVÝ PLÁN',110,150);
+  g.fillStyle='#141414';g.font='700 44px '+FD;g.textBaseline='alphabetic';g.fillText('SHOKEE',110,150);var wS=g.measureText('SHOKEE').width;g.fillStyle='#5f5f5a';g.font='600 26px '+FD;g.fillText('SHOW UP. KEEP GOING.',110+wS+22,150);
   g.fillStyle='#0f1f38';g.font='700 120px '+FD;var nm=(son?son.name:'Hráč').toUpperCase();
   var fs=120;var lim=(son&&son.photo)?W0-430:W0-220;while(g.measureText(nm).width>lim&&fs>44){fs-=6;g.font='700 '+fs+'px '+FD}
   g.fillText(nm,110,290);

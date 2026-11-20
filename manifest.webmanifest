@@ -1,7 +1,7 @@
 {
-  "name": "Tréninkový plán",
-  "short_name": "Trénink",
-  "description": "Fotbalový tréninkový plán s odměnami, rekordy a kariérou hráče.",
+  "name": "Shokee",
+  "short_name": "Shokee",
+  "description": "Shokee: Show up. Keep going. Fotbalový tréninkový plán s odměnami, rekordy a kariérou hráče.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
