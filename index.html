@@ -2296,7 +2296,7 @@ function odmenyHtml(){
   FAM.forEach(function(f){var nn=fCnt(f,f.m(S));for(var q=0;q<=nn;q++)wl.push(f.id+':'+q)});
   h+='<section class="panel"><div class="sect"><div class="sect-h"><h2>Odznaky <small>získáno '+got+'</small></h2></div><p class="hint">Splněné svítí a u každé řady vidíš jen svůj další cíl. Barva medaile ukazuje úroveň. Klepni na odznak a uvidíš, co pro něj udělat.</p>'+LG+'<div class="wall">'+wl.map(function(id){var b=badgeOf(id),on=S.badges.indexOf(id)>=0,pc=0,pt='';
     if(!on){var f9=FAM.filter(function(f){return f.id===b.fam})[0];if(f9){var v9=f9.m(S),t9=fTh(f9,b.i);if(t9>0&&v9>0){pc=Math.min(99,Math.max(4,Math.round(v9/t9*100)));pt=Math.min(v9,t9)+' / '+t9}}}
-    return '<span class="w'+(on?' on t-'+b.m:pc?' part':'')+'"'+(b.fam?' data-act="bpath" data-fam="'+b.fam+'" role="button"':'')+' tabindex="0"'+(WALLTIP?' data-tip="'+esc(b.n+' – '+b.d+(on?' (splněno)':pc?' (rozděláno: '+pt+', '+pc+' %)':''))+'"':'')+' aria-label="'+esc(b.n+(on?', splněno':pc?', rozděláno '+pc+' procent':', zamčeno')+': '+b.d)+'"><span class="wr" style="--p:'+(on?100:pc)+'">'+medalHtml(b,on)+'</span><span>'+esc(b.n)+'</span>'+(pc?'<small class="wpt">'+pc+' %</small>':'')+'</span>'}).join('')+'</div></div></section>';
+    return '<span class="w'+(on?' on t-'+b.m:pc?' part':'')+'"'+(b.fam&&!WALLTIP?' data-act="bpath" data-fam="'+b.fam+'" role="button"':'')+' tabindex="0"'+(WALLTIP?' data-tip="'+esc(b.n+' – '+b.d+(on?' (splněno)':pc?' (rozděláno: '+pt+', '+pc+' %)':''))+'"':'')+' aria-label="'+esc(b.n+(on?', splněno':pc?', rozděláno '+pc+' procent':', zamčeno')+': '+b.d)+'"><span class="wr" style="--p:'+(on?100:pc)+'">'+medalHtml(b,on)+'</span><span>'+esc(b.n)+'</span>'+(pc?'<small class="wpt">'+pc+' %</small>':'')+'</span>'}).join('')+'</div></div></section>';
   h+='<section class="panel kid"><div class="sect"><div class="sect-h"><h2>Jak sbírám XP</h2></div>'+
     '<p class="kidlead">XP jsou body za tvoji snahu. Nezáleží na tom, jestli tým vyhraje. Počítá se, kolik jsi toho odtrénoval ty.</p>'+
     '<div class="xpg">'+[
@@ -3175,7 +3175,7 @@ function doConfirm(what,id){
   }
 }
 document.addEventListener('click',function(e){
-  var ct=$('ctip');if(ct)ct.hidden=true;
+  var ct=$('ctip');if(ct&&!(e.target.closest&&e.target.closest('[data-tip]')))ct.hidden=true;
   var b=e.target.closest('[data-act]');if(!b){if(view.km&&!e.target.closest('.kmenu')){view.km=null;renderMain()}return}
   var a=b.getAttribute('data-act'),id=itemFromEl(b),rid=b.getAttribute('data-id'),d;
   var coachOnly=['addev','editev','nomev','attev','resev','delev','newteam','editteam','newplayer','bulk','editplayer','demo','archteam','delplayer','doconfirm','addgame','rmgame','gen','undo','swap','lib','toggle','edit','del','up','down','rest','copy','phist','phrestore','runall','runone','add','planhide','filter','detail','zoom','rmimg','rtoggle','rreset','rdone','rskip','pip'];
