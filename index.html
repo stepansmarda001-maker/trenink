@@ -95,7 +95,7 @@ h1,h2,h3,p{margin:0;text-wrap:balance}
 .plist button{display:flex;align-items:center;gap:12px;width:100%;min-height:46px;padding:0 14px;background:none;border:0;text-align:left;font-size:15.5px;font-weight:600}
 .plist button i{width:10px;height:10px;border-radius:50%;flex:0 0 auto}
 .dsum li.dsdone b{display:flex;align-items:center;gap:6px}.dsum li.dsdone b:before{content:"✓";color:var(--ok);font-weight:800}
-.itcard{border:1.5px solid var(--line);border-left:6px solid #0f766e;border-radius:10px;background:var(--bg);flex:0 0 auto}.evs>*{flex-shrink:0}.itcard .plan-h{border-bottom:0;padding:12px 14px}.itcard .plan-h .acts{flex-wrap:wrap}.itcard .plan-h .acts .btn{padding:0 10px;font-size:13.5px}.itcard .phases{padding:0 14px 10px}.itcard .filters,.itcard .prog,.itcard .empty{margin-left:14px;margin-right:14px}.itcard .lib{padding:0 14px 12px}.itcard .lib h3{margin-top:4px}.evt.evrow{flex-direction:row;align-items:center;gap:12px;padding:12px 14px}.evmain{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}.evt .chk.on{background:var(--ok);border-color:var(--ok);color:#fff}.itcard .plan-h .evt-top{margin-bottom:2px}.itcard .plan-h .sub{margin-top:4px}
+.itcard{border:1.5px solid var(--line);border-left:6px solid #0f766e;border-radius:10px;background:var(--bg);flex:0 0 auto}.evs>*{flex-shrink:0}.itcard .plan-h{border-bottom:0;padding:12px 14px}.itcard .plan-h .acts{flex-wrap:wrap}.itcard .plan-h .acts .btn{padding:0 10px;font-size:13.5px}.itcard .phases{padding:0 14px 10px}.itcard .filters,.itcard .prog,.itcard .empty{margin-left:14px;margin-right:14px}.itcard .lib{padding:0 14px 12px}.itcard .lib h3{margin-top:4px}.evt.evrow{flex-direction:row;align-items:center;gap:12px;padding:12px 14px}.evmain{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}.evt .chk.on{background:var(--ok);border-color:var(--ok);color:#fff}.itcard .plan-h{position:relative;padding-right:52px}.itcard .plan-h .kmw{position:absolute;top:6px;right:6px}.itcard .plan-h .evt-top{margin-bottom:2px}.itcard .plan-h .sub{margin-top:4px}
 .pmore{display:block;width:100%;text-align:left;background:none;border:0;padding:6px 0;margin:2px 0 0;font-size:14px;color:var(--muted)}
 .ph h2{font:700 30px/1 var(--display);text-transform:uppercase;letter-spacing:.01em}
 .ph .sub{color:var(--muted);font-size:14px;margin-top:4px;font-variant-numeric:tabular-nums}
@@ -179,8 +179,8 @@ h1,h2,h3,p{margin:0;text-wrap:balance}
 .itbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#fff6cc;border:1.5px solid #e6d27a;color:#4a3a00;border-radius:10px;padding:8px 12px;margin:10px 0}.itbar>span:nth-child(2){flex:1;min-width:180px}.itbar .btn,.sickbar .btn{color:var(--ink)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .itbar{background:#1c1a10;border-color:#4a4220;color:#ffe9a0}:root:not([data-theme="light"]) .gchip{background:var(--surface);border-color:#4a4220;color:var(--ink)}:root:not([data-theme="light"]) .sickbar{background:#3a2a12;border-color:#7a5a24;color:#ffd9a0}}
 :root[data-theme="dark"] .itbar{background:#1c1a10;border-color:#4a4220;color:#ffe9a0}:root[data-theme="dark"] .gchip{background:var(--surface);border-color:#4a4220;color:var(--ink)}:root[data-theme="dark"] .sickbar{background:#3a2a12;border-color:#7a5a24;color:#ffd9a0}
-.xppop{position:fixed;left:50%;bottom:30%;transform:translateX(-50%);z-index:60;pointer-events:none;text-align:center;width:0;height:0}
-.xppop b{position:absolute;left:0;top:0;transform:translate(-50%,-50%);white-space:nowrap;font:800 52px/1 var(--display);color:#ffd27a;-webkit-text-stroke:1.5px #9a6a00;text-shadow:0 3px 0 #9a6a00,0 8px 22px rgba(0,0,0,.5);animation:xpup 1.5s ease-out forwards}
+.xppop{position:fixed;left:50%;bottom:38%;transform:translateX(-50%);z-index:60;pointer-events:none;text-align:center;width:0;height:0}
+.xppop b{position:absolute;left:0;top:0;transform:translate(-50%,-50%);white-space:nowrap;font:800 52px/1 var(--display);color:#ffd27a;-webkit-text-stroke:1.5px #9a6a00;text-shadow:0 3px 0 #9a6a00,0 8px 22px rgba(0,0,0,.5);animation:xpup 2.4s ease-out forwards}
 .xppop i{position:absolute;left:0;top:0;font-style:normal;color:#ffd27a;opacity:0;animation:xpspark 1.1s ease-out forwards;text-shadow:0 0 8px rgba(255,210,122,.8)}
 @keyframes xpup{0%{transform:translate(-50%,-50%) scale(.3);opacity:0}15%{transform:translate(-50%,-50%) scale(1.3);opacity:1}30%{transform:translate(-50%,-50%) scale(1)}70%{opacity:1}100%{transform:translate(-50%,-180%) scale(1);opacity:0}}
 @keyframes xpspark{0%{transform:translate(-50%,-50%) scale(.3);opacity:1}100%{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(1.1);opacity:0}}
@@ -1242,7 +1242,7 @@ function moreHtml(){
     if(DEFERRED)h+='<button type="button" class="btn" data-act="install">Nainstalovat jako aplikaci</button>';
     else h+='<p class="hint">'+(ios?'Na iPhonu: klepni na Sdílet a pak na Přidat na plochu.':'V nabídce prohlížeče zvol Přidat na plochu nebo Nainstalovat aplikaci.')+'</p>';
   }
-  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 20. 11. · L</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
+  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 20. 11. · N</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
   return h;
 }
 function download(name,blob){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1500)}
@@ -2028,7 +2028,7 @@ function xpPop(n){
   var sp='';for(var i=0;i<14;i++){var a=(i/14)*Math.PI*2,r=70+Math.random()*50;sp+='<i style="--dx:'+Math.round(Math.cos(a)*r)+'px;--dy:'+Math.round(Math.sin(a)*r-20)+'px;animation-delay:'+(i%4)*40+'ms;font-size:'+(14+(i%3)*6)+'px">★</i>'}
   el.innerHTML=sp+'<b>+'+n+' XP</b>';
   document.body.appendChild(el);
-  setTimeout(function(){if(el.parentNode)el.remove()},1700);
+  setTimeout(function(){if(el.parentNode)el.remove()},2600);
 }
 function reward(pre,title){
   var post=rwSnap(),dxp=post.xp-pre.xp;
@@ -2045,7 +2045,7 @@ function reward(pre,title){
   if(up)h+='<p class="lvup">Úroveň '+post.level+': <b>'+esc(lvName(post.level))+'</b></p>';
   if(nb.length)h+='<div class="newb">'+nb.map(function(b){return '<div class="nb">'+medalHtml(b,true)+'<div><b>'+esc(b.n)+'</b><small>'+esc(b.d)+'</small></div></div>'}).join('')+'</div>';
   h+='<div class="dact"><button type="button" class="btn primary" id="cele-ok" data-act="closemodal">Super, jedeme dál</button></div></div>';
-  fanfare();openModal(h,'cele-ok');
+  if(dxp>0){xpPop(dxp);setTimeout(function(){fanfare();openModal(h,'cele-ok')},1100)}else{fanfare();openModal(h,'cele-ok')}
 }
 /* nemoc a zranění */
 var ILLT={nemoc:'Nemoc',zraneni:'Zranění'};
