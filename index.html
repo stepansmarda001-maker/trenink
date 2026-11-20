@@ -1234,7 +1234,7 @@ function moreHtml(){
     if(DEFERRED)h+='<button type="button" class="btn" data-act="install">Nainstalovat jako aplikaci</button>';
     else h+='<p class="hint">'+(ios?'Na iPhonu: klepni na Sdílet a pak na Přidat na plochu.':'V nabídce prohlížeče zvol Přidat na plochu nebo Nainstalovat aplikaci.')+'</p>';
   }
-  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 20. 11. · D</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
+  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 20. 11. · E</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
   return h;
 }
 function download(name,blob){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1500)}
@@ -1368,6 +1368,7 @@ function lbDet(k,def,title,inner){
   var st=(view.lb||{})[k],open=st===undefined?def:st;
   return '<details class="lbd" data-lbd="'+k+'"'+(open?' open':'')+'><summary>'+title+'</summary>'+inner+'</details>';
 }
+var MIC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>';
 var DOTS='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>';
 function kdots(k,items){
   var open=view.km===k;
@@ -1786,7 +1787,7 @@ function rozpisHtml(){
     if(e.time){var q=String(e.time).split(':');if(+q[0]*60+(+q[1]||0)+(+e.dur||0)<nowM)return true}
     return false};
   var up=all.filter(function(e){return !isPast(e)}),past=all.filter(isPast).reverse().slice(0,15);
-  var h='<section class="panel rozp"><div class="sect"><div class="sect-h"><h2>Rozpis</h2>'+kdots('rozpis',[['rfk',(f==='all'?'✓ ':'')+'Zobrazit vše','all'],['rfk',(f==='zapas'?'✓ ':'')+'Jen zápasy','zapas'],['rfk',(f==='turnaj'?'✓ ':'')+'Jen turnaje','turnaj']].concat(ROLE.coach?[['addevk','Přidat klubový trénink','trenink'],['addevk','Přidat zápas','zapas'],['addevk','Přidat turnaj','turnaj']]:[]))+'</div>'+(f!=='all'?'<p class="hint" style="margin:-4px 0 8px">Zobrazeno: '+(f==='zapas'?'jen zápasy':'jen turnaje')+'. Vše zobrazíš přes ⋮.</p>':'');
+  var h='<section class="panel rozp"><div class="sect"><div class="sect-h"><h2>Rozpis</h2><span style="display:flex;align-items:center;gap:2px">'+(ROLE.coach?'<button type="button" class="ib" data-act="dict" aria-label="Nadiktovat zápas">'+MIC+'</button>':'')+kdots('rozpis',[['rfk',(f==='all'?'✓ ':'')+'Zobrazit vše','all'],['rfk',(f==='zapas'?'✓ ':'')+'Jen zápasy','zapas'],['rfk',(f==='turnaj'?'✓ ':'')+'Jen turnaje','turnaj']].concat(ROLE.coach?[['dictk','Nadiktovat zápas','zapas'],['addevk','Přidat klubový trénink','trenink'],['addevk','Přidat zápas','zapas'],['addevk','Přidat turnaj','turnaj']]:[]))+'</span></div>'+(f!=='all'?'<p class="hint" style="margin:-4px 0 8px">Zobrazeno: '+(f==='zapas'?'jen zápasy':'jen turnaje')+'. Vše zobrazíš přes ⋮.</p>':'');
   function group(list){
     var out='',last='';
     list.forEach(function(e){
@@ -2786,6 +2787,7 @@ function gamesRows(){
 function openEventForm(o){
   var e=o.id?D.events[o.id]:null,t=e?e.type:(o.type||'trenink'),T=EVT[t];
   var x=e?clone(e):{type:t,date:o.date||view.sel,time:T.time,dur:(t==='zapas'?'':T.dur),place:'',opp:'',title:'',where:'home',note:'',games:[],nomMax:teamSize()};
+  if(o.prefill)for(var pk in o.prefill)x[pk]=o.prefill[pk];
   evForm={id:e?o.id:null,games:(x.games||[]).map(function(g){return {t:g.t||'',opp:g.opp||'',a:g.a,b:g.b,min:g.min,g:g.g,as:g.as,pm:g.pm}})};
   openModal('<h3 id="mtitle" tabindex="-1">'+(e?'Upravit událost':'Nová událost')+'</h3><form id="evform" class="ef" data-t="'+t+'" novalidate>'+
     '<div class="fld"><label for="ef-type">Druh</label><select id="ef-type">'+Object.keys(EVT).map(function(k){return '<option value="'+k+'"'+(t===k?' selected':'')+'>'+EVT[k].n+'</option>'}).join('')+'</select></div>'+
@@ -2807,6 +2809,134 @@ function syncEventForm(){
   var f=$('evform');if(!f)return;
   var t=$('ef-type').value;f.setAttribute('data-t',t);
 }
+/* ================= diktování zápasu (bez AI, jen pravidla pro češtinu) ================= */
+var NUMW={nula:0,jedna:1,jeden:1,jedno:1,dva:2,dve:2,tri:3,ctyri:4,pet:5,sest:6,sedm:7,osm:8,devet:9,deset:10,jedenact:11,dvanact:12,trinact:13,ctrnact:14,patnact:15,sestnact:16,sedmnact:17,osmnact:18,devatenact:19,dvacet:20,tricet:30,ctyricet:40,padesat:50,sedesat:60};
+function dnorm(s){return String(s).normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase()}
+function dictPrep(txt){
+  var t=String(txt||'').normalize('NFC').replace(/[\r\n]+/g,'; ').replace(/\s+/g,' ').trim();
+  t=t.replace(/[A-Za-zÀ-ſ]+/g,function(w){var k=dnorm(w);return NUMW.hasOwnProperty(k)?String(NUMW[k]):w});
+  return t.replace(/\b([2-6]0)\s+([1-9])\b/g,function(m,a,b){return String(+a+ +b)});
+}
+function dictUndecl(s,prep){
+  if(prep==='proti')return s.replace(/ii$/,'ia').replace(/([tdn])ě$/,'$1a').replace(/ovce$/,'ovka').replace(/(ic)ím$/,'$1e');
+  if(prep==='s')return s.replace(/(ic)emi$/,'$1e').replace(/ou$/,'a').replace(/ií$/,'ia').replace(/í$/,'ia');
+  return s;
+}
+var DSTOP=/(?:^|\s)\d|[,;:]|\.(?!\d)|\b(?:minut\w*|min|vyhral\w*|prohral\w*|remiz\w*|hral\w*|odehral\w*|dal|dali|mel|meli|skore|vysledek|vysledkem|na hristi|byl|byla|doma|venku|gol\w*|asist\w*|cely|celou|trval\w*|bez|kazdy|po)\b/;
+function dictSeg(t,guessOpp){
+  var n=dnorm(t),r={opp:'',dur:null,pm:null,a:null,b:null,g:null,as:null,where:''},m,from=-1,prep='';
+  m=/(?:^|\s)(proti|vs\.?|versus)\s+(?=[a-z])/.exec(n);
+  if(m){from=m.index+m[0].length;prep='proti'}
+  else{m=/(?:^|\s)(?:se|s|ze)\s+(?=[a-z])/.exec(n);if(m){from=m.index+m[0].length;prep='s'}
+    else if(guessOpp){var lead=/^[\s;,.]*(?:zapas\s+)?/.exec(n)[0].length;if(/[a-z]/.test(n.charAt(lead)))from=lead}}
+  if(from>=0){var rest=n.slice(from),st=rest.search(DSTOP),len=st<0?rest.length:st;
+    var words=t.slice(from,from+len).trim().split(/\s+/).filter(Boolean).slice(0,3);
+    if(words.length){words[words.length-1]=dictUndecl(words[words.length-1],prep);r.opp=words.join(' ')}}
+  // minuty
+  var re=/(\d+)\s*(?:minut\w*|min\b)/g,x,pmRe=/(?:hral\w*|odehral\w*|hristi|byl\w*)(?:\s+jsem)?(?:\s+na\s+hristi)?\s*(?:cca\s*)?$/;
+  while((x=re.exec(n))){var ctx=n.slice(Math.max(0,x.index-34),x.index);
+    if(pmRe.test(ctx)){if(r.pm===null)r.pm=+x[1]}else if(r.dur===null)r.dur=+x[1]}
+  if(r.dur===null&&(m=/trval\w*\s+(\d+)/.exec(n)))r.dur=+m[1];
+  if(r.pm===null&&(m=/(?:hral\w*|odehral\w*)(?:\s+jsem)?\s+(\d+)(?!\s*[:.]\s*\d)(?!\s*(?:gol|asist))/.exec(n)))r.pm=+m[1];
+  if(r.pm===null&&(m=/(\d+)\s*z\s*(\d+)/.exec(n))){r.pm=+m[1];if(r.dur===null)r.dur=+m[2]}
+  if(/cely zapas|celou dobu|cely cas|(?:hral|odehral)\w*(?:\s+jsem)?\s+(?:cely|vse|vsechno)/.test(n))r.pm=null;
+  // góly a asistence
+  if((m=/(\d+)\s*gol\w*/.exec(n))||(m=/gol\w*\s*:?\s*(\d+)/.exec(n)))r.g=+m[1];
+  else if(/\b(?:dal|vstrelil|nastrelil|skoroval)\w*(?:\s+jsem)?\s+(?:jeden\s+|1\s+)?gol/.test(n))r.g=1;
+  else if(/\b(?:bez\s+gol|nedal|neskoroval)/.test(n))r.g=0;
+  if((m=/(\d+)\s*asist\w*/.exec(n))||(m=/asist\w*\s*:?\s*(\d+)/.exec(n))||(m=/asistoval\w*(?:\s+jsem)?(?:\s+na)?\s+(\d+)/.exec(n)))r.as=+m[1];
+  else if(/\b(?:bez\s+asist|neasistoval)/.test(n))r.as=0;
+  else if(/asistenc\w*|asistoval\w*|pripravil\w*/.test(n))r.as=1;
+  // skóre
+  var sm=/(?:vysledek|vysledkem|skore|skorem|dopadlo|vyhral\w*|prohral\w*|remiz\w*)[^0-9]{0,30}(\d+)\s*(?::|-|ku|na)?\s*(\d+)/.exec(n);
+  if(!sm){var s2=/(\d+)\s*(?::|ku)\s*(\d+)/.exec(n);if(s2&&!/(?:\bv|\bve|\bod|\bdo)\s*$/.test(n.slice(Math.max(0,s2.index-4),s2.index)))sm=s2}
+  if(sm){r.a=+sm[1];r.b=+sm[2];if(/vyhral/.test(n)&&r.a<r.b){var tmp=r.a;r.a=r.b;r.b=tmp}else if(/prohral/.test(n)&&r.a>r.b){var tm2=r.a;r.a=r.b;r.b=tm2}}
+  if(/\bdoma\b/.test(n))r.where='home';else if(/\bvenku\b/.test(n))r.where='away';else if(/neutral/.test(n))r.where='neutral';
+  return r;
+}
+function dictDate(n){
+  var d=new Date(),m;d.setHours(12,0,0,0);
+  var WD={nedeli:0,pondeli:1,utery:2,stredu:3,ctvrtek:4,patek:5,sobotu:6},MN={ledna:1,unora:2,brezna:3,dubna:4,kvetna:5,cervna:6,cervence:7,srpna:8,zari:9,rijna:10,listopadu:11,prosince:12};
+  if(/\bvcera\b/.test(n))d.setDate(d.getDate()-1);
+  else if(/\bpredevcirem\b/.test(n))d.setDate(d.getDate()-2);
+  else if((m=/\b(?:v|ve|o)\s+(pondeli|utery|stredu|ctvrtek|patek|sobotu|nedeli)\b/.exec(n)))d.setDate(d.getDate()-((d.getDay()-WD[m[1]]+7)%7));
+  else if((m=/\b(\d{1,2})\.?\s*(ledna|unora|brezna|dubna|kvetna|cervna|cervence|srpna|zari|rijna|listopadu|prosince)\b/.exec(n))){d=new Date(d.getFullYear(),MN[m[2]]-1,+m[1],12);if(d>new Date(Date.now()+7*864e5))d.setFullYear(d.getFullYear()-1)}
+  else if((m=/\b(\d{1,2})\s*\.\s*(\d{1,2})\s*\.?(?:\s*(\d{4}))?/.exec(n))&&+m[1]>=1&&+m[1]<=31&&+m[2]>=1&&+m[2]<=12){d=new Date(m[3]?+m[3]:d.getFullYear(),+m[2]-1,+m[1],12);if(!m[3]&&d>new Date(Date.now()+7*864e5))d.setFullYear(d.getFullYear()-1)}
+  return key(d);
+}
+function dictParse(txt){
+  var t=dictPrep(txt),n=dnorm(t),out={ok:false,type:/\bturnaj/.test(n)?'turnaj':'zapas',date:dictDate(n)};
+  if(!t)return out;
+  if(out.type==='zapas'){
+    var s=dictSeg(t,false);for(var k in s)out[k]=s[k];
+    out.ok=!!(s.opp||s.dur!==null||s.a!==null||s.g!==null||s.as!==null||s.pm!==null);
+    return out;
+  }
+  var tm=/turnaj\w*\s*/.exec(n),title='',body=t,bn=n;
+  if(tm){var st0=tm.index+tm[0].length,rest=n.slice(st0),st=rest.search(/(?:^|\s)\d|[,;:]|\.(?!\d)|\b(?:prvni|druhy|treti|ctvrty|paty|sesty|sedmy|osmy|dalsi|potom|pak|zapas\w*|hrali|doma|venku|kazdy|po)\b/);
+    title=t.slice(st0,st0+(st<0?rest.length:st)).trim();body=t.slice(st0+title.length);bn=n.slice(st0+title.length)}
+  out.title=title;
+  var defMin=null,dm=/(?:kazdy|po|vsechny)\s+(?:zapas\s+)?(?:po\s+)?(\d+)\s*min/.exec(bn);if(dm)defMin=+dm[1];
+  var cuts=[],bre=/(?:^|[\s,;.])(?:prvni|druhy|treti|ctvrty|paty|sesty|sedmy|osmy|devaty|desaty|dalsi|potom|pak|nasledne|posledni)\b(?:\s+zapas)?/g,bm;
+  while((bm=bre.exec(bn)))cuts.push({s:bm.index,e:bm.index+bm[0].length});
+  var segs=[];
+  if(cuts.length)cuts.forEach(function(c,i){segs.push(body.slice(c.e,i+1<cuts.length?cuts[i+1].s:body.length))});
+  else segs=body.split(';');
+  var games=[],lastMin=defMin;
+  segs.forEach(function(sg){var s=dictSeg(sg,true);
+    if(!(s.opp||s.a!==null||s.g!==null||s.dur!==null))return;
+    var mn=s.dur!==null?s.dur:(defMin!==null?defMin:lastMin);if(mn!==null)lastMin=mn;
+    games.push({t:'',opp:s.opp,a:s.a,b:s.b,min:mn,g:s.g,as:s.as,pm:s.pm});
+  });
+  out.games=games;out.ok=games.length>0;return out;
+}
+var dictGames=[];
+function openDictate(){
+  openModal('<h3 id="mtitle" tabindex="-1">Nadiktovat zápas</h3><form id="dictform" novalidate>'+
+    '<p class="hint">Klepni do pole a na klávesnici iPhonu stiskni mikrofon. Řekni třeba: „Zápas proti Spartě, 13 minut, hrál jsem 10 minut, vyhráli jsme 3:2, dal jsem 1 gól a 1 asistenci.“ U turnaje vyjmenuj zápasy: „Turnaj Starez, první Sparta 1:2, druhý Rdr 3:3, každý 13 minut.“</p>'+
+    '<div class="fld"><label for="dc-text">Co se stalo</label><textarea id="dc-text" rows="4" placeholder="Nadiktuj nebo napiš" autocomplete="off"></textarea></div>'+
+    '<button type="button" class="btn" data-act="dictparse">Rozpoznat</button><div id="dc-out"></div><div class="err" id="f-err" role="alert"></div>'+
+    '<div class="dact"><button type="button" class="btn" data-act="closemodal">Zrušit</button></div></form>','mtitle',true);
+}
+function dictRender(r){
+  var el=$('dc-out');if(!el)return;$('f-err').textContent='';
+  if(!r.ok){el.innerHTML='<p class="hint" style="margin-top:12px">Nic jsem nerozpoznal. Zkus třeba: „Zápas proti Spartě, 13 minut, vyhráli jsme 3:2.“</p>';return}
+  var v=function(x){return x===null||x===undefined?'':String(x)},h='<h4 style="margin:16px 0 8px">Rozpoznáno: '+(r.type==='turnaj'?'turnaj':'zápas')+'</h4>';
+  if(r.type==='turnaj'){
+    dictGames=r.games;
+    h+='<div class="g2"><div class="fld"><label for="dc-date">Datum</label><input id="dc-date" type="date" value="'+esc(r.date)+'"></div><div class="fld"><label for="dc-title">Název</label><input id="dc-title" type="text" maxlength="60" value="'+esc(r.title)+'" autocomplete="off"></div></div>'+
+      '<ul class="games">'+r.games.map(function(g){
+        var ex=[];if(g.min!==null)ex.push('<span class="nw">'+(g.pm!==null?'hrál '+g.pm+' z '+g.min:g.min)+' min</span>');if(g.g!==null||g.as!==null)ex.push('<span class="nw">góly '+(g.g||0)+' · asist. '+(g.as||0)+'</span>');
+        return '<li><b></b><div class="gmain"><span class="gopp">'+esc(g.opp||'(soupeř?)')+'</span>'+(ex.length?'<small class="gx">'+ex.join(' · ')+'</small>':'')+'</div><span class="gsc">'+(g.a!==null&&g.b!==null?g.a+' : '+g.b:'')+'</span></li>'}).join('')+'</ul>'+
+      '<p class="hint">Další krok: doplníš začátek a konec turnaje a potvrdíš. Zápasy už budou vyplněné.</p><button type="button" class="btn primary" data-act="dictturnaj">Pokračovat ve formuláři</button>';
+  }else{
+    h+='<div class="g2"><div class="fld"><label for="dc-date">Datum</label><input id="dc-date" type="date" value="'+esc(r.date)+'"></div><div class="fld"><label for="dc-where">Kde se hraje</label><select id="dc-where"><option value="home"'+(r.where==='home'||!r.where?' selected':'')+'>Doma</option><option value="away"'+(r.where==='away'?' selected':'')+'>Venku</option><option value="neutral"'+(r.where==='neutral'?' selected':'')+'>Neutrální</option></select></div></div>'+
+      '<div class="fld"><label for="dc-opp">Soupeř</label><input id="dc-opp" type="text" maxlength="40" value="'+esc(r.opp)+'" autocomplete="off"></div>'+
+      '<div class="g2"><div class="fld"><label for="dc-dur">Délka zápasu (min)</label><input id="dc-dur" type="number" min="1" inputmode="numeric" value="'+v(r.dur)+'"></div><div class="fld"><label for="dc-pm">Já na hřišti (min)</label><input id="dc-pm" type="number" min="0" inputmode="numeric" value="'+v(r.pm)+'" placeholder="celý zápas"></div></div>'+
+      '<div class="g2"><div class="fld"><label for="dc-a">Naše góly</label><input id="dc-a" type="number" min="0" inputmode="numeric" value="'+v(r.a)+'"></div><div class="fld"><label for="dc-b">Góly soupeře</label><input id="dc-b" type="number" min="0" inputmode="numeric" value="'+v(r.b)+'"></div></div>'+
+      '<div class="g2"><div class="fld"><label for="dc-g">Mé góly</label><input id="dc-g" type="number" min="0" inputmode="numeric" value="'+v(r.g)+'"></div><div class="fld"><label for="dc-as">Mé asistence</label><input id="dc-as" type="number" min="0" inputmode="numeric" value="'+v(r.as)+'"></div></div>'+
+      '<p class="hint">Zkontroluj údaje, případně oprav, a ulož.</p><button type="button" class="btn primary" data-act="dictsave">Uložit zápas</button>';
+  }
+  el.innerHTML=h;
+}
+function dictSave(){
+  var err=$('f-err'),date=$('dc-date').value;
+  if(!date){err.textContent='Vyber datum.';return}
+  var dur=num($('dc-dur').value);if(!dur){err.textContent='Doplň délku zápasu v minutách.';return}
+  var pm=numOrNull($('dc-pm').value);if(pm!==null&&pm>dur){err.textContent='Odehrané minuty nemohou být víc než délka zápasu.';return}
+  var a=numOrNull($('dc-a').value),b=numOrNull($('dc-b').value);
+  if((a===null)!==(b===null)){err.textContent='Vyplň góly obou týmů, nebo ani jedny.';return}
+  var g=numOrNull($('dc-g').value)||0,as=numOrNull($('dc-as').value)||0,sn=sonP(),preE=rwSnap();
+  var e={type:'zapas',date:date,time:EVT.zapas.time||'',pm:pm,dur:dur,meet:'',end:'',place:'',opp:$('dc-opp').value.trim(),where:$('dc-where').value,title:'',nomMax:teamSize(),games:[]};
+  if(a!==null){e.a=a;e.b=b}
+  if(sn&&(g||as)){e.stats={};e.stats[sn.id]={g:g,a:as}}
+  e.played=(a!==null)||!!(g||as)||date<=key(new Date());
+  if(activeP().length===1)e.nom=[activeP()[0].id];
+  var id=uid();D.events[id]=e;closeModal();W('teams/'+curTeam+'/events/'+id,e);
+  view.sel=date;view.week=monday(parse(date));scheduleRender();reward(preE);
+  setTimeout(function(){toast('Zápas uložen: '+evTitle(e))},300);
+}
+
 function submitEvent(){
   var date=$('ef-date').value;
   if(!date){$('f-err').textContent='Vyber datum.';return}
@@ -3331,6 +3461,11 @@ document.addEventListener('click',function(e){
         }else go()}catch(e){go()}})();break;
     case 'rmore':view.rall=!view.rall;renderMain();break;
     case 'rfk':view.km=null;view.rfilter=rid;renderMain();break;
+    case 'dict':openDictate();break;
+    case 'dictk':view.km=null;openDictate();break;
+    case 'dictparse':dictRender(dictParse(($('dc-text')||{}).value));break;
+    case 'dictsave':dictSave();break;
+    case 'dictturnaj':(function(){var dt=$('dc-date').value||key(new Date()),ti=($('dc-title')||{}).value||'';closeModal();openEventForm({type:'turnaj',date:dt,prefill:{title:ti,games:dictGames}})})();break;
     case 'addevk':view.km=null;openEventForm({type:rid,date:key(new Date())});break;
     case 'addev':openEventForm({type:b.getAttribute('data-t'),date:view.tab==='tyden'?view.sel:key(new Date())});break;
     case 'editev':openEventForm({id:rid});break;
@@ -3469,6 +3604,7 @@ document.addEventListener('submit',function(e){
   else if(id==='playerform')submitPlayer();
   else if(id==='bulkform')submitBulk();
   else if(id==='evform')submitEvent();
+  else if(id==='dictform'){if($('dc-dur'))dictSave()}
   else if(id==='nomform')submitNomination();
   else if(id==='attform')submitAttendance();
   else if(id==='resform')submitResult();
