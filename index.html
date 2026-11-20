@@ -95,7 +95,7 @@ h1,h2,h3,p{margin:0;text-wrap:balance}
 .plist button{display:flex;align-items:center;gap:12px;width:100%;min-height:46px;padding:0 14px;background:none;border:0;text-align:left;font-size:15.5px;font-weight:600}
 .plist button i{width:10px;height:10px;border-radius:50%;flex:0 0 auto}
 .dsum li.dsit{cursor:pointer}.dsum li.dsit span:after{content:" ›"}.dsum li.dsdone b{display:flex;align-items:center;gap:6px}.dsum li.dsdone b:before{content:"✓";color:var(--ok);font-weight:800}
-.itcard{border:1.5px solid var(--line);border-left:6px solid #0f766e;border-radius:14px;margin:12px 0;background:var(--surface);overflow:hidden}.itcard .plan-h{border-bottom:0}.itcard .phases{padding:0 18px 10px}.itcard .list,.itcard .filters,.itcard .lib,.itcard .prog,.itcard .empty{margin-left:12px;margin-right:12px}.itcard .lib{margin-bottom:12px}
+.itcard{border:1.5px solid var(--line);border-left:6px solid #0f766e;border-radius:10px;background:var(--bg);flex:0 0 auto}.evs>*{flex-shrink:0}.itcard .plan-h{border-bottom:0;padding:12px 14px}.itcard .plan-h .acts{flex-wrap:wrap}.itcard .plan-h .acts .btn{padding:0 10px;font-size:13.5px}.itcard .phases{padding:0 14px 10px}.itcard .filters,.itcard .prog,.itcard .empty{margin-left:14px;margin-right:14px}.itcard .lib{padding:0 14px 12px}.itcard .lib h3{margin-top:4px}.evt .evt-hd{cursor:pointer}.evt .evt-title .arr{color:var(--muted);font-size:14px;margin-left:6px}
 .pmore{display:block;width:100%;text-align:left;background:none;border:0;padding:6px 0;margin:2px 0 0;font-size:14px;color:var(--muted)}
 .ph h2{font:700 30px/1 var(--display);text-transform:uppercase;letter-spacing:.01em}
 .ph .sub{color:var(--muted);font-size:14px;margin-top:4px;font-variant-numeric:tabular-nums}
@@ -1242,7 +1242,7 @@ function moreHtml(){
     if(DEFERRED)h+='<button type="button" class="btn" data-act="install">Nainstalovat jako aplikaci</button>';
     else h+='<p class="hint">'+(ios?'Na iPhonu: klepni na Sdílet a pak na Přidat na plochu.':'V nabídce prohlížeče zvol Přidat na plochu nebo Nainstalovat aplikaci.')+'</p>';
   }
-  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 20. 11. · J</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
+  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 20. 11. · K</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
   return h;
 }
 function download(name,blob){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1500)}
@@ -1521,11 +1521,12 @@ function resultHtml(e){
 }
 function eventCard(e,opt){
   var T=e.kr?{n:'Kroužek',s:'KR',c:'#a16207'}:(EVT[e.type]||EVT.trenink),kids=myKids(),mineIn=nomOf(e).filter(function(pid){return kids.indexOf(pid)>=0});
-  var h='<article class="evt" style="--ec:'+T.c+'">';
-  h+='<div class="evt-top"><span class="chip evtype">'+T.n+'</span>';
+  var h='<article class="evt" id="evc-'+e.id+'" style="--ec:'+T.c+'">';
+  var tg=(opt&&opt.px&&ROLE.coach)?' data-act="evx" data-id="'+e.id+'" role="button" tabindex="0"':'';
+  h+='<div class="evt-top'+(tg?' evt-hd':'')+'"'+tg+'><span class="chip evtype">'+T.n+'</span>';
   if(opt&&opt.date)h+='<span class="evt-dur">'+esc(fmt(parse(e.date),{weekday:'short',day:'numeric',month:'numeric'}))+'</span>';
   h+='<span class="evt-time">'+esc((e.time||'')+(e.end?'–'+e.end:''))+'</span><span class="evt-dur">'+(e.meet?'sraz '+esc(e.meet)+' · ':'')+(e.type==='turnaj'?(tourGames(e).length?tourGames(e).length+' zápasů · '+evMin(e)+' min':''):(e.dur?e.dur+' min':''))+'</span></div>';
-  h+='<h3 class="evt-title">'+esc(evTitle(e))+'</h3>';
+  h+='<h3 class="evt-title'+(tg?' evt-hd':'')+'"'+tg+'>'+esc(evTitle(e))+(tg?'<span class="arr">▴</span>':'')+'</h3>';
   if(e.place)h+='<div class="evt-meta">'+esc(e.place)+'</div>';
   h+=resultHtml(e);h+=liveHtml(e);
   if(ROLE.coach){
@@ -1596,13 +1597,15 @@ function planSection(k,d){
   }
   return h;
 }
+function evDone(e){if(!ROLE.coach)return false;var son=sonP();if(e.type==='trenink'){var a=D.att[e.id];return !!(son&&a&&a.st&&a.st[son.id]==='y')}return !!e.played}
+function evOpen(e){var x=view.evx&&view.evx[e.id];return x!==undefined?x:!evDone(e)}
 function itFin(d){var it=d.items||[];return !d.rest&&it.length>0&&it.every(function(x){return x.done})}
 function daySumHtml(k,d,ev){
   var rows=ev.map(function(e){
     var lab=e.type==='trenink'?(e.kr?'Kroužek · '+(e.title||''):'Klubový trénink'):e.type==='zapas'?'Zápas'+(e.opp?' · '+e.opp:''):'Turnaj'+(e.title?' · '+e.title:'');
     var tm=(e.time||'')+(e.end?'–'+e.end:''),mn=evMin(e),meta=[];
     if(e.meet)meta.push('sraz '+e.meet);if(tm)meta.push(tm);if(mn)meta.push(mn+' min');
-    return '<li><i style="background:'+(EVT[e.type]||EVT.trenink).c+'"></i><b>'+esc(lab)+'</b><span>'+esc(meta.join(' · '))+'</span></li>';
+    var dn0=evDone(e);return '<li'+(ROLE.coach?' class="dsit'+(dn0?' dsdone':'')+'" data-act="evx" data-id="'+e.id+'" role="button" tabindex="0"':'')+'><i style="background:'+(EVT[e.type]||EVT.trenink).c+'"></i><b>'+esc(lab)+'</b><span>'+esc(meta.join(' · '))+'</span></li>';
   });
   if(ROLE.coach&&!d.rest&&(d.items||[]).length){var mxs=1;d.items.forEach(function(x){mxs=Math.max(mxs,x.ph||1)});
     for(var q=1;q<=mxs;q++){var pq=phItems(d,q);if(!pq.length)continue;var dq=pq.every(function(x){return x.done});
@@ -1617,9 +1620,10 @@ function renderPanel(){
   h+='</div>';
   if(ROLE.coach&&!d.rest&&(d.items||[]).length&&!itFin(d)&&gearOf(d.items).length)h+='<div class="gear1" role="status"><b>Vzít s sebou:</b> '+gearChips(gearOf(d.items))+'</div>';
   var ill=illOn(k);if(ill)h+='<div class="sickbar" role="status"><b>'+ILLT[ill.type]+'</b>'+(ill.note?' · '+esc(ill.note):'')+'<button class="btn small" data-act="editill" data-id="'+ill.id+'">Upravit</button></div>';
-  if(ev.length)h+='<div class="evs">'+ev.map(function(e){return eventCard(e)}).join('')+'</div>';
-  else if(!(ROLE.coach&&!d.rest&&(d.items||[]).length))h+='<div class="empty">'+(ROLE.coach?'V tento den nic není naplánované. Klepni na „Naplánovat aktivitu“.':'V tento den nic není naplánované.')+'</div>';
-  if(ROLE.coach&&(((d.items||[]).length)||d.rest||(d.focus&&d.focus.length)||d.time||d.place||view.planHide[k]===false)){var ps=planSection(k,d);if(ps)h+='<section class="itcard">'+ps+'</section>'}
+  var cards=ev.filter(function(e){return evOpen(e)}).map(function(e){return eventCard(e,{px:1})}).join('');
+  if(ROLE.coach&&(((d.items||[]).length)||d.rest||(d.focus&&d.focus.length)||d.time||d.place||view.planHide[k]===false)){var ps=planSection(k,d);if(ps)cards+='<section class="itcard">'+ps+'</section>'}
+  if(cards)h+='<div class="evs">'+cards+'</div>';
+  else if(!ev.length&&!(ROLE.coach&&!d.rest&&(d.items||[]).length))h+='<div class="empty">'+(ROLE.coach?'V tento den nic není naplánované. Klepni na „Naplánovat aktivitu“.':'V tento den nic není naplánované.')+'</div>';
   $('panel').innerHTML=h;
 }
 
@@ -1654,7 +1658,7 @@ function exRow(x,idx,n,filtered){
   return '<li class="ex'+(x.done?' done':'')+(view.pop===x.id?' pop':'')+'" data-id="'+x.id+'">'+
     '<button class="chk" data-act="toggle" aria-pressed="'+!!x.done+'" aria-label="Hotovo: '+esc(x.name)+'">'+IC.chk+'</button>'+
     '<div data-act="detail" role="button" tabindex="0" aria-expanded="'+open+'" style="cursor:pointer"><div class="ex-name"><span>'+esc(x.name)+'</span><span class="ex-cat"><i style="background:'+c.c+'"></i>'+c.n+'</span></div>'+
-    (x.note?'<p class="ex-note">'+esc(x.note)+'</p>':'')+'</div></div>'+
+    (x.note?'<p class="ex-note">'+esc(x.note)+'</p>':'')+'</div>'+
     '<div class="ex-time" data-act="detail" style="cursor:pointer">'+(x.min?x.min+'<small>min</small>':'<small>bez času</small>')+'</div>'+
     '<div class="ex-tools">'+kdots('ex'+x.id,mi)+'</div>'+(open?detailHtml(x,imgs):'')+'</li>';
 }
@@ -3360,6 +3364,7 @@ document.addEventListener('click',function(e){
     case 'sharecard':shareCard();break;
     case 'icsall':var fut=elist().filter(function(e){return e.date>=key(new Date())});if(!fut.length){toast('Nejsou žádné budoucí události.')}else{icsDownload(fut,'treninky.ics');toast('Soubor kalendáře se stáhl. Otevři ho a přidej události.')}break;
     case 'ics':var ev1=D.events[b.getAttribute('data-id')];if(ev1){var e1=clone(ev1);e1.id=b.getAttribute('data-id');icsDownload([e1],'udalost.ics')}break;
+    case 'evx':(function(){var ee=evOfDay(view.sel).filter(function(q){return q.id===rid})[0];if(!ee)return;view.evx=view.evx||{};var op=evOpen(ee);view.evx[rid]=!op;renderPanel();if(!op){var cn=$('evc-'+rid);if(cn)cn.scrollIntoView({behavior:'smooth',block:'start'})}})();break;
     case 'pdone':(function(){var pk=view.sel,dd=dayOf(pk),pp=+b.getAttribute('data-p')||0;view.pdone=view.pdone||{};var open=view.pdone[pk]!==undefined?view.pdone[pk]:!itFin(dd);
       if(pp&&(pp!==(view.phase||1)||!open)){view.phase=pp;view.pdone[pk]=true}else view.pdone[pk]=!open;
       renderPanel();if(view.pdone[pk]){var pn=$('plansec');if(pn)pn.scrollIntoView({behavior:'smooth',block:'start'})}})();break;
