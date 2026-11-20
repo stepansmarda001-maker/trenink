@@ -166,7 +166,7 @@ h1,h2,h3,p{margin:0;text-wrap:balance}
 .lc .lt{fill:var(--muted);font:12px system-ui,sans-serif}
 .lc .ll{fill:var(--ink);font:700 13px system-ui,sans-serif}
 .lc circle[data-tip]:focus{outline:none;stroke:#0f1b2d;stroke-width:2}
-.ctip{position:fixed;z-index:200;background:#0f1b2d;color:#fff;font-size:13px;padding:5px 9px;border-radius:7px;pointer-events:none;white-space:nowrap}
+.ctip{position:fixed;z-index:200;background:#0f1b2d;color:#fff;font-size:13px;padding:5px 9px;border-radius:7px;pointer-events:none;white-space:normal;width:max-content;max-width:calc(100vw - 16px);line-height:1.35}
 .itbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#fff6cc;border:1.5px solid #e6d27a;color:#4a3a00;border-radius:10px;padding:8px 12px;margin:10px 0}.itbar>span:nth-child(2){flex:1;min-width:180px}.itbar .btn,.sickbar .btn{color:var(--ink)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .itbar{background:#1c1a10;border-color:#4a4220;color:#ffe9a0}:root:not([data-theme="light"]) .gchip{background:var(--surface);border-color:#4a4220;color:var(--ink)}:root:not([data-theme="light"]) .sickbar{background:#3a2a12;border-color:#7a5a24;color:#ffd9a0}}
 :root[data-theme="dark"] .itbar{background:#1c1a10;border-color:#4a4220;color:#ffe9a0}:root[data-theme="dark"] .gchip{background:var(--surface);border-color:#4a4220;color:var(--ink)}:root[data-theme="dark"] .sickbar{background:#3a2a12;border-color:#7a5a24;color:#ffd9a0}
@@ -2296,7 +2296,7 @@ function odmenyHtml(){
   FAM.forEach(function(f){var nn=fCnt(f,f.m(S));for(var q=0;q<=nn;q++)wl.push(f.id+':'+q)});
   h+='<section class="panel"><div class="sect"><div class="sect-h"><h2>Odznaky <small>získáno '+got+'</small></h2></div><p class="hint">Splněné svítí a u každé řady vidíš jen svůj další cíl. Barva medaile ukazuje úroveň. Klepni na odznak a uvidíš, co pro něj udělat.</p>'+LG+'<div class="wall">'+wl.map(function(id){var b=badgeOf(id),on=S.badges.indexOf(id)>=0,pc=0,pt='';
     if(!on){var f9=FAM.filter(function(f){return f.id===b.fam})[0];if(f9){var v9=f9.m(S),t9=fTh(f9,b.i);if(t9>0&&v9>0){pc=Math.min(99,Math.max(4,Math.round(v9/t9*100)));pt=Math.min(v9,t9)+' / '+t9}}}
-    return '<span class="w'+(on?' on t-'+b.m:pc?' part':'')+'"'+(b.fam&&!WALLTIP?' data-act="bpath" data-fam="'+b.fam+'" role="button"':'')+' tabindex="0"'+(WALLTIP?' data-tip="'+esc(b.n+' – '+b.d+(on?' (splněno)':pc?' (rozděláno: '+pt+', '+pc+' %)':''))+'"':'')+' aria-label="'+esc(b.n+(on?', splněno':pc?', rozděláno '+pc+' procent':', zamčeno')+': '+b.d)+'"><span class="wr" style="--p:'+(on?100:pc)+'">'+medalHtml(b,on)+'</span><span>'+esc(b.n)+'</span>'+(pc?'<small class="wpt">'+pc+' %</small>':'')+'</span>'}).join('')+'</div></div></section>';
+    return '<span class="w'+(on?' on t-'+b.m:pc?' part':'')+'"'+(b.fam&&!WALLTIP?' data-act="bpath" data-fam="'+b.fam+'" role="button"':'')+' tabindex="0"'+(WALLTIP?' data-tip="'+esc(b.d+(on?' (splněno)':pc?' (rozděláno: '+pt+', '+pc+' %)':''))+'"':'')+' aria-label="'+esc(b.n+(on?', splněno':pc?', rozděláno '+pc+' procent':', zamčeno')+': '+b.d)+'"><span class="wr" style="--p:'+(on?100:pc)+'">'+medalHtml(b,on)+'</span><span>'+esc(b.n)+'</span>'+(pc?'<small class="wpt">'+pc+' %</small>':'')+'</span>'}).join('')+'</div></div></section>';
   h+='<section class="panel kid"><div class="sect"><div class="sect-h"><h2>Jak sbírám XP</h2></div>'+
     '<p class="kidlead">XP jsou body za tvoji snahu. Nezáleží na tom, jestli tým vyhraje. Počítá se, kolik jsi toho odtrénoval ty.</p>'+
     '<div class="xpg">'+[
@@ -3460,8 +3460,9 @@ document.addEventListener('submit',function(e){
     tip.style.left=x+'px';tip.style.top=Math.max(8,r.top-tip.offsetHeight-6)+'px';
   }
   function hide(){tip.hidden=true}
-  document.addEventListener('pointerover',function(e){var t=e.target.closest&&e.target.closest('[data-tip]');if(t)show(t)});
-  document.addEventListener('pointerout',function(e){if(e.target.closest&&e.target.closest('[data-tip]'))hide()});
+  var tt=null;
+  document.addEventListener('pointerover',function(e){var t=e.target.closest&&e.target.closest('[data-tip]');if(t){show(t);clearTimeout(tt);if(e.pointerType==='touch')tt=setTimeout(hide,4000)}});
+  document.addEventListener('pointerout',function(e){if(e.pointerType==='touch')return;if(e.target.closest&&e.target.closest('[data-tip]'))hide()});
   document.addEventListener('focusin',function(e){var t=e.target.closest&&e.target.closest('[data-tip]');if(t)show(t)});
   document.addEventListener('focusout',hide);
   window.addEventListener('scroll',hide,true);
