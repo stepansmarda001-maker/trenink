@@ -286,6 +286,7 @@ h1,h2,h3,p{margin:0;text-wrap:balance}
 .mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px}
 
 /* Groups, detail, gallery */
+.shh{display:flex;flex-wrap:nowrap;align-items:center;gap:6px}.shh h2{flex:1;min-width:0;font-size:19px;white-space:nowrap}.shh .kmw{flex:0 0 auto}.shbal{text-align:right;line-height:1.1}.shbal b{font:700 22px var(--display);display:block}.shbal span{font-size:12px;color:var(--muted)}.shall>summary small{margin-left:8px;color:var(--muted);font-weight:600}.shall>summary{min-height:44px;display:flex;align-items:center;font-weight:700;cursor:pointer}
 .filters{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;padding:10px 18px;border-bottom:1px solid var(--line);scrollbar-width:none}.filters::-webkit-scrollbar{display:none}.filters .fbtn{flex:0 0 auto;white-space:nowrap}
 .fbtn{border:1.5px solid var(--line);background:var(--bg);border-radius:99px;padding:5px 13px;font-size:13.5px;font-weight:600;display:inline-flex;gap:7px;align-items:center;min-height:34px}
 .fbtn i{width:9px;height:9px;border-radius:50%}
@@ -2112,8 +2113,7 @@ var SHOPSZ=['Malé odměny (do 500 XP)','Střední odměny (501 až 2 000 XP)','
 function shopHtml(S){
   var spent=spentXP(),bal=Math.max(0,S.xp-S.sxp-spent),allIds=Object.keys(CUSTOM_SHOP).sort(function(a,b){return (CUSTOM_SHOP[a].cost||0)-(CUSTOM_SHOP[b].cost||0)}),ids=allIds.filter(function(i){return !CUSTOM_SHOP[i].fin});
   view.sh=view.sh||{};
-  var h='<section class="panel"><div class="sect"><div class="sect-h"><h2>Moje odměny</h2><button class="btn primary" data-act="newshop">'+IC.plus+'Přidat odměnu</button></div>'+
-    '<div class="rec"><div><b>'+bal+' XP</b><span>k utracení</span></div><div><b>'+spent+' XP</b><span>už utraceno</span></div></div>';
+  var h='<section class="panel"><div class="sect"><div class="sect-h shh"><h2>Moje odměny</h2><div class="shbal"><b>'+bal+' XP</b><span>k utracení'+(spent?' · utraceno '+spent:'')+'</span></div>'+kdots('shop',[['newshop','Přidat odměnu','x']])+'</div>';
   function item(i){
     var r=CUSTOM_SHOP[i],ok=bal>=r.cost,pct=Math.min(100,Math.round(bal/r.cost*100));
     return '<li class="shopi"><div class="gh"><b>'+esc(r.name)+'</b><span class="cost">'+r.cost+' XP</span></div>'+(r.note?'<div class="hint">'+esc(r.note)+'</div>':'')+
@@ -2125,15 +2125,17 @@ function shopHtml(S){
     gs.forEach(function(g,k){if(!g.length)return;o+=(used>1?'<h4 class="shsz">'+SHOPSZ[k]+'</h4>':'')+'<ul class="shop">'+g.map(item).join('')+'</ul>'});
     return o;
   }
-  if(!ids.length&&allIds.length)h+='<div class="empty"><b>Všechno vybráno</b>Přidej další odměnu, na kterou chceš sbírat body.</div>';
-  else if(!ids.length)h+='<div class="empty"><b>Zatím žádná odměna</b>Nastav si, co chceš za body získat. Třeba zmrzlinu za 500 XP nebo výlet na zápas za 2000 XP.</div>';
+  if(!ids.length&&allIds.length)h+='<p class="hint">Všechno vybráno. Přidej další odměnu přes ⋮.</p>';
+  else if(!ids.length)h+='<p class="hint">Zatím žádná odměna. Přes ⋮ si nastav, co chceš za body získat, třeba zmrzlinu za 500 XP.</p>';
   else{
     var now=[],later=[];
     ids.forEach(function(i){var c=CUSTOM_SHOP[i].cost||1;if(bal>=c)now.push(i);else later.push(i)});
-    h+='<h3 class="subh">Můžu si koupit <small>('+now.length+')</small></h3>';
-    if(now.length)h+=grouped(now);
-    else{var nx=ids.filter(function(i){return bal<CUSTOM_SHOP[i].cost})[0];h+='<p class="hint">Zatím na nic nemáš dost XP.'+(nx?' Nejblíž je „'+esc(CUSTOM_SHOP[nx].name)+'“, chybí '+(CUSTOM_SHOP[nx].cost-bal)+' XP.':'')+'</p>'}
-    if(later.length)h+='<details class="shd" data-shopd="later"'+(view.sh.later?' open':'')+'><summary>Později <small>('+later.length+')</small></summary>'+grouped(later)+'</details>';
+    var nx=later[0];
+    h+='<details class="shd shall" data-shopd="all"'+(view.sh.all?' open':'')+'><summary>Co si můžu koupit <small>('+now.length+' hned'+(later.length?' · '+later.length+' později':'')+')</small></summary>';
+    if(now.length)h+='<h4 class="shsz">Hned</h4>'+grouped(now);
+    else h+='<p class="hint">Zatím na nic nemáš dost XP.'+(nx?' Nejblíž je „'+esc(CUSTOM_SHOP[nx].name)+'“, chybí '+(CUSTOM_SHOP[nx].cost-bal)+' XP.':'')+'</p>';
+    if(later.length)h+='<h4 class="shsz">Později</h4>'+grouped(later);
+    h+='</details>';
   }
   var cl=[];allIds.forEach(function(i){(CUSTOM_SHOP[i].claims||[]).forEach(function(c){cl.push({i:i,c:c,n:CUSTOM_SHOP[i].name})})});
   cl.sort(function(a,b){return a.c.d<b.c.d?1:a.c.d>b.c.d?-1:0});
@@ -2265,14 +2267,13 @@ function levelsHtml(S){
 }
 function odmenyHtml(){
   var S=rwSnap();
-  var h='<section class="panel"><div class="sect"><div class="sect-h"><h2>Moje čísla</h2></div>'+
-    '<div class="rec"><div><b>'+S.streak+'</b><span>týdnů v řadě</span></div><div><b>'+S.best+'</b><span>nejdelší série</span></div><div><b>'+S.ex+'</b><span>splněných cvičení</span></div><div><b>'+S.days+'</b><span>splněných tréninků</span></div><div><b>'+S.recBrk+'</b><span>překonaných rekordů</span></div></div></div></section>';
+  var h='';
   h+=shopHtml(S);
   var total=BADGES.length+S.xb.length,got=S.badges.length;
-  h+='<section class="panel"><div class="sect"><div class="sect-h"><h2>Odznaky ('+got+'/'+total+')</h2></div><p class="hint">Každý odznak má několik úrovní. Barva medaile ukazuje, jak vysoko jsi.</p><div class="lgd"><span><i class="m-b"></i>bronz</span><span><i class="m-s"></i>stříbro</span><span><i class="m-g"></i>zlato</span><span><i class="m-p"></i>platina</span><span><i class="m-d"></i>diamant</span></div></div></section>';
+  var LG='<div class="lgd"><span><i class="m-b"></i>bronz</span><span><i class="m-s"></i>stříbro</span><span><i class="m-g"></i>zlato</span><span><i class="m-p"></i>platina</span><span><i class="m-d"></i>diamant</span></div>';
   var wl=BADGES.map(function(b){return b.id}).concat(S.xb);
   FAM.forEach(function(f){var nn=fCnt(f,f.m(S));if(nn>=f.th.length)wl.push(f.id+':'+nn)});
-  h+='<section class="panel"><div class="sect"><div class="sect-h"><h2>Nástěnka úspěchů</h2></div><p class="hint">Splněné odznaky svítí, ostatní čekají zašedlé. Klepni na odznak a uvidíš, co pro něj udělat.</p><div class="wall">'+wl.map(function(id){var b=badgeOf(id),on=S.badges.indexOf(id)>=0,pc=0,pt='';
+  h+='<section class="panel"><div class="sect"><div class="sect-h"><h2>Odznaky ('+got+'/'+total+')</h2></div><p class="hint">Splněné svítí, ostatní čekají. Barva medaile ukazuje úroveň. Klepni na odznak a uvidíš, co pro něj udělat.</p>'+LG+'<div class="wall">'+wl.map(function(id){var b=badgeOf(id),on=S.badges.indexOf(id)>=0,pc=0,pt='';
     if(!on){var f9=FAM.filter(function(f){return f.id===b.fam})[0];if(f9){var v9=f9.m(S),t9=fTh(f9,b.i);if(t9>0&&v9>0){pc=Math.min(99,Math.max(4,Math.round(v9/t9*100)));pt=Math.min(v9,t9)+' / '+t9}}}
     return '<span class="w'+(on?' on t-'+b.m:pc?' part':'')+'" tabindex="0" data-tip="'+esc(b.n+' – '+b.d+(on?' (splněno)':pc?' (rozděláno: '+pt+', '+pc+' %)':''))+'" aria-label="'+esc(b.n+(on?', splněno':pc?', rozděláno '+pc+' procent':', zamčeno')+': '+b.d)+'"><span class="wr" style="--p:'+(on?100:pc)+'">'+medalHtml(b,on)+'</span><span>'+esc(b.n)+'</span>'+(pc?'<small class="wpt">'+pc+' %</small>':'')+'</span>'}).join('')+'</div></div></section>';
   var fopen=(view.lb||{}).fam===true;
@@ -2458,7 +2459,7 @@ function synHtml(){
   var T=function(v,l,c){return '<div class="st'+(c?' '+c:'')+'"><b>'+v+'</b><span>'+l+'</span></div>'},cm=function(x){return x.toFixed(1).replace('.',',')};
   var g1='<h4 class="sth">Zápasy a góly</h4><div class="stg">'+T(n,'zápasů celkem')+T(g+(st0.g||0),'góly','gold')+T(a+(st0.a||0),'asistence')+T(g+a+(st0.g||0)+(st0.a||0),'G + A')+T(n?cm((g+(st0.g||0))/n):'–','gólů na zápas')+(mn>0?T(mn,'minut na hřišti'+(allmin?'':' (zapsané)')):'')+(mn>0&&allmin?T(cm(g/mn*60),'gólů na 60 minut','gold'):'')+(rn?T(cm(rs/rn),'snaha z 10'):'')+'</div>';
   var g2='<h4 class="sth">'+(sf==='all'?'Aktivity za kariéru':'Aktivity v sezóně '+esc(sf))+'</h4><div class="stg">'+(hasEv?T(cind,'tréninků doma')+T(ckr,'kroužků'):'')+T(cclub+(st0.t||0),'tréninků v klubu')+(hasEv?T(cgame,'zápasů v aplikaci')+T(ctur,'turnajů')+T(tt?Math.round(tp/tt*100)+' %':'–','docházka'+(tt?' ('+tp+'/'+tt+')':'')):'')+'</div>'+
-    (hasEv?'<h4 class="sth">Výsledky týmu</h4><div class="stg">'+T(wd.w+'·'+wd.d+'·'+wd.l,'výhry·remízy·prohry','sm')+T(wd.gf+':'+wd.ga,'skóre týmu','sm')+'</div>':'');
+    (function(){if(!(sf==='all'||sf===curS))return '';var R=rwSnap();return '<h4 class="sth">Moje čísla</h4><div class="stg">'+T(R.streak,'týdnů v řadě')+T(R.best,'nejdelší série')+T(R.ex,'splněných cvičení')+T(R.days,'splněných tréninků')+T(R.recBrk,'překonaných rekordů')+'</div>'})()+(hasEv?'<h4 class="sth">Výsledky týmu</h4><div class="stg">'+T(wd.w+'·'+wd.d+'·'+wd.l,'výhry·remízy·prohry','sm')+T(wd.gf+':'+wd.ga,'skóre týmu','sm')+'</div>':'');
   var h='<section class="panel"><div class="sect">'+pills+'<div class="pcard'+(p.photo?(pbgDark(p.pbg)?' pdk':''):' nop')+'"'+'><div class="phead"><h2>'+esc(p.name)+'</h2>'+kdots('pl',[['editplayer','Upravit kartu',p.id]])+'</div>'+
     (p.photo?'<div class="pleft"><div class="pfig" style="background:'+esc(p.pbg||'var(--line)')+'"><img src="'+esc(p.photo)+'" alt="Fotka hráče"></div>'+chips+'</div><div class="pmain">'+g1+'</div><div class="pbot">'+g2+'</div>':'<div class="pmain">'+chips+g1+g2+'</div>')+'</div></div></section>';
   if(sf==='all'||sf===curS)h+='<section class="panel"><div class="sect"><div class="pcard pcl">'+progHtml()+'</div></div></section>';
