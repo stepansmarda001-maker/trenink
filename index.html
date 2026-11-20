@@ -83,7 +83,11 @@ h1,h2,h3,p{margin:0;text-wrap:balance}
 
 /* Day panel */
 .panel{margin:16px 0 8px;background:transparent;border:0;border-radius:0;overflow:hidden}
-.ph{padding:16px 18px 14px;border-bottom:1.5px solid var(--line);display:flex;flex-wrap:wrap;gap:12px 20px;justify-content:space-between;align-items:center}
+.ph{padding:12px 18px 12px;border-bottom:1.5px solid var(--line);display:block}
+.phd{font:600 13px var(--body);color:var(--muted);letter-spacing:.04em;text-transform:uppercase;margin:0 0 6px}
+.dsum{list-style:none;margin:0 0 10px;padding:0;display:grid;gap:4px}.dsum li{display:flex;gap:8px;align-items:center;font-size:15px}.dsum li i{width:9px;height:9px;border-radius:50%;flex:0 0 auto}.dsum li span{color:var(--muted);font-size:13.5px;margin-left:auto;text-align:right}.dsum0{color:var(--muted);font-size:14px;margin:0 0 10px}
+.acts.addrow{display:flex;flex-wrap:wrap;gap:6px}.addrow .btn{flex:1 1 auto;min-height:36px;padding:0 8px;font-size:12.5px;gap:4px;justify-content:center;white-space:nowrap}.addrow .btn svg{width:14px;height:14px}
+.itgear1{margin:10px 18px}
 .ph h2{font:700 30px/1 var(--display);text-transform:uppercase;letter-spacing:.01em}
 .ph .sub{color:var(--muted);font-size:14px;margin-top:4px;font-variant-numeric:tabular-nums}
 .prog{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
@@ -92,14 +96,14 @@ h1,h2,h3,p{margin:0;text-wrap:balance}
 
 .list{list-style:none;margin:0;padding:0;counter-reset:n}
 .ex{
-  display:grid;grid-template-columns:auto 1fr auto;gap:0 12px;align-items:center;
+  display:grid;grid-template-columns:auto 1fr auto auto;gap:0 10px;align-items:center;
   padding:8px 14px;border-bottom:1px solid var(--line);counter-increment:n
 }
 .ex:last-child{border-bottom:0}
 .chk{width:30px;height:30px;border-radius:50%;border:2px solid var(--muted);background:transparent;display:grid;place-items:center;padding:0;color:transparent}
 .chk svg{width:18px;height:18px}
 .ex.done .chk{background:var(--ok);border-color:var(--ok);color:#fff}
-.ex-name{font-weight:700;font-size:16px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.ex-name{font-weight:700;font-size:16px;display:block;line-height:1.25}.ex-name::before{display:inline-block;margin-right:8px}.ex-name .ex-cat{margin-left:8px;vertical-align:1px}
 .ex-name::before{content:counter(n,decimal-leading-zero);font:600 15px var(--display);color:var(--muted);letter-spacing:.06em}
 .ex.done .ex-name span{text-decoration:line-through;color:var(--muted)}
 .ex-meta{display:flex;gap:6px 12px;flex-wrap:wrap;align-items:center;margin-top:1px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
@@ -109,7 +113,7 @@ h1,h2,h3,p{margin:0;text-wrap:balance}
 .ex-note{font-size:14px;color:var(--muted);margin-top:4px}
 .ex-time{font:700 22px/1 var(--display);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .ex-time small{font:600 13px var(--body);color:var(--muted);margin-left:2px}
-.ex-tools{grid-column:2 / 4;display:flex;gap:2px;justify-content:flex-end;flex-wrap:nowrap;margin-top:-2px}
+.ex-tools{grid-column:auto;display:flex;gap:2px;justify-content:flex-end;flex-wrap:nowrap}.ex-cat{font:600 12.5px var(--body);color:var(--muted);display:inline-flex;gap:5px;align-items:center}.ex-cat i{width:8px;height:8px;border-radius:50%}
 .ib{width:32px;height:30px;border-radius:8px;border:1.5px solid transparent;background:transparent;display:grid;place-items:center;padding:0;color:var(--muted)}
 .ib:hover{border-color:var(--line);color:var(--ink);background:var(--bg)}
 .ib svg{width:17px;height:17px}
@@ -203,7 +207,7 @@ h1,h2,h3,p{margin:0;text-wrap:balance}
 .m-b{background:#c47a3a}.m-s{background:#8f9bb0}.m-g{background:#e0a800}
 .medal.off{background:var(--line);color:var(--muted);box-shadow:none}
 .gsbox{margin:14px 0 6px;padding-top:12px;border-top:1px solid var(--line)}.gsbox h4{margin:0 0 6px;font-size:1rem}.gsbox .fld{display:block;margin:8px 0}.gsbox input{width:100%;box-sizing:border-box}
-.wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(68px,1fr));gap:8px;margin-top:10px}.wall .w{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;font-size:.68rem;line-height:1.15;color:var(--muted);padding:6px 2px;border-radius:10px}.wall .w.on{color:var(--ink,inherit);font-weight:600}.wall .medal{width:42px;height:42px}.wall .wr{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#f2b705 calc(var(--p)*1%),var(--line) 0)}.wall .w.on .wr{box-shadow:0 0 14px rgba(255,196,30,.7)}.wall .w.on .medal{background:linear-gradient(145deg,#ffe27a,#e0a800);color:#5a3c00;box-shadow:inset 0 -3px 0 rgba(0,0,0,.18)}.wall .w.part .medal{background:var(--surface);color:var(--muted)}.wall .wpt{color:#f2b705;font-weight:700;font-size:.66rem}.wall .medal svg{width:22px;height:22px}.wall .w:focus-visible{outline:2px solid var(--blue,#2f7de1)}
+.wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(68px,1fr));gap:8px;margin-top:10px}.wall .w{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;font-size:.68rem;line-height:1.15;color:var(--muted);padding:6px 2px;border-radius:10px}.wall .w.on{color:var(--ink,inherit);font-weight:600}.wall .medal{width:42px;height:42px}.wall .wr{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#f2b705 calc(var(--p)*1%),var(--line) 0)}.wall .w.on .wr{box-shadow:0 0 14px rgba(255,196,30,.7)}.wall .w.on .medal{color:#fff;box-shadow:inset 0 -3px 0 rgba(0,0,0,.18)}.wall .w.on.t-b .wr{box-shadow:0 0 12px rgba(196,122,58,.7)}.wall .w.on.t-s .wr{box-shadow:0 0 12px rgba(143,155,176,.75)}.wall .w.on.t-g .wr{box-shadow:0 0 14px rgba(224,168,0,.8)}.wall .w.on.t-p .wr{box-shadow:0 0 14px rgba(74,111,216,.8)}.wall .w.on.t-d .wr{box-shadow:0 0 16px rgba(20,163,184,.9)}.lgd{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0 0;font-size:12.5px;color:var(--muted)}.lgd span{display:inline-flex;gap:5px;align-items:center}.lgd i{width:14px;height:14px;border-radius:50%;display:inline-block}.wall .w.part .medal{background:var(--surface);color:var(--muted)}.wall .wpt{color:#f2b705;font-weight:700;font-size:.66rem}.wall .medal svg{width:22px;height:22px}.wall .w:focus-visible{outline:2px solid var(--blue,#2f7de1)}
 .bdg{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
 .bd{display:flex;gap:12px;align-items:center;justify-content:flex-start;text-align:left;padding:8px 0}
 .bd small,.nb small{display:block;color:var(--muted);font-size:13px}
@@ -282,7 +286,7 @@ h1,h2,h3,p{margin:0;text-wrap:balance}
 .mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px}
 
 /* Groups, detail, gallery */
-.filters{display:flex;gap:6px;flex-wrap:wrap;padding:12px 18px;border-bottom:1px solid var(--line)}
+.filters{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;padding:10px 18px;border-bottom:1px solid var(--line);scrollbar-width:none}.filters::-webkit-scrollbar{display:none}.filters .fbtn{flex:0 0 auto;white-space:nowrap}
 .fbtn{border:1.5px solid var(--line);background:var(--bg);border-radius:99px;padding:5px 13px;font-size:13.5px;font-weight:600;display:inline-flex;gap:7px;align-items:center;min-height:34px}
 .fbtn i{width:9px;height:9px;border-radius:50%}
 .fbtn small{font-weight:500;opacity:.8;font-variant-numeric:tabular-nums;font-size:12.5px}
@@ -383,7 +387,7 @@ a.btn.vid{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .evact .btn{min-height:36px;padding:5px 11px;font-size:13.5px}
 
 .plan-h{padding:14px 18px;display:flex;flex-wrap:wrap;gap:10px 18px;justify-content:space-between;align-items:center;border-bottom:1.5px solid var(--line)}
-.plan-h h3{font:700 22px/1 var(--display);text-transform:uppercase}
+.plan-h h3{font:700 22px/1 var(--display);text-transform:uppercase}.plan-h .acts{flex-wrap:nowrap}.plan-h .acts .btn{min-height:40px;padding:0 12px;font-size:14px;white-space:nowrap}
 .plan-h .sub{color:var(--muted);font-size:14px;margin-top:3px;font-variant-numeric:tabular-nums}
 
 .sect{padding:16px 18px 20px}
@@ -742,7 +746,7 @@ function DbBackend(db){
 var ROLE={coach:false,mode:''},B=null;
 var D={teams:{},players:{},events:{},plan:{},att:{},rate:{}};
 var GEAR_REN={},CUSTOM_KR={},KRC={sig:'',list:[]},GEAR_DEF=['Kužely nízké','Kužely vysoké','Překážky 15 cm','Překážky 23 cm','Překážky 30 cm','Rebounder','Slalom komplet','Tyče na slalom','Medicimbal','Míč','Žebřík','Stepper','Švihadlo','Odporová guma','Foam roller'],CUSTOM_GEAR={},GEAR_HID={},HIDDEN={},CUSTOM_CATS={},CUSTOM_LIB={},CUSTOM_RECS={},CUSTOM_ILL={},CUSTOM_PROUD={},CUSTOM_SEA={},CUSTOM_AWD={},CUSTOM_SHOP={},CUSTOM_GOAL={},CUSTOM_GROW={},BASE_LIB=null,curTeam=null,teamSubs=[],teamsUnsub=null,lastJson={},teamsJson='',teamsLoaded=false,slow=false,dirty={},saveT=null,rT=null;
-var view={wm:'d',tab:'tyden',sel:key(new Date()),week:monday(new Date()),filter:'all',open:{},rfilter:'all',sort:{k:'ga',d:-1},pdet:{},planHide:{},season:'all',recopen:{}};
+var view={wm:'d',tab:'tyden',sel:key(new Date()),week:monday(new Date()),filter:'all',open:{},rfilter:'all',sort:{k:'ga',d:-1},pdet:{},planHide:{},season:'cur',recopen:{}};
 var undo=null;
 
 function status(t){var el=$('save');if(el)el.textContent=t}
@@ -1099,9 +1103,23 @@ function todayHtml(){
   return '<section class="today" aria-label="Dnes"><div class="tring"><svg viewBox="0 0 72 72" aria-hidden="true"><circle cx="36" cy="36" r="30" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="7"/><circle cx="36" cy="36" r="30" fill="none" stroke="#ffd27a" stroke-width="7" stroke-linecap="round" stroke-dasharray="'+(C*pct).toFixed(1)+' '+C.toFixed(1)+'"/></svg><b>'+lab+'</b></div>'+
     '<div><h2>'+ttl+'</h2><p>'+esc(txt)+'</p>'+(tg.length&&!ill?'<p class="tgear">Vzít s sebou: '+esc(tg.join(', '))+'</p>':'')+btn+clubRow+'</div></section>';
 }
+function voc(n){
+  n=String(n||'').trim();if(!n)return n;
+  var sp={'Petr':'Petře','Pavel':'Pavle','Karel':'Karle','Jiří':'Jiří','Ondřej':'Ondřeji','Matěj':'Matěji','Tomáš':'Tomáši','Lukáš':'Lukáši','Vojtěch':'Vojtěchu','Jindřich':'Jindřichu','Zdeněk':'Zdeňku','Luděk':'Luďku','Marek':'Marku','Radek':'Radku','Vítek':'Vítku','Kuba':'Kubo','Honza':'Honzo','Vojta':'Vojto','Ota':'Oto','Saša':'Sašo'};
+  if(sp[n])return sp[n];
+  var l=n.slice(-1),l2=n.slice(-2);
+  if(l==='a')return n.slice(0,-1)+'o';
+  if(l2==='ek')return n.slice(0,-2)+'ku';
+  if(l2==='ěk')return n.slice(0,-2)+'ěku';
+  if(l2==='ch'||l==='k'||l==='h'||l==='g')return n+'u';
+  if('šžčřjcxs'.indexOf(l)>=0)return n+'i';
+  if(l2==='el'&&'aeiouyáéíóúý'.indexOf(n.slice(-3,-2).toLowerCase())>=0)return n+'i';
+  if('aeiouyáéíóúýěů'.indexOf(l.toLowerCase())>=0)return n;
+  return n+'e';
+}
 function dnesHtml(){
   var S=rwSnap(),son=sonP(),now=new Date(),tk=key(now),d=dayOf(tk),items=d.items||[],all=items.length,done=items.filter(function(x){return x.done}).length,left=items.filter(function(x){return !x.done}),ill=illOn(tk);
-  var nm=son?son.name.split(' ')[0]:'',bal=Math.max(0,S.xp-spentXP());
+  var nm=son?voc(son.name.split(' ')[0]):'',bal=Math.max(0,S.xp-spentXP());
   var evs=evOfDay(tk),clubs=evs.filter(function(e){return e.type==='trenink'}),others=evs.filter(function(e){return e.type!=='trenink'});
   var attOf=function(e){var a=D.att[e.id];return !!(son&&a&&a.st&&a.st[son.id]==='y')};
   var pot=(d.rest||ill)?0:left.reduce(function(a,x){return a+(+x.min||10)},0)+clubs.filter(function(e){return !attOf(e)}).reduce(function(a,e){return a+(+e.dur||60)},0);
@@ -1109,7 +1127,7 @@ function dnesHtml(){
   var clk=ic('<circle cx="12" cy="12" r="8.500"/><path d="M12 7.500V12l3 2"/>'),pin=ic('<path d="M12 21s6.500-5.700 6.500-11a6.500 6.500 0 0 0-13 0C5.500 15.300 12 21 12 21z"/><circle cx="12" cy="10" r="2.300"/>');
   var h='<div class="dn">';
   h+='<header class="dn-hello">'+
-    ''+(son&&son.photo?bodyHtml(son,44,66):'')+'<div class="dn-hi"><h2>Ahoj'+(nm?', '+esc(nm):'')+'</h2><p>'+bal+' XP k utracení</p></div>'+(S.streak>0?'<div class="dn-flame" title="Týdny v řadě">'+FLAME+S.streak+'</div>':'')+'</header>';
+    '<div class="dn-hi"><h2>Ahoj'+(nm?', '+esc(nm):'')+'</h2><p>'+bal+' XP k utracení</p></div>'+(S.streak>0?'<div class="dn-flame" title="Týdny v řadě">'+FLAME+S.streak+'</div>':'')+'</header>';
   h+='<p class="dn-date">'+esc((function(t){return t.charAt(0).toUpperCase()+t.slice(1)})(fmt(now,{weekday:'long',day:'numeric',month:'long'})))+(pot?' · dnes můžeš získat až <b class="dn-xp">+'+pot+' XP</b>':'')+'</p>';
   /* trénink */
   if(ill)h+='<section class="dn-card"><div class="dn-k">Dnes</div><div class="dn-t">Dnes odpočívej</div><p class="dn-sub">'+esc(ILLT[ill.type])+'. Série tréninků se kvůli tomu nepřeruší.</p></section>';
@@ -1494,14 +1512,13 @@ function planSection(k,d){
   else h+=all+' cvičení · '+fmtMin(m)+' · hotovo '+done+' z '+all;
   h+='</div>';
   if(!d.rest&&(d.time||d.place))h+='<div class="itwhen">'+(d.time?'🕒 '+esc(d.time):'')+(d.time&&d.place?' · ':'')+(d.place?'📍 '+esc(d.place):'')+'</div>';
-  if(!d.rest&&all)h+='<div class="gbrk">'+Object.keys(CAT).filter(function(c){return gm[c]>0}).map(function(c){return '<span class="chip"><i style="background:'+CAT[c].c+'"></i>'+CAT[c].n+' '+fmtMin(gm[c])+'</span>'}).join('')+'</div>';
   h+='</div><div class="acts">';
   if(!hide&&!d.rest){
     h+='<button class="btn primary" data-act="runall" data-p="'+ph+'"'+(all-done?'':' disabled')+'>'+IC.play+(mxp>1?'Spustit '+ph+'. fázi':'Spustit trénink')+'</button>';
     h+='<button class="btn" data-act="add">'+IC.plus+'Přidat cvičení</button>';
   }
-  if(!hide&&!d.rest)h+='<button class="btn" data-act="itwhen">'+((d.time||d.place)?'Změnit čas a místo':'Čas a místo')+'</button>';
   var pm=[];
+  if(!hide&&!d.rest)pm.push(['itwhen',(d.time||d.place)?'Změnit čas a místo':'Čas a místo','x']);
   if(!hide&&!d.rest&&mxp<3)pm.push(['addphase',mxp>1?(mxp+1)+'. fáze dne':'Druhá fáze dne','x']);
   if(!hide&&(histGet()[k]||[]).length)pm.push(['phist','Dřívější verze','x']);
   if(!hide)pm.push(['copy','Kopírovat plán','x'],['rest',d.rest?'Zrušit volno':'Označit jako volno','x']);
@@ -1539,14 +1556,22 @@ function planSection(k,d){
   }
   return h;
 }
+function daySumHtml(k,d,ev){
+  var rows=ev.map(function(e){
+    var lab=e.type==='trenink'?(e.kr?'Kroužek · '+(e.title||''):'Klubový trénink'):e.type==='zapas'?'Zápas'+(e.opp?' · '+e.opp:''):'Turnaj'+(e.title?' · '+e.title:'');
+    var tm=(e.time||'')+(e.end?'–'+e.end:''),mn=evMin(e),meta=[];
+    if(e.meet)meta.push('sraz '+e.meet);if(tm)meta.push(tm);if(mn)meta.push(mn+' min');
+    return '<li><i style="background:'+(EVT[e.type]||EVT.trenink).c+'"></i><b>'+esc(lab)+'</b><span>'+esc(meta.join(' · '))+'</span></li>';
+  });
+  if(ROLE.coach&&!d.rest&&(d.items||[]).length)rows.push('<li><i style="background:#0f766e"></i><b>Individuální trénink</b><span>'+esc((d.time?d.time+' · ':'')+fmtMin(mins(d)))+'</span></li>');
+  return rows.length?'<ul class="dsum">'+rows.join('')+'</ul>':'<div class="dsum0">Žádná událost</div>';
+}
 function renderPanel(){
   var k=view.sel,d=dayOf(k),dt=parse(k),wd=(dt.getDay()+6)%7,ev=evOfDay(k);
-  var h='<div class="ph"><div><h2>'+DNL[wd]+' '+fmt(dt,{day:'numeric',month:'long'})+'</h2><div class="sub">';
-  h+=ev.length?ev.length+' '+(ev.length===1?'událost':ev.length<5?'události':'událostí')+' · '+fmtMin(dayMin(k)):(ROLE.coach&&!d.rest&&(d.items||[]).length?'Individuální trénink · '+fmtMin(dayMin(k)):'Žádná událost');
-  h+='</div></div>';
-  if(ROLE.coach)h+='<div class="acts"><button class="btn" data-act="addev" data-t="trenink">'+IC.plus+'Klubový trénink</button><button class="btn" data-act="addev" data-t="zapas">'+IC.plus+'Zápas</button><button class="btn" data-act="addev" data-t="turnaj">'+IC.plus+'Turnaj</button><button class="btn" data-act="newill" data-k="'+k+'">'+IC.plus+'Nemoc</button></div>';
+  var h='<div class="ph"><div class="phd">'+DNL[wd]+' '+fmt(dt,{day:'numeric',month:'long'})+'</div>'+daySumHtml(k,d,ev);
+  if(ROLE.coach)h+='<div class="acts addrow"><button class="btn" data-act="addev" data-t="trenink">'+IC.plus+'Klubový trénink</button><button class="btn" data-act="addev" data-t="zapas">'+IC.plus+'Zápas</button><button class="btn" data-act="addev" data-t="turnaj">'+IC.plus+'Turnaj</button><button class="btn" data-act="additplan">'+IC.plus+'Individuální trénink</button><button class="btn" data-act="newill" data-k="'+k+'">'+IC.plus+'Nemoc</button></div>';
   h+='</div>';
-  if(ROLE.coach&&!d.rest&&(d.items||[]).length){var itn=d.items.length,itd=d.items.filter(function(x){return x.done}).length;h+='<div class="itbar" role="status"><span class="itb">IT</span><span><b>Individuální trénink</b>'+(d.time||d.place?' · '+(d.time?'🕒 '+esc(d.time):'')+(d.time&&d.place?' · ':'')+(d.place?'📍 '+esc(d.place):''):'')+' · '+itn+' '+(itn===1?'cvičení':itn<5?'cvičení':'cvičení')+' · '+fmtMin(mins(d))+' · hotovo '+itd+' z '+itn+'</span><button class="btn small" data-act="scrollplan">Zobrazit plán</button>'+(gearOf(d.items).length?'<div class="itgear"><b>Vzít s sebou:</b> '+gearChips(gearOf(d.items))+'</div>':'')+'</div>'}
+  if(ROLE.coach&&!d.rest&&(d.items||[]).length&&gearOf(d.items).length)h+='<div class="itbar itgear1" role="status"><b>Vzít s sebou:</b> '+gearChips(gearOf(d.items))+'</div>';
   var ill=illOn(k);if(ill)h+='<div class="sickbar" role="status"><b>'+ILLT[ill.type]+'</b>'+(ill.note?' · '+esc(ill.note):'')+'<button class="btn small" data-act="editill" data-id="'+ill.id+'">Upravit</button></div>';
   if(ev.length)h+='<div class="evs">'+ev.map(function(e){return eventCard(e)}).join('')+'</div>';
   else if(!(ROLE.coach&&!d.rest&&(d.items||[]).length))h+='<div class="empty">'+(ROLE.coach?'V tento den není klubový trénink ani zápas. Přidej ho tlačítky nahoře nebo si naplánuj individuální trénink níže.':'V tento den nic není naplánované.')+'</div>';
@@ -1578,23 +1603,16 @@ function detailHtml(x,imgs){
   return h;
 }
 function exRow(x,idx,n,filtered){
-  var c=CAT[x.cat]||CAT.sila,spec=specText(x),imgs=safeImgs(x),open=!!view.open[x.id],tags='';
-  if(safeUrl(x.video))tags+='<span class="chip">Video</span>';
-  if(imgs.length)tags+='<span class="chip">Obrázky '+imgs.length+'</span>';
+  var c=CAT[x.cat]||CAT.sila,imgs=safeImgs(x),open=!!view.open[x.id];
+  var mi=[['detail','Popis a návody','x'],['runone','Spustit cvičení','x'],['edit','Upravit','x']];
+  if(!filtered){if(idx>0)mi.push(['up','Posunout výš','x']);if(idx<n-1)mi.push(['down','Posunout níž','x'])}
+  mi.push(['del','Smazat','x','danger']);
   return '<li class="ex'+(x.done?' done':'')+(view.pop===x.id?' pop':'')+'" data-id="'+x.id+'">'+
     '<button class="chk" data-act="toggle" aria-pressed="'+!!x.done+'" aria-label="Hotovo: '+esc(x.name)+'">'+IC.chk+'</button>'+
-    '<div><div class="ex-name"><span>'+esc(x.name)+'</span></div>'+
-    '<div class="ex-meta"><span class="chip"><i style="background:'+c.c+'"></i>'+c.n+'</span>'+(spec?'<span class="spec">'+spec+'</span>':'')+tags+'</div>'+
+    '<div><div class="ex-name"><span>'+esc(x.name)+'</span><span class="ex-cat"><i style="background:'+c.c+'"></i>'+c.n+'</span></div>'+
     (x.note?'<p class="ex-note">'+esc(x.note)+'</p>':'')+'</div>'+
     '<div class="ex-time">'+(x.min?x.min+'<small>min</small>':'<small>bez času</small>')+'</div>'+
-    '<div class="ex-tools">'+
-      '<button class="ib" data-act="detail" aria-expanded="'+open+'" aria-label="Popis a návody">'+IC.info+'</button>'+
-      '<button class="ib ibrun" data-act="runone" aria-label="Spustit cvičení">'+IC.play+'</button>'+
-      '<button class="ib" data-act="edit" aria-label="Upravit">'+IC.edit+'</button>'+
-      (filtered?'':'<button class="ib" data-act="up" aria-label="Posunout výš"'+(idx===0?' disabled style="opacity:.3"':'')+'>'+IC.up+'</button>'+
-      '<button class="ib" data-act="down" aria-label="Posunout níž"'+(idx===n-1?' disabled style="opacity:.3"':'')+'>'+IC.down+'</button>')+
-      '<button class="ib" data-act="del" aria-label="Smazat">'+IC.del+'</button>'+
-    '</div>'+(open?detailHtml(x,imgs):'')+'</li>';
+    '<div class="ex-tools">'+kdots('ex'+x.id,mi)+'</div>'+(open?detailHtml(x,imgs):'')+'</li>';
 }
 function plannerHtml(d,all){
   var foc=d.focus||[],tgt=d.target||60,cool=d.cool!==false;
@@ -1927,14 +1945,15 @@ var FAM=[
 ];
 var BADGES=[];
 /* bez stropu: po poslední úrovni pokračují další (2×, 3×, ... násobek poslední hranice) */
-function fTh(f,i){var L=f.th.length;return i<L?f.th[i]:f.th[L-1]*(i-L+2)}
-function fNm(f,i){var L=f.th.length;return i<L?f.tn[i]:f.tn[L-1]+' ×'+(i-L+2)}
-function fCnt(f,v){var L=f.th.length,n=0;f.th.forEach(function(t){if(v>=t)n++});if(n===L)n=L-1+Math.floor(v/f.th[L-1]);return n}
+function niceNext(x){var p=Math.pow(10,Math.floor(Math.log10(x))),m=x/p;return m<2?2*p:m<5?5*p:10*p}
+function fTh(f,i){var L=f.th.length;if(i<L)return f.th[i];var t=f.th[L-1];for(var k=L;k<=i;k++)t=niceNext(t);return t}
+function fNm(f,i){var L=f.th.length;return i<L?f.tn[i]:f.tn[L-1]+' '+fTh(f,i)}
+function fCnt(f,v){var L=f.th.length,n=0;f.th.forEach(function(t){if(v>=t)n++});if(n===L){while(v>=fTh(f,n))n++}return n}
 function fExtra(S){var ids=[];FAM.forEach(function(f){var L=f.th.length,n=fCnt(f,f.m(S));for(var i=L;i<n;i++)ids.push(f.id+':'+i)});return ids}
 FAM.forEach(function(f){f.th.forEach(function(t,i){BADGES.push({id:f.id+':'+i,fam:f.id,i:i,n:f.tn[i],d:f.dsc.replace('{n}',t),m:TIERC[Math.min(i,4)],t:(function(f,t){return function(S){return f.m(S)>=t}})(f,t)})})});
 function badgeOf(id){var b=BADGES.filter(function(b){return b.id===id})[0];if(b)return b;
   var a=id.split(':'),i=+a[1],f=FAM.filter(function(f){return f.id===a[0]})[0];if(!f)return null;
-  return {id:id,fam:f.id,i:i,n:fNm(f,i),d:f.dsc.replace('{n}',fTh(f,i)),m:'d'}}
+  return {id:id,fam:f.id,i:i,n:fNm(f,i),d:f.dsc.replace('{n}',fTh(f,i)),m:TIERC[Math.min(i,4)]}}
 function medalHtml(b,on,cls){return '<span class="medal m-'+b.m+(on?'':' off')+(cls?' '+cls:'')+'" aria-hidden="true">'+IC.star+'</span>'}
 /* porovná stav před změnou s nynějším a ukáže odměnu */
 function xpPop(n){
@@ -2091,9 +2110,9 @@ function cileHtml(){
 function shopSize(c){return c<=500?0:c<=2000?1:2}
 var SHOPSZ=['Malé odměny (do 500 XP)','Střední odměny (501 až 2 000 XP)','Velké odměny (nad 2 000 XP)'];
 function shopHtml(S){
-  var spent=spentXP(),bal=Math.max(0,S.xp-S.sxp-spent),ids=Object.keys(CUSTOM_SHOP).sort(function(a,b){return (CUSTOM_SHOP[a].cost||0)-(CUSTOM_SHOP[b].cost||0)});
+  var spent=spentXP(),bal=Math.max(0,S.xp-S.sxp-spent),allIds=Object.keys(CUSTOM_SHOP).sort(function(a,b){return (CUSTOM_SHOP[a].cost||0)-(CUSTOM_SHOP[b].cost||0)}),ids=allIds.filter(function(i){return !CUSTOM_SHOP[i].fin});
   view.sh=view.sh||{};
-  var h='<section class="panel"><div class="sect"><div class="sect-h"><h2>Odměny od rodičů</h2><button class="btn primary" data-act="newshop">'+IC.plus+'Přidat odměnu</button></div>'+
+  var h='<section class="panel"><div class="sect"><div class="sect-h"><h2>Moje odměny</h2><button class="btn primary" data-act="newshop">'+IC.plus+'Přidat odměnu</button></div>'+
     '<div class="rec"><div><b>'+bal+' XP</b><span>k utracení</span></div><div><b>'+spent+' XP</b><span>už utraceno</span></div></div>';
   function item(i){
     var r=CUSTOM_SHOP[i],ok=bal>=r.cost,pct=Math.min(100,Math.round(bal/r.cost*100));
@@ -2106,7 +2125,8 @@ function shopHtml(S){
     gs.forEach(function(g,k){if(!g.length)return;o+=(used>1?'<h4 class="shsz">'+SHOPSZ[k]+'</h4>':'')+'<ul class="shop">'+g.map(item).join('')+'</ul>'});
     return o;
   }
-  if(!ids.length)h+='<div class="empty"><b>Zatím žádná odměna</b>Domluvte se, co si může za body vybrat. Třeba zmrzlinu za 500 XP nebo výlet na zápas za 2000 XP.</div>';
+  if(!ids.length&&allIds.length)h+='<div class="empty"><b>Všechno vybráno</b>Přidej další odměnu, na kterou chceš sbírat body.</div>';
+  else if(!ids.length)h+='<div class="empty"><b>Zatím žádná odměna</b>Nastav si, co chceš za body získat. Třeba zmrzlinu za 500 XP nebo výlet na zápas za 2000 XP.</div>';
   else{
     var now=[],later=[];
     ids.forEach(function(i){var c=CUSTOM_SHOP[i].cost||1;if(bal>=c)now.push(i);else later.push(i)});
@@ -2115,7 +2135,7 @@ function shopHtml(S){
     else{var nx=ids.filter(function(i){return bal<CUSTOM_SHOP[i].cost})[0];h+='<p class="hint">Zatím na nic nemáš dost XP.'+(nx?' Nejblíž je „'+esc(CUSTOM_SHOP[nx].name)+'“, chybí '+(CUSTOM_SHOP[nx].cost-bal)+' XP.':'')+'</p>'}
     if(later.length)h+='<details class="shd" data-shopd="later"'+(view.sh.later?' open':'')+'><summary>Později <small>('+later.length+')</small></summary>'+grouped(later)+'</details>';
   }
-  var cl=[];ids.forEach(function(i){(CUSTOM_SHOP[i].claims||[]).forEach(function(c){cl.push({i:i,c:c,n:CUSTOM_SHOP[i].name})})});
+  var cl=[];allIds.forEach(function(i){(CUSTOM_SHOP[i].claims||[]).forEach(function(c){cl.push({i:i,c:c,n:CUSTOM_SHOP[i].name})})});
   cl.sort(function(a,b){return a.c.d<b.c.d?1:a.c.d>b.c.d?-1:0});
   function crow(o){
     return '<li class="srow"><div class="sd">'+esc(fmt(parse(o.c.d),{day:'numeric',month:'numeric'}))+'</div><div class="sm"><b>'+esc(o.n)+'</b> <small>'+o.c.c+' XP · '+(o.c.done?'předáno':'čeká na předání')+'</small></div>'+
@@ -2139,7 +2159,7 @@ function submitShop(){
   var n=$('sh-name').value.trim(),c=num($('sh-cost').value);
   if(!n){$('f-err').textContent='Napiš, co je odměna.';return}
   if(!c){$('f-err').textContent='Zadej cenu v XP (aspoň 1).';return}
-  var id=shopCtx.id||uid(),old=shopCtx.id?CUSTOM_SHOP[id]:null,o={name:n,cost:c,note:$('sh-note').value.trim(),claims:old?old.claims||[]:[],created:old?old.created:Date.now()};
+  var id=shopCtx.id||uid(),old=shopCtx.id?CUSTOM_SHOP[id]:null,o={name:n,cost:c,fin:!!(old&&old.fin),note:$('sh-note').value.trim(),claims:old?old.claims||[]:[],created:old?old.created:Date.now()};
   CUSTOM_SHOP[id]=o;W('shop/'+id,o);closeModal();renderAll();
 }
 var goalCtx=null;
@@ -2249,11 +2269,12 @@ function odmenyHtml(){
     '<div class="rec"><div><b>'+S.streak+'</b><span>týdnů v řadě</span></div><div><b>'+S.best+'</b><span>nejdelší série</span></div><div><b>'+S.ex+'</b><span>splněných cvičení</span></div><div><b>'+S.days+'</b><span>splněných tréninků</span></div><div><b>'+S.recBrk+'</b><span>překonaných rekordů</span></div></div></div></section>';
   h+=shopHtml(S);
   var total=BADGES.length+S.xb.length,got=S.badges.length;
-  h+='<section class="panel"><div class="sect"><div class="sect-h"><h2>Odznaky ('+got+'/'+total+')</h2></div><p class="hint">Každý odznak má několik úrovní. Barva medaile ukazuje, jak daleko jsi: bronz, stříbro, zlato, platina, diamant.</p></div></section>';
+  h+='<section class="panel"><div class="sect"><div class="sect-h"><h2>Odznaky ('+got+'/'+total+')</h2></div><p class="hint">Každý odznak má několik úrovní. Barva medaile ukazuje, jak vysoko jsi.</p><div class="lgd"><span><i class="m-b"></i>bronz</span><span><i class="m-s"></i>stříbro</span><span><i class="m-g"></i>zlato</span><span><i class="m-p"></i>platina</span><span><i class="m-d"></i>diamant</span></div></div></section>';
   var wl=BADGES.map(function(b){return b.id}).concat(S.xb);
+  FAM.forEach(function(f){var nn=fCnt(f,f.m(S));if(nn>=f.th.length)wl.push(f.id+':'+nn)});
   h+='<section class="panel"><div class="sect"><div class="sect-h"><h2>Nástěnka úspěchů</h2></div><p class="hint">Splněné odznaky svítí, ostatní čekají zašedlé. Klepni na odznak a uvidíš, co pro něj udělat.</p><div class="wall">'+wl.map(function(id){var b=badgeOf(id),on=S.badges.indexOf(id)>=0,pc=0,pt='';
     if(!on){var f9=FAM.filter(function(f){return f.id===b.fam})[0];if(f9){var v9=f9.m(S),t9=fTh(f9,b.i);if(t9>0&&v9>0){pc=Math.min(99,Math.max(4,Math.round(v9/t9*100)));pt=Math.min(v9,t9)+' / '+t9}}}
-    return '<span class="w'+(on?' on':pc?' part':'')+'" tabindex="0" data-tip="'+esc(b.n+' – '+b.d+(on?' (splněno)':pc?' (rozděláno: '+pt+', '+pc+' %)':''))+'" aria-label="'+esc(b.n+(on?', splněno':pc?', rozděláno '+pc+' procent':', zamčeno')+': '+b.d)+'"><span class="wr" style="--p:'+(on?100:pc)+'">'+medalHtml(b,on)+'</span><span>'+esc(b.n)+'</span>'+(pc?'<small class="wpt">'+pc+' %</small>':'')+'</span>'}).join('')+'</div></div></section>';
+    return '<span class="w'+(on?' on t-'+b.m:pc?' part':'')+'" tabindex="0" data-tip="'+esc(b.n+' – '+b.d+(on?' (splněno)':pc?' (rozděláno: '+pt+', '+pc+' %)':''))+'" aria-label="'+esc(b.n+(on?', splněno':pc?', rozděláno '+pc+' procent':', zamčeno')+': '+b.d)+'"><span class="wr" style="--p:'+(on?100:pc)+'">'+medalHtml(b,on)+'</span><span>'+esc(b.n)+'</span>'+(pc?'<small class="wpt">'+pc+' %</small>':'')+'</span>'}).join('')+'</div></div></section>';
   var fopen=(view.lb||{}).fam===true;
   h+='<section class="panel"><div class="sect"><div class="sect-h"><button type="button" class="lgt" data-act="cgtoggle" data-k="fam" aria-expanded="'+fopen+'"><span class="arr">'+(fopen?'▾':'▸')+'</span><b>Podrobnosti odznaků</b> <small>postup v každé kategorii</small></button></div></div></section>';
   if(fopen)FAMG.forEach(function(g){
@@ -2279,7 +2300,7 @@ function odmenyHtml(){
       ['+80–100','za snahu 8 až 10 z 10','10 XP za každý bod: 8 z 10 = 80, 9 z 10 = 90, 10 z 10 = 100. Hodnotí se snaha, ne to, jak jsi byl dobrý. Snahu hodnotí osoba k tomu určená, rodič nebo trenér. Chceš ji znát? Zeptej se trenéra, jak by tě ohodnotil na škále od 1 do 10, kde 10 je nejvíc.'],
       ['+10','za zapsaný rekord','A <b>+50</b>, když ho překonáš.']
     ].map(function(r){return '<div class="xpr"><b>'+r[0]+'</b><div><strong>'+r[1]+'</strong><small>'+r[2]+'</small></div></div>'}).join('')+'</div>'+
-    '<h3 class="kidh">K čemu jsou XP</h3><ul class="kidul"><li><b>Odměny.</b> Za XP si můžeš koupit odměny, které ti nastavili rodiče. Při koupi se XP odečtou. Odznaky ti zůstanou.</li><li><b>Odznaky.</b> Za dlouhodobé snažení svítí hvězdičky na nástěnce úspěchů.</li></ul>'+
+    '<h3 class="kidh">K čemu jsou XP</h3><ul class="kidul"><li><b>Odměny.</b> Za XP si můžeš koupit odměny, které sis nastavil. Při koupi se XP odečtou. Odznaky ti zůstanou.</li><li><b>Odznaky.</b> Za dlouhodobé snažení svítí hvězdičky na nástěnce úspěchů.</li></ul>'+
     '<p class="kidtip"><b>Tip:</b> Nejrychleji roste XP, když trénuješ pravidelně. Týden se třemi tréninky po 40 minutách dá i s bonusem za týden 220 XP.</p>'+
     '<p class="hint">Týden se do série počítá, když máš aspoň 3 dny se splněným cvičením nebo tréninkem. Nemoc a volno sérii nepřerušují.</p></div></section>';
   return h;
@@ -2405,7 +2426,7 @@ function synHtml(){
   Object.keys(CUSTOM_SEA).forEach(function(i){var k=seaKey(+CUSTOM_SEA[i].year);if(seasons.indexOf(k)<0)seasons.push(k)});
   var curS=seasonOf(today);if(seasons.indexOf(curS)<0)seasons.push(curS);
   seasons.sort().reverse();
-  var sf=view.season!=='all'&&seasons.indexOf(view.season)>=0?view.season:'all';
+  var sf=view.season==='all'?'all':(seasons.indexOf(view.season)>=0?view.season:curS);
   var rows=[],todo=[],tp=0,tx=0,tn=0,g=0,a=0,rs=0,rn=0;
   var ckr=0,cclub=0,ctur=0,cgame=0,cind=0;
   Object.keys(D.plan).forEach(function(k){var d0=D.plan[k];if(!d0||d0.rest)return;if(sf!=='all'&&seasonOf(k)!==sf)return;if((d0.items||[]).some(function(x){return x.done}))cind++});
@@ -2432,7 +2453,7 @@ function synHtml(){
   var chips='<div class="pchips">'+(p.num?'<span class="pnum">#'+esc(String(p.num))+'</span>':'')+(POS[p.pos]?'<span class="chip">'+esc(POS[p.pos])+'</span>':'')+'</div>';
   var sel='',hasEv=!!(cind||tt||rows.length||todo.length);
   var seaRec=null;if(sf!=='all')Object.keys(CUSTOM_SEA).forEach(function(i){if(seaKey(+CUSTOM_SEA[i].year)===sf)seaRec=CUSTOM_SEA[i]});
-  var pills='<div class="sea-w" role="tablist" aria-label="Sezóna">'+[['all','Kariéra']].concat(seasons.map(function(k){return [k,k+(k===curS?' · teď':'')]})).map(function(x){return '<button type="button" class="pseg'+(sf===x[0]?' on':'')+'" data-act="sea" data-v="'+x[0]+'" aria-pressed="'+(sf===x[0])+'">'+esc(x[1])+'</button>'}).join('')+'</div>'+
+  var pills='<div class="sea-w" role="tablist" aria-label="Sezóna">'+[[curS,curS+' · teď'],['all','Kariéra']].concat(seasons.filter(function(k){return k!==curS}).map(function(k){return [k,k]})).map(function(x){return '<button type="button" class="pseg'+(sf===x[0]?' on':'')+'" data-act="sea" data-v="'+x[0]+'" aria-pressed="'+(sf===x[0])+'">'+esc(x[1])+'</button>'}).join('')+'</div>'+
     (seaRec?'<p class="hint sea-note">'+[seaRec.club,seaRec.cat,POS[seaRec.pos]].filter(Boolean).map(esc).join(' · ')+(seaRec.note?(' · '+esc(seaRec.note)):'')+'</p>':'');
   var T=function(v,l,c){return '<div class="st'+(c?' '+c:'')+'"><b>'+v+'</b><span>'+l+'</span></div>'},cm=function(x){return x.toFixed(1).replace('.',',')};
   var g1='<h4 class="sth">Zápasy a góly</h4><div class="stg">'+T(n,'zápasů celkem')+T(g+(st0.g||0),'góly','gold')+T(a+(st0.a||0),'asistence')+T(g+a+(st0.g||0)+(st0.a||0),'G + A')+T(n?cm((g+(st0.g||0))/n):'–','gólů na zápas')+(mn>0?T(mn,'minut na hřišti'+(allmin?'':' (zapsané)')):'')+(mn>0&&allmin?T(cm(g/mn*60),'gólů na 60 minut','gold'):'')+(rn?T(cm(rs/rn),'snaha z 10'):'')+'</div>';
@@ -2994,7 +3015,7 @@ function doConfirm(what,id){
     if(bl2){HIDDEN[id]={n:bl2.n,created:Date.now()};rebuildLib();W('libhide/'+id,HIDDEN[id]);renderAll();toast('Cvičení odebráno z knihovny')}
   }else if(what==='revclaim'){
     var rq=String(id).split('|'),rso=CUSTOM_SHOP[rq[0]];
-    if(rso){var rs2=clone(rso);rs2.claims=(rs2.claims||[]).filter(function(c){return c.id!==rq[1]});CUSTOM_SHOP[rq[0]]=rs2;W('shop/'+rq[0],rs2);closeModal();renderAll();toast('Odměna vrácena, body jsou zpět')}
+    if(rso){var rs2=clone(rso);rs2.claims=(rs2.claims||[]).filter(function(c){return c.id!==rq[1]});rs2.fin=false;CUSTOM_SHOP[rq[0]]=rs2;W('shop/'+rq[0],rs2);closeModal();renderAll();toast('Odměna vrácena, body jsou zpět')}
   }else if(what==='dellib'){
     delete CUSTOM_LIB[id];rebuildLib();Wdel('lib/'+id);renderAll();toast('Cvičení odebráno z knihovny');
   }else if(what==='claim'){
@@ -3002,9 +3023,9 @@ function doConfirm(what,id){
     if(cs){
       var rsn=rwSnap(),bal=Math.max(0,rsn.xp-rsn.sxp-spentXP());
       if(bal<cs.cost){toast('Na tuhle odměnu zatím nejsou XP');return}
-      var c2=clone(cs);c2.claims=(c2.claims||[]).concat([{id:uid(),d:key(new Date()),c:cs.cost,done:false}]);CUSTOM_SHOP[id]=c2;W('shop/'+id,c2);renderAll();
+      var c2=clone(cs);c2.claims=(c2.claims||[]).concat([{id:uid(),d:key(new Date()),c:cs.cost,done:false}]);c2.fin=true;CUSTOM_SHOP[id]=c2;W('shop/'+id,c2);renderAll();
       var conf='';for(var i=0;i<22;i++)conf+='<i style="left:'+(2+i*4.4)+'%;background:'+['#2f7de1','#e0a800','#1fa37a','#e0562c','#8a55d6'][i%5]+';animation-delay:'+((i%7)*0.12)+'s"></i>';
-      openModal('<div class="cele"><div class="confetti" aria-hidden="true">'+conf+'</div><h3 id="mtitle">Odměna vybrána!</h3><p class="xpbig" style="font-size:28px">'+esc(cs.name)+'</p><p>Řekni rodičům, ať ti ji předají.</p><div class="dact"><button type="button" class="btn primary" id="cele-ok" data-act="closemodal">Super</button></div></div>','cele-ok');
+      openModal('<div class="cele"><div class="confetti" aria-hidden="true">'+conf+'</div><h3 id="mtitle">Odměna vybrána!</h3><p class="xpbig" style="font-size:28px">'+esc(cs.name)+'</p><p>Až odměnu dostaneš, označ ji jako předanou.</p><div class="dact"><button type="button" class="btn primary" id="cele-ok" data-act="closemodal">Super</button></div></div>','cele-ok');
     }
   }else if(what==='delrec'){
     delete CUSTOM_RECS[id];Wdel('rec/'+id);renderAll();toast('Rekord smazán');
@@ -3042,6 +3063,7 @@ document.addEventListener('click',function(e){
     case 'sharecard':shareCard();break;
     case 'icsall':var fut=elist().filter(function(e){return e.date>=key(new Date())});if(!fut.length){toast('Nejsou žádné budoucí události.')}else{icsDownload(fut,'treninky.ics');toast('Soubor kalendáře se stáhl. Otevři ho a přidej události.')}break;
     case 'ics':var ev1=D.events[b.getAttribute('data-id')];if(ev1){var e1=clone(ev1);e1.id=b.getAttribute('data-id');icsDownload([e1],'udalost.ics')}break;
+    case 'additplan':view.planHide[view.sel]=false;renderPanel();(function(){var pn=$('plansec')||$('panel');if(pn)pn.scrollIntoView({behavior:'smooth',block:'start'})})();break;
     case 'scrollplan':var pn=$('plansec')||$('panel');if(pn)pn.scrollIntoView({behavior:'smooth',block:'start'});break;
     case 'skippause':stopPause();renderRunner();break;
     case 'live':var lev=D.events[b.getAttribute('data-id')],lson=sonP();if(!lev||!lson)break;var lpre=rwSnap(),le=clone(lev),lw=b.getAttribute('data-w'),ld=+b.getAttribute('data-d');le.stats=le.stats||{};var ls=le.stats[lson.id]||{g:0,a:0};ls[lw]=Math.max(0,(ls[lw]||0)+ld);le.stats[lson.id]=ls;le.played=true;D.events[b.getAttribute('data-id')]=le;W('teams/'+curTeam+'/events/'+b.getAttribute('data-id'),le);scheduleRender();if(ld>0)ding();reward(lpre);break;
@@ -3061,7 +3083,7 @@ document.addEventListener('click',function(e){
     case 'delshop':delete CUSTOM_SHOP[rid];Wdel('shop/'+rid);closeModal();renderAll();toast('Odměna smazána');break;
     case 'claim':if(CUSTOM_SHOP[rid])openConfirm('Vybrat odměnu „'+CUSTOM_SHOP[rid].name+'“ za '+CUSTOM_SHOP[rid].cost+' XP?','claim',rid);break;
     case 'unclaim':case 'handed':var so2=CUSTOM_SHOP[rid];if(so2){var s2=clone(so2),ce=b.getAttribute('data-e');
-      if(a==='unclaim')s2.claims=(s2.claims||[]).filter(function(c){return c.id!==ce});
+      if(a==='unclaim'){s2.claims=(s2.claims||[]).filter(function(c){return c.id!==ce});s2.fin=false}
       else (s2.claims||[]).forEach(function(c){if(c.id===ce)c.done=true});
       CUSTOM_SHOP[rid]=s2;W('shop/'+rid,s2);renderAll();toast(a==='unclaim'?'Výběr zrušen, XP se vrátily':'Označeno jako předané')}break;
     case 'revask':var rv=String(rid).split('|'),rvs=CUSTOM_SHOP[rv[0]],rvc=rvs&&(rvs.claims||[]).filter(function(c){return c.id===rv[1]})[0];if(rvc)openConfirm('Vrátit odměnu „'+rvs.name+'“ a připsat zpět '+rvc.c+' XP? Odměna zmizí z historie.','revclaim',rid);break;
