@@ -67,7 +67,7 @@ h1,h2,h3,p{margin:0;text-wrap:balance}
 .save{font-size:13px;color:var(--muted)}
 
 /* Week strip */
-.strip{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.strip{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;align-items:start}
 .day{
   border:1.5px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 4px 8px;
   text-align:center;display:flex;flex-direction:column;gap:2px;align-items:center;min-width:0;position:relative
@@ -77,8 +77,10 @@ h1,h2,h3,p{margin:0;text-wrap:balance}
 .day .dm{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
 .day .bar-mini{width:70%;height:5px;border-radius:3px;background:var(--line);overflow:hidden;margin-top:4px}
 .day .bar-mini i{display:block;height:100%;background:var(--ok)}
+.strip .day.today{display:flex;flex-direction:column;gap:2px;align-items:center;padding:8px 4px;margin:0;border-radius:10px;background:var(--surface);color:inherit;box-shadow:none}
 .day.sel{border-color:var(--ink);box-shadow:inset 0 -4px 0 var(--bib)}
-.day.today .dd::after{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--bib);margin-left:3px;vertical-align:super}
+.strip .day.today.sel{box-shadow:inset 0 -4px 0 var(--bib)}
+.day .dd{position:relative}.day.today .dd::after{content:"";position:absolute;top:2px;right:-8px;width:6px;height:6px;border-radius:50%;background:var(--bib)}
 .day.restday .dm{font-style:italic}
 
 /* Day panel */
@@ -1234,7 +1236,7 @@ function moreHtml(){
     if(DEFERRED)h+='<button type="button" class="btn" data-act="install">Nainstalovat jako aplikaci</button>';
     else h+='<p class="hint">'+(ios?'Na iPhonu: klepni na Sdílet a pak na Přidat na plochu.':'V nabídce prohlížeče zvol Přidat na plochu nebo Nainstalovat aplikaci.')+'</p>';
   }
-  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 20. 11. · E</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
+  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 20. 11. · F</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
   return h;
 }
 function download(name,blob){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1500)}
@@ -1601,13 +1603,14 @@ function daySumHtml(k,d,ev){
 function renderPanel(){
   var k=view.sel,d=dayOf(k),dt=parse(k),wd=(dt.getDay()+6)%7,ev=evOfDay(k);
   var h='<div class="ph"><div class="phd">'+DNL[wd]+' '+fmt(dt,{day:'numeric',month:'long'})+'</div>'+daySumHtml(k,d,ev);
-  if(ROLE.coach)h+='<div class="acts addrow"><button class="btn" data-act="addev" data-t="trenink">'+IC.plus+'Klubový trénink</button><button class="btn" data-act="addev" data-t="zapas">'+IC.plus+'Zápas</button><button class="btn" data-act="addev" data-t="turnaj">'+IC.plus+'Turnaj</button><button class="btn" data-act="additplan">'+IC.plus+'Individuální trénink</button><button class="btn" data-act="newill" data-k="'+k+'">'+IC.plus+'Nemoc</button></div>';
+  if(ROLE.coach){h+='<div class="acts addrow"><button class="btn" data-act="planday" aria-expanded="'+(view.planOpen?'true':'false')+'">'+IC.plus+'Naplánovat aktivitu</button></div>';
+    if(view.planOpen)h+='<div class="acts addrow plopts"><button class="btn" data-act="addev" data-t="trenink">Klubový trénink</button><button class="btn" data-act="addev" data-t="zapas">Zápas</button><button class="btn" data-act="addev" data-t="turnaj">Turnaj</button><button class="btn" data-act="additplan">Individuální trénink</button><button class="btn" data-act="newill" data-k="'+k+'">Nemoc</button></div>'}
   h+='</div>';
   if(ROLE.coach&&!d.rest&&(d.items||[]).length&&gearOf(d.items).length)h+='<div class="itbar itgear1" role="status"><b>Vzít s sebou:</b> '+gearChips(gearOf(d.items))+'</div>';
   var ill=illOn(k);if(ill)h+='<div class="sickbar" role="status"><b>'+ILLT[ill.type]+'</b>'+(ill.note?' · '+esc(ill.note):'')+'<button class="btn small" data-act="editill" data-id="'+ill.id+'">Upravit</button></div>';
   if(ev.length)h+='<div class="evs">'+ev.map(function(e){return eventCard(e)}).join('')+'</div>';
-  else if(!(ROLE.coach&&!d.rest&&(d.items||[]).length))h+='<div class="empty">'+(ROLE.coach?'V tento den není klubový trénink ani zápas. Přidej ho tlačítky nahoře nebo si naplánuj individuální trénink níže.':'V tento den nic není naplánované.')+'</div>';
-  if(ROLE.coach)h+=planSection(k,d);
+  else if(!(ROLE.coach&&!d.rest&&(d.items||[]).length))h+='<div class="empty">'+(ROLE.coach?'V tento den nic není naplánované. Klepni na „Naplánovat aktivitu“.':'V tento den nic není naplánované.')+'</div>';
+  if(ROLE.coach&&(((d.items||[]).length)||d.rest||(d.focus&&d.focus.length)||d.time||d.place||view.planHide[k]===false))h+=planSection(k,d);
   $('panel').innerHTML=h;
 }
 
@@ -3348,7 +3351,8 @@ document.addEventListener('click',function(e){
     case 'sharecard':shareCard();break;
     case 'icsall':var fut=elist().filter(function(e){return e.date>=key(new Date())});if(!fut.length){toast('Nejsou žádné budoucí události.')}else{icsDownload(fut,'treninky.ics');toast('Soubor kalendáře se stáhl. Otevři ho a přidej události.')}break;
     case 'ics':var ev1=D.events[b.getAttribute('data-id')];if(ev1){var e1=clone(ev1);e1.id=b.getAttribute('data-id');icsDownload([e1],'udalost.ics')}break;
-    case 'additplan':view.planHide[view.sel]=false;renderPanel();(function(){var pn=$('plansec')||$('panel');if(pn)pn.scrollIntoView({behavior:'smooth',block:'start'})})();break;
+    case 'planday':view.planOpen=!view.planOpen;renderPanel();break;
+    case 'additplan':view.planOpen=false;view.planHide[view.sel]=false;renderPanel();(function(){var pn=$('plansec')||$('panel');if(pn)pn.scrollIntoView({behavior:'smooth',block:'start'})})();break;
     case 'goshop':view.tab='odmeny';view.sh=view.sh||{};view.sh.all=true;enterAnim();renderAll();window.scrollTo(0,0);break;
     case 'dntoggle':view.dnOpen=!view.dnOpen;renderMain();break;
     case 'scrollplan':var pn=$('plansec')||$('panel');if(pn)pn.scrollIntoView({behavior:'smooth',block:'start'});break;
@@ -3467,7 +3471,7 @@ document.addEventListener('click',function(e){
     case 'dictsave':dictSave();break;
     case 'dictturnaj':(function(){var dt=$('dc-date').value||key(new Date()),ti=($('dc-title')||{}).value||'';closeModal();openEventForm({type:'turnaj',date:dt,prefill:{title:ti,games:dictGames}})})();break;
     case 'addevk':view.km=null;openEventForm({type:rid,date:key(new Date())});break;
-    case 'addev':openEventForm({type:b.getAttribute('data-t'),date:view.tab==='tyden'?view.sel:key(new Date())});break;
+    case 'addev':view.planOpen=false;openEventForm({type:b.getAttribute('data-t'),date:view.tab==='tyden'?view.sel:key(new Date())});break;
     case 'editev':openEventForm({id:rid});break;
     case 'delev':openConfirm('Událost se smaže včetně nominace, docházky a statistik.','delev',rid);break;
     case 'nomev':openNomination(rid);break;
