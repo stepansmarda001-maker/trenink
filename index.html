@@ -286,6 +286,7 @@ h1,h2,h3,p{margin:0;text-wrap:balance}
 .mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px}
 
 /* Groups, detail, gallery */
+.tp.more{background:transparent;border:1.5px dashed var(--line);color:var(--muted)}
 .shh{display:flex;flex-wrap:nowrap;align-items:center;gap:6px}.shh h2{flex:1;min-width:0;font-size:19px;white-space:nowrap}.shh .kmw{flex:0 0 auto}.shbal{text-align:right;line-height:1.1}.shbal b{font:700 22px var(--display);display:block}.shbal span{font-size:12px;color:var(--muted)}.shall>summary small{margin-left:8px;color:var(--muted);font-weight:600}.shall>summary{min-height:44px;display:flex;align-items:center;font-weight:700;cursor:pointer}
 .filters{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;padding:10px 18px;border-bottom:1px solid var(--line);scrollbar-width:none}.filters::-webkit-scrollbar{display:none}.filters .fbtn{flex:0 0 auto;white-space:nowrap}
 .fbtn{border:1.5px solid var(--line);background:var(--bg);border-radius:99px;padding:5px 13px;font-size:13.5px;font-weight:600;display:inline-flex;gap:7px;align-items:center;min-height:34px}
@@ -1938,7 +1939,7 @@ var FAM=[
   {id:'five',g:'Snaha a charakter',n:'Snaha nad 8/10',th:[1,10,25],tn:['Skvělý zápas','Hvězda zápasu','Pravidelná jednička'],dsc:'Dostaň hodnocení snahy víc než 8 z 10 ({n}×)',m:function(S){return S.five},u:'zápasů'},
   {id:'recn',g:'Rekordy',n:'Měření',th:[1,10,25,50],tn:['Měřič','Statistik','Vědec','Mistr měření'],dsc:'Zapiš {n} výsledků v rekordech',m:function(S){return S.recN},u:'zápisů'},
   {id:'recb',g:'Rekordy',n:'Překonané rekordy',th:[1,5,10,20],tn:['Překonal jsem se','Lovec rekordů','Rekordman','Neporazitelný'],dsc:'Překonej své rekordy {n}×',m:function(S){return S.recBrk},u:'rekordů'},
-  {id:'seas',g:'Kariéra a úspěchy',n:'Sezóny',th:[1,2,3,5,8,11],tn:['První sezóna','Druhá sezóna','Tři sezóny','Pět sezón','Osm sezón','Celá kariéra'],dsc:'Hraj fotbal {n} sezón',m:function(S){return S.seasons},u:'sezón'},
+  {id:'seas',g:'Kariéra a úspěchy',n:'Sezóny',th:[1,2,3,5,10,20],tn:['První sezóna','Druhá sezóna','Tři sezóny','Pět sezón','Deset sezón','Dvacet sezón'],dsc:'Hraj fotbal {n} sezón',m:function(S){return S.seasons},u:'sezón'},
   {id:'med',g:'Kariéra a úspěchy',n:'Medaile',th:[1,3,6,12,20],tn:['První medaile','Sbírka','Medailista','Sběratel','Plná vitrína'],dsc:'Získej {n} medailí (1. až 3. místo)',m:function(S){return S.medals},u:'medailí'},
   {id:'gold',g:'Kariéra a úspěchy',n:'Vítězství',th:[1,3,6,12],tn:['Vítěz','Šampion','Mistr turnajů','Král turnajů'],dsc:'Vyhraj {n} turnajů nebo soutěží',m:function(S){return S.golds},u:'vítězství'},
   {id:'ind',g:'Kariéra a úspěchy',n:'Individuální ocenění',th:[1,3,6,12],tn:['Oceněný','Ceněný hráč','Hvězda','Osobnost'],dsc:'Získej {n} individuálních ocenění',m:function(S){return S.indiv},u:'ocenění'},
@@ -1948,7 +1949,7 @@ var BADGES=[];
 /* bez stropu: po poslední úrovni pokračují další (2×, 3×, ... násobek poslední hranice) */
 function niceNext(x){var p=Math.pow(10,Math.floor(Math.log10(x))),m=x/p;return m<2?2*p:m<5?5*p:10*p}
 function fTh(f,i){var L=f.th.length;if(i<L)return f.th[i];var t=f.th[L-1];for(var k=L;k<=i;k++)t=niceNext(t);return t}
-function fNm(f,i){var L=f.th.length;return i<L?f.tn[i]:f.tn[L-1]+' '+fTh(f,i)}
+function fNm(f,i){var L=f.th.length;return i<L?f.tn[i]:f.n+' '+fTh(f,i)}
 function fCnt(f,v){var L=f.th.length,n=0;f.th.forEach(function(t){if(v>=t)n++});if(n===L){while(v>=fTh(f,n))n++}return n}
 function fExtra(S){var ids=[];FAM.forEach(function(f){var L=f.th.length,n=fCnt(f,f.m(S));for(var i=L;i<n;i++)ids.push(f.id+':'+i)});return ids}
 FAM.forEach(function(f){f.th.forEach(function(t,i){BADGES.push({id:f.id+':'+i,fam:f.id,i:i,n:f.tn[i],d:f.dsc.replace('{n}',t),m:TIERC[Math.min(i,4)],t:(function(f,t){return function(S){return f.m(S)>=t}})(f,t)})})});
@@ -2287,7 +2288,7 @@ function odmenyHtml(){
       return '<li class="fam"><div class="famm">'+medalHtml(cur,n>0,n>0?'rar'+rarOf(f,n-1):'')+'</div><div class="fb"><div><b>'+esc(f.n)+'</b> <small>'+(n?esc(fNm(f,n-1))+' · úroveň '+n:'zatím nic')+'</small></div>'+
         '<div class="fbar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+w+'" aria-label="'+esc(f.n)+'"><i style="width:'+w+'%"></i></div>'+
         '<small>'+esc(String(v))+' / '+next+' · další: '+esc(fNm(f,n))+'</small>'+
-        '<div class="tiers">'+(function(){var o=[],m=Math.max(f.th.length,n+1);for(var i=0;i<m;i++){var t=fTh(f,i);o.push('<span class="tp m-'+TIERC[Math.min(i,4)]+(v>=t?'':' off')+'" title="'+esc(fNm(f,i))+'">'+t+'</span>')}return o.join('')})()+'</div></div></li>';
+        '<div class="tiers">'+(function(){var o=[],m=Math.max(f.th.length,n+3,5);for(var i=0;i<m;i++){var t=fTh(f,i);o.push('<span class="tp m-'+TIERC[Math.min(i,4)]+(v>=t?'':' off')+'" title="'+esc(fNm(f,i))+'">'+t+'</span>')}o.push('<span class="tp more" title="Další úrovně přibývají pořád">…</span>');return o.join('')})()+'</div></div></li>';
     }).join('')+'</ul></div></section>';
   });
   h+='<section class="panel kid"><div class="sect"><div class="sect-h"><h2>Jak sbírám XP</h2></div>'+
