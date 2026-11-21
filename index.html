@@ -1242,7 +1242,7 @@ function moreHtml(){
     if(DEFERRED)h+='<button type="button" class="btn" data-act="install">Nainstalovat jako aplikaci</button>';
     else h+='<p class="hint">'+(ios?'Na iPhonu: klepni na Sdílet a pak na Přidat na plochu.':'V nabídce prohlížeče zvol Přidat na plochu nebo Nainstalovat aplikaci.')+'</p>';
   }
-  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 21. 11. · V</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
+  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 21. 11. · X</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
   return h;
 }
 function download(name,blob){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1500)}
@@ -2374,7 +2374,8 @@ function karieraHtml(){
   else h+='<ul class="srows">'+ys.map(function(y){
     var o=by[y],r=o.r,a=app[y]||{m:0,g:0,a:0},mm=r?(+r.matches||0):0,mg=r?(+r.goals||0):0,ma=r?(+r.assists||0):0;
     return '<li class="srow"><div class="sd" style="flex-basis:64px">'+esc(seaKey(+y))+'</div><div class="sm"><b>'+esc(r&&r.club?r.club:'Z aplikace')+'</b>'+(r&&(r.cat||r.pos)?' <small>'+esc([r.cat,POS[r.pos]].filter(Boolean).join(' · '))+'</small>':'')+
-      '<div><small>'+(mm+a.m)+' zápasů · '+(mg+a.g)+' gólů · '+(ma+a.a)+' asistencí'+(r&&+r.trainings?' · '+(+r.trainings)+' tréninků':'')+(r&&a.m?' (z toho v aplikaci '+a.m+' zápasů)':'')+(r?' · odhad':'')+'</small></div>'+(r&&r.note?'<div class="hint">'+esc(r.note)+'</div>':'')+'</div>'+
+      '<div><small>'+(mm+a.m)+' zápasů · '+(mg+a.g)+' gólů · '+(ma+a.a)+' asistencí'+(r&&+r.trainings?' · '+(+r.trainings)+' tréninků':'')+'</small></div>'+
+      ''+(r&&r.note?'<div class="hint">'+esc(r.note)+'</div>':'')+'</div>'+
       (r?'<button class="btn small" data-act="editsea" data-id="'+o.id+'">Upravit</button>':'<button class="btn small" data-act="newsea" data-y="'+y+'">Doplnit</button>')+'</li>';
   }).join('')+'</ul>';
   h+='</div></section>';
