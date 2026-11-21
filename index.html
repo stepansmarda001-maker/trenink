@@ -1242,7 +1242,7 @@ function moreHtml(){
     if(DEFERRED)h+='<button type="button" class="btn" data-act="install">Nainstalovat jako aplikaci</button>';
     else h+='<p class="hint">'+(ios?'Na iPhonu: klepni na Sdílet a pak na Přidat na plochu.':'V nabídce prohlížeče zvol Přidat na plochu nebo Nainstalovat aplikaci.')+'</p>';
   }
-  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 21. 11. · X</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
+  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 21. 11. · Z</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
   return h;
 }
 function download(name,blob){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1500)}
@@ -2351,7 +2351,9 @@ function karieraHtml(){
   if(son)elist().forEach(function(e){
     if(e.type==='trenink'||!e.played||nomOf(e).indexOf(son.id)<0)return;
     var y=seasonOf(e.date).slice(0,4),st=(e.stats||{})[son.id]||{};
-    var o=app[y]||(app[y]={m:0,g:0,a:0});o.m++;o.g+=st.g||0;o.a+=st.a||0;
+    var o=app[y]||(app[y]={m:0,g:0,a:0,min:0});o.g+=st.g||0;o.a+=st.a||0;
+    if(e.type==='turnaj'){var gs=(e.games||[]).filter(function(x){return typeof x.a==='number'||typeof x.b==='number'||typeof x.min==='number'||typeof x.g==='number'||typeof x.as==='number'});if(!gs.length)o.m++;else{o.m+=gs.length;gs.forEach(function(x){if(typeof x.pm==='number')o.min+=x.pm;else if(typeof x.min==='number'&&x.min>0)o.min+=x.min})}}
+    else{o.m++;if(typeof e.pm==='number')o.min+=e.pm;else if(e.dur)o.min+=+e.dur}
   });
   var by={};
   Object.keys(CUSTOM_SEA).forEach(function(i){var r=CUSTOM_SEA[i];by[r.year]={y:r.year,id:i,r:r}});
@@ -2359,7 +2361,7 @@ function karieraHtml(){
   var ys=Object.keys(by).sort().reverse(),first=S.sset.length?+S.sset[0]:null,curY=+seasonOf(key(new Date())).slice(0,4);
   var h='<section class="panel"><div class="sect"><div class="sect-h"><h2>Fotbalová kariéra</h2></div>'+
     (first?'<p class="evt-meta">Hraje od sezóny '+seaKey(first)+' · '+(curY-first+1)+'. sezóna</p>':'<p class="evt-meta">Doplň sezóny a úspěchy, které se odehrály před používáním aplikace.</p>')+
-    '<div class="rec"><div><b>'+S.gamesAll+'</b><span>zápasů</span></div><div><b>'+S.goalsAll+'</b><span>gólů</span></div><div><b>'+S.assistsAll+'</b><span>asistencí</span></div><div><b>'+S.seasons+'</b><span>sezón</span></div><div><b>'+S.medals+'</b><span>medailí</span></div><div><b>'+S.indiv+'</b><span>ocenění</span></div></div></div></section>';
+    '<div class="rec"><div><b>'+(function(){var t=0;Object.keys(app).forEach(function(y){t+=app[y].m});Object.keys(CUSTOM_SEA).forEach(function(i){t+=+CUSTOM_SEA[i].matches||0});return t})()+'</b><span>zápasů</span></div><div><b>'+S.goalsAll+'</b><span>gólů</span></div><div><b>'+S.assistsAll+'</b><span>asistencí</span></div><div><b>'+S.seasons+'</b><span>sezón</span></div><div><b>'+S.medals+'</b><span>medailí</span></div><div><b>'+S.indiv+'</b><span>ocenění</span></div></div></div></section>';
   var aw=Object.keys(CUSTOM_AWD).sort(function(a,b){return CUSTOM_AWD[a].date<CUSTOM_AWD[b].date?1:-1});
   var mc={1:0,2:0,3:0},ind=[];aw.forEach(function(i){var r=CUSTOM_AWD[i];if(r.place>=1&&r.place<=3)mc[r.place]++;if(r.title)ind.push([i,r])});
   if(aw.length){
@@ -2372,9 +2374,9 @@ function karieraHtml(){
     '<p class="hint">U starších sezón zadej odhad zápasů, gólů, asistencí a tréninků, které nejsou zapsané v aplikaci. Data z aplikace se k nim přičtou sama. Z těchto čísel se počítá i startovní úroveň.</p>';
   if(!ys.length)h+='<div class="empty"><b>Zatím žádná sezóna</b>Přidej třeba první sezónu, klub a počty zápasů a gólů.</div>';
   else h+='<ul class="srows">'+ys.map(function(y){
-    var o=by[y],r=o.r,a=app[y]||{m:0,g:0,a:0},mm=r?(+r.matches||0):0,mg=r?(+r.goals||0):0,ma=r?(+r.assists||0):0;
+    var o=by[y],r=o.r,a=app[y]||{m:0,g:0,a:0,min:0},mm=r?(+r.matches||0):0,mg=r?(+r.goals||0):0,ma=r?(+r.assists||0):0;
     return '<li class="srow"><div class="sd" style="flex-basis:64px">'+esc(seaKey(+y))+'</div><div class="sm"><b>'+esc(r&&r.club?r.club:'Z aplikace')+'</b>'+(r&&(r.cat||r.pos)?' <small>'+esc([r.cat,POS[r.pos]].filter(Boolean).join(' · '))+'</small>':'')+
-      '<div><small>'+(mm+a.m)+' zápasů · '+(mg+a.g)+' gólů · '+(ma+a.a)+' asistencí'+(r&&+r.trainings?' · '+(+r.trainings)+' tréninků':'')+'</small></div>'+
+      '<div><small>'+(mm+a.m)+' zápasů · '+(mg+a.g)+' gólů · '+(ma+a.a)+' asistencí'+((a.min+(r?(+r.minutes||0):0))?' · '+(a.min+(r?(+r.minutes||0):0))+' minut':'')+(r&&+r.trainings?' · '+(+r.trainings)+' tréninků':'')+'</small></div>'+
       ''+(r&&r.note?'<div class="hint">'+esc(r.note)+'</div>':'')+'</div>'+
       (r?'<button class="btn small" data-act="editsea" data-id="'+o.id+'">Upravit</button>':'<button class="btn small" data-act="newsea" data-y="'+y+'">Doplnit</button>')+'</li>';
   }).join('')+'</ul>';
@@ -2392,14 +2394,14 @@ function karieraHtml(){
 }
 var seaCtx=null;
 function openSeaForm(id,y){
-  seaCtx={id:id||null};var x=id?CUSTOM_SEA[id]:{year:y?+y:+seasonOf(key(new Date())).slice(0,4),club:'',cat:'',pos:'',matches:'',goals:'',assists:'',trainings:'',note:''};if(!x)return;
+  seaCtx={id:id||null};var x=id?CUSTOM_SEA[id]:{year:y?+y:+seasonOf(key(new Date())).slice(0,4),club:'',cat:'',pos:'',matches:'',goals:'',assists:'',trainings:'',minutes:'',note:''};if(!x)return;
   var cy=+seasonOf(key(new Date())).slice(0,4),opts='';for(var i=cy;i>=cy-15;i--)opts+='<option value="'+i+'"'+(+x.year===i?' selected':'')+'>'+seaKey(i)+'</option>';
   openModal('<h3 id="mtitle">'+(id?'Upravit sezónu':'Sezóna a klub')+'</h3><form id="seaform" novalidate>'+
     '<div class="g2"><div class="fld"><label for="se-year">Sezóna</label><select id="se-year">'+opts+'</select></div><div class="fld"><label for="se-cat">Kategorie</label><input id="se-cat" type="text" maxlength="20" value="'+esc(x.cat||'')+'" placeholder="např. U9" autocomplete="off"></div></div>'+
     '<div class="fld"><label for="se-club">Klub</label><input id="se-club" type="text" maxlength="60" value="'+esc(x.club||'')+'" autocomplete="off"></div>'+
     '<div class="fld"><label for="se-pos">Post</label><select id="se-pos"><option value="">–</option>'+Object.keys(POS).map(function(k){return '<option value="'+k+'"'+(x.pos===k?' selected':'')+'>'+POS[k]+'</option>'}).join('')+'</select></div>'+
     '<div class="g4"><div class="fld"><label for="se-m">Zápasy</label><input id="se-m" type="number" inputmode="numeric" min="0" max="999" value="'+esc(x.matches===0?'0':(x.matches||''))+'"></div><div class="fld"><label for="se-g">Góly</label><input id="se-g" type="number" inputmode="numeric" min="0" max="999" value="'+esc(x.goals===0?'0':(x.goals||''))+'"></div><div class="fld"><label for="se-a">Asistence</label><input id="se-a" type="number" inputmode="numeric" min="0" max="999" value="'+esc(x.assists===0?'0':(x.assists||''))+'"></div></div>'+
-    '<div class="fld"><label for="se-t">Tréninky (klub, kroužek)</label><input id="se-t" type="number" inputmode="numeric" min="0" max="999" value="'+esc(x.trainings===0?'0':(x.trainings||''))+'"></div>'+
+    '<div class="g2"><div class="fld"><label for="se-min">Odehrané minuty</label><input id="se-min" type="number" inputmode="numeric" min="0" max="99999" value="'+esc(x.minutes===0?'0':(x.minutes||''))+'"></div><div class="fld"><label for="se-t">Tréninky (klub, kroužek)</label><input id="se-t" type="number" inputmode="numeric" min="0" max="999" value="'+esc(x.trainings===0?'0':(x.trainings||''))+'"></div></div>'+
     '<p class="hint">Stačí odhad. Zadej jen to, co není zapsané v aplikaci, aby se nic nepočítalo dvakrát. Čísla se ukážou ve statistikách a odznacích. Body za ně se neudělují.</p>'+
     '<div class="fld"><label for="se-note">Poznámka</label><textarea id="se-note" maxlength="300" style="min-height:60px">'+esc(x.note||'')+'</textarea></div>'+
     '<div class="err" id="f-err" role="alert"></div><div class="dact">'+(id?'<button type="button" class="btn danger" data-act="delsea" data-id="'+id+'">Smazat</button>':'')+'<button type="button" class="btn" data-act="closemodal">Zrušit</button><button type="submit" class="btn primary">Uložit</button></div></form>','se-club');
@@ -2408,7 +2410,7 @@ function submitSea(){
   var y=+$('se-year').value,id=seaCtx.id||uid();
   var dup=Object.keys(CUSTOM_SEA).some(function(i){return i!==id&&+CUSTOM_SEA[i].year===y});
   if(dup){$('f-err').textContent='Pro tuto sezónu už záznam existuje, uprav ho.';return}
-  var o={year:y,club:$('se-club').value.trim(),cat:$('se-cat').value.trim(),pos:$('se-pos').value,matches:num($('se-m').value),goals:num($('se-g').value),assists:num($('se-a').value),trainings:num($('se-t').value),note:$('se-note').value.trim(),created:seaCtx.id?CUSTOM_SEA[id].created:Date.now()};
+  var o={year:y,club:$('se-club').value.trim(),cat:$('se-cat').value.trim(),pos:$('se-pos').value,matches:num($('se-m').value),goals:num($('se-g').value),assists:num($('se-a').value),trainings:num($('se-t').value),minutes:num($('se-min').value),note:$('se-note').value.trim(),created:seaCtx.id?CUSTOM_SEA[id].created:Date.now()};
   var pre=rwSnap();CUSTOM_SEA[id]=o;W('sea/'+id,o);closeModal();renderAll();reward(pre,'Kariéra doplněna');
 }
 var awdCtx=null;
@@ -2494,7 +2496,7 @@ function synHtml(){
   var wd={w:0,d:0,l:0,gf:0,ga:0};rows.forEach(function(r){var e=r.e;if(e.type==='zapas'&&typeof e.a==='number'&&typeof e.b==='number'){wd.gf+=e.a;wd.ga+=e.b;if(e.a>e.b)wd.w++;else if(e.a<e.b)wd.l++;else wd.d++}});
   var gm=0,mn=0,allmin=true;
   rows.forEach(function(r){var e=r.e;if(e.type==='turnaj'){var gs=(e.games||[]).filter(function(x){return typeof x.a==='number'||typeof x.b==='number'||typeof x.min==='number'||typeof x.g==='number'||typeof x.as==='number'});if(!gs.length){gm++;allmin=false}else{gm+=gs.length;gs.forEach(function(x){if(typeof x.pm==='number')mn+=x.pm;else if(typeof x.min==='number'&&x.min>0)mn+=x.min;else allmin=false})}}else{gm++;if(typeof e.pm==='number')mn+=e.pm;else if(e.dur)mn+=e.dur;else allmin=false}});
-  var st0={m:0,g:0,a:0,t:0};Object.keys(CUSTOM_SEA).forEach(function(i){var r=CUSTOM_SEA[i];if(sf==='all'||seaKey(+r.year)===sf){st0.m+=+r.matches||0;st0.g+=+r.goals||0;st0.a+=+r.assists||0;st0.t+=+r.trainings||0}});var n=gm+st0.m,tt=tp+tx+tn,max=1;rows.forEach(function(r){if(r.g+r.a>max)max=r.g+r.a});
+  var st0={m:0,g:0,a:0,t:0,mi:0};Object.keys(CUSTOM_SEA).forEach(function(i){var r=CUSTOM_SEA[i];if(sf==='all'||seaKey(+r.year)===sf){st0.m+=+r.matches||0;st0.g+=+r.goals||0;st0.a+=+r.assists||0;st0.t+=+r.trainings||0;st0.mi=(st0.mi||0)+(+r.minutes||0)}});var n=gm+st0.m,tt=tp+tx+tn,max=1;rows.forEach(function(r){if(r.g+r.a>max)max=r.g+r.a});
   if(p.photo&&!p.pbg&&!PBG_BUSY[p.id]){PBG_BUSY[p.id]=1;photoBg(p.photo,function(bg){var q=Object.assign({},D.players[p.id]||p);q.pbg=bg||'#222';D.players[p.id]=q;W('teams/'+curTeam+'/players/'+p.id,q);scheduleRender()})}
   KBG=(p.photo&&p.pbg&&pbgDark(p.pbg)&&!isLight())?p.pbg:'';
   var chips='<div class="pchips">'+(p.num?'<span class="pnum">#'+esc(String(p.num))+'</span>':'')+(POS[p.pos]?'<span class="chip">'+esc(POS[p.pos])+'</span>':'')+'</div>';
@@ -2503,7 +2505,7 @@ function synHtml(){
   var pills='<div class="sea-w" role="tablist" aria-label="Sezóna">'+[[curS,curS+' · teď'],['all','Kariéra']].concat(seasons.filter(function(k){return k!==curS}).map(function(k){return [k,k]})).map(function(x){return '<button type="button" class="pseg'+(sf===x[0]?' on':'')+'" data-act="sea" data-v="'+x[0]+'" aria-pressed="'+(sf===x[0])+'">'+esc(x[1])+'</button>'}).join('')+'</div>'+
     (seaRec?'<p class="hint sea-note">'+[seaRec.club,seaRec.cat,POS[seaRec.pos]].filter(Boolean).map(esc).join(' · ')+(seaRec.note?(' · '+esc(seaRec.note)):'')+'</p>':'');
   var T=function(v,l,c){return '<div class="st'+(c?' '+c:'')+'"><b>'+v+'</b><span>'+l+'</span></div>'},cm=function(x){return x.toFixed(1).replace('.',',')};
-  var g1='<h4 class="sth">Zápasy a góly</h4><div class="stg">'+T(n,'zápasů celkem')+T(g+(st0.g||0),'góly','gold')+T(a+(st0.a||0),'asistence')+T(g+a+(st0.g||0)+(st0.a||0),'G + A')+T(n?cm((g+(st0.g||0))/n):'–','gólů na zápas')+(mn>0?T(mn,'minut na hřišti'+(allmin?'':' (zapsané)')):'')+(mn>0&&allmin?T(cm(g/mn*90),'gólů na 90 minut','gold'):'')+(rn?T(cm(rs/rn),'snaha z 10'):'')+'</div>';
+  var g1='<h4 class="sth">Zápasy a góly</h4><div class="stg">'+T(n,'zápasů celkem')+T(g+(st0.g||0),'góly','gold')+T(a+(st0.a||0),'asistence')+T(g+a+(st0.g||0)+(st0.a||0),'G + A')+T(n?cm((g+(st0.g||0))/n):'–','gólů na zápas')+((mn+st0.mi)>0?T(mn+st0.mi,'minut na hřišti'):'')+(mn>0&&allmin?T(cm(g/mn*90),'gólů na 90 minut','gold'):'')+(rn?T(cm(rs/rn),'snaha z 10'):'')+'</div>';
   var g2='<h4 class="sth">'+(sf==='all'?'Aktivity za kariéru':'Aktivity v sezóně '+esc(sf))+'</h4><div class="stg">'+(hasEv?T(cind,'tréninků doma')+T(ckr,'kroužků'):'')+T(cclub+(st0.t||0),'tréninků v klubu')+(hasEv?T(cgame,'zápasů v aplikaci')+T(ctur,'turnajů')+T(tt?Math.round(tp/tt*100)+' %':'–','docházka'+(tt?' ('+tp+'/'+tt+')':'')):'')+'</div>'+
     (function(){if(!(sf==='all'||sf===curS))return '';var R=rwSnap();return '<h4 class="sth">Moje čísla</h4><div class="stg">'+T(R.streak,'týdnů v řadě')+T(R.best,'nejdelší série')+T(R.ex,'splněných cvičení')+T(R.days,'splněných tréninků')+T(R.recBrk,'překonaných rekordů')+'</div>'})()+(hasEv?'<h4 class="sth">Výsledky týmu</h4><div class="stg">'+T(wd.w+'·'+wd.d+'·'+wd.l,'výhry·remízy·prohry','sm')+T(wd.gf+':'+wd.ga,'skóre týmu','sm')+'</div>':'');
   var h='<section class="panel"><div class="sect">'+pills+'<div class="pcard'+(p.photo?(pbgDark(p.pbg)&&!isLight()?' pdk':''):' nop')+'"'+'><div class="phead"><h2>'+esc(p.name)+'</h2>'+kdots('pl',[['editplayer','Upravit kartu',p.id]])+'</div>'+
