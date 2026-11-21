@@ -1242,7 +1242,7 @@ function moreHtml(){
     if(DEFERRED)h+='<button type="button" class="btn" data-act="install">Nainstalovat jako aplikaci</button>';
     else h+='<p class="hint">'+(ios?'Na iPhonu: klepni na Sdílet a pak na Přidat na plochu.':'V nabídce prohlížeče zvol Přidat na plochu nebo Nainstalovat aplikaci.')+'</p>';
   }
-  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 20. 11. · S</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
+  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 21. 11. · T</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
   return h;
 }
 function download(name,blob){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1500)}
@@ -1545,6 +1545,7 @@ function eventCard(e,opt){
     h+='<div class="evact">';
     if(!e.kr)h+='<button class="btn" data-act="ics" data-id="'+e.id+'">Do kalendáře</button>';
     if(e.type!=='trenink')h+='<button class="btn" data-act="resev" data-id="'+e.id+'">Výsledek a statistiky</button>';
+    if(e.type==='turnaj')h+='<button class="btn" data-act="awdev" data-id="'+e.id+'">🏅 Ocenění</button>';
     if(e.kr){var kat=D.att[e.id],kdone=kat&&kat.st&&sonP()&&kat.st[sonP().id]==='y';if(e.date>=key(new Date())&&!kdone)h+='<button class="btn" data-act="krskip" data-id="'+e.kr+'" data-d="'+e.date+'">Odpadá</button>';h+='<button class="btn" data-act="editkr" data-id="'+e.kr+'">Upravit kroužek</button></div>';}
     else h+='<button class="btn" data-act="editev" data-id="'+e.id+'">Upravit</button></div>';
   }
@@ -2343,7 +2344,7 @@ function odmenyHtml(){
     '<p class="hint">Týden se do série počítá, když máš aspoň 3 dny se splněným cvičením nebo tréninkem. Nemoc a volno sérii nepřerušují.</p></div></section>';
   return h;
 }
-var AWT=['Nejlepší střelec','Nejlepší hráč (MVP)','Nejlepší brankář','Nejlepší nahrávač','Fair play','Jiné ocenění'];
+var AWT=['Hráč turnaje','Nejlepší střelec','Nejlepší hráč (MVP)','Nejlepší brankář','Nejlepší nahrávač','Fair play','Jiné ocenění'];
 function seaKey(y){return y+'/'+String((y+1)%100).padStart(2,'0')}
 function karieraHtml(){
   var S=rwSnap(),son=sonP(),app={};
@@ -2403,8 +2404,8 @@ function submitSea(){
   var pre=rwSnap();CUSTOM_SEA[id]=o;W('sea/'+id,o);closeModal();renderAll();reward(pre,'Kariéra doplněna');
 }
 var awdCtx=null;
-function openAwdForm(id){
-  awdCtx={id:id||null};var x=id?CUSTOM_AWD[id]:{date:key(new Date()),name:'',place:1,title:'',note:''};if(!x)return;
+function openAwdForm(id,pre){
+  awdCtx={id:id||null};var x=id?CUSTOM_AWD[id]:{date:(pre&&pre.date)||key(new Date()),name:(pre&&pre.name)||'',place:pre?0:1,title:(pre&&pre.title)||'',note:''};if(!x)return;
   openModal('<h3 id="mtitle">'+(id?'Upravit úspěch':'Nový úspěch')+'</h3><form id="awdform" novalidate>'+
     '<div class="fld"><label for="aw-name">Turnaj nebo soutěž</label><input id="aw-name" type="text" maxlength="80" value="'+esc(x.name)+'" autocomplete="off"></div>'+
     '<div class="g2"><div class="fld"><label for="aw-date">Datum</label><input id="aw-date" type="date" value="'+esc(x.date)+'"></div>'+
@@ -3423,6 +3424,7 @@ document.addEventListener('click',function(e){
     case 'editsea':openSeaForm(rid);break;
     case 'delsea':delete CUSTOM_SEA[rid];Wdel('sea/'+rid);closeModal();renderAll();toast('Sezóna smazána');break;
     case 'newawd':openAwdForm(null);break;
+    case 'awdev':(function(){var ee=evFind(rid);if(!ee)return;openAwdForm(null,{name:ee.title||'Turnaj',date:ee.date,title:'Hráč turnaje'})})();break;
     case 'editawd':openAwdForm(rid);break;
     case 'delawd':delete CUSTOM_AWD[rid];Wdel('awd/'+rid);closeModal();renderAll();toast('Záznam smazán');break;
     case 'newill':openIllForm(null,b.getAttribute('data-k'));break;
