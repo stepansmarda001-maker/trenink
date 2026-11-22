@@ -95,7 +95,7 @@ h1,h2,h3,p{margin:0;text-wrap:balance}
 .plist button{display:flex;align-items:center;gap:12px;width:100%;min-height:46px;padding:0 14px;background:none;border:0;text-align:left;font-size:15.5px;font-weight:600}
 .plist button i{width:10px;height:10px;border-radius:50%;flex:0 0 auto}
 .dsum li.dsdone b{display:flex;align-items:center;gap:6px}.dsum li.dsdone b:before{content:"✓";color:var(--ok);font-weight:800}
-.itcard{border:1.5px solid var(--line);border-left:6px solid #0f766e;border-radius:10px;background:var(--bg);flex:0 0 auto}.evs>*{flex-shrink:0}.itcard .plan-h{border-bottom:0;padding:12px 14px}.itcard .plan-h .acts{flex-wrap:wrap}.itcard .plan-h .acts .btn{padding:0 10px;font-size:13.5px}.itcard .phases{padding:0 14px 10px}.itcard .filters,.itcard .prog,.itcard .empty{margin-left:14px;margin-right:14px}.itcard .lib{padding:0 14px 12px}.itcard .lib h3{margin-top:4px}.evt.evrow{flex-direction:row;align-items:center;gap:12px;padding:12px 14px}.evmain{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}.evt .chk.on{background:var(--ok);border-color:var(--ok);color:#fff}.addex{padding:6px 14px 14px}.addex .btn{width:100%;justify-content:center}.lpcats{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px}.lpl{max-height:46vh;overflow:auto;margin:0 0 12px}.lpl .lpn{flex:1;min-width:0}.lpl .lpm{color:var(--muted);font-weight:500;font-size:14px}.lpl .lpa{width:28px;text-align:center;font-size:20px;color:var(--muted)}.itcard .plan-h{position:relative;padding-right:52px}.itcard .plan-h>div:first-child{flex:1 1 100% !important}.itcard .plan-h .kmw{position:absolute;top:6px;right:6px}.itcard .plan-h .evt-top{margin-bottom:2px}.itcard .plan-h .sub{margin-top:4px}
+.itcard{border:1.5px solid var(--line);border-left:6px solid #0f766e;border-radius:10px;background:var(--bg);flex:0 0 auto}.evs>*{flex-shrink:0}.itcard .plan-h{border-bottom:0;padding:12px 14px}.itcard .plan-h .acts{flex-wrap:wrap}.itcard .plan-h .acts .btn{padding:0 10px;font-size:13.5px}.itcard .phases{padding:0 14px 10px}.itcard .filters,.itcard .prog,.itcard .empty{margin-left:14px;margin-right:14px}.itcard .lib{padding:0 14px 12px}.itcard .lib h3{margin-top:4px}.evt.evrow{flex-direction:row;align-items:center;gap:12px;padding:12px 14px}.evmain{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}.evt .chk.on{background:var(--ok);border-color:var(--ok);color:#fff}.addex{padding:6px 14px 14px}.addex .btn{width:100%;justify-content:center}.lpcats{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px}.lpl{max-height:46vh;overflow:auto;margin:0 0 12px}.lpl .lprow{display:flex;align-items:center}.lpl .lpb{flex:1;min-width:0}.lpl .lpn{flex:1;min-width:0}.lpl .lpm{color:var(--muted);font-weight:500;font-size:14px}.lpl .lpa{width:52px!important;min-height:46px;flex:0 0 52px;justify-content:center!important;font-size:22px;color:var(--muted);border-left:1px solid var(--line)!important}.lpl .lpa.on{color:var(--ok)}.lpd{padding:0 14px 12px 36px;font-size:14px;color:var(--ink)}.lpd p{margin:4px 0}.lpd .lps{color:var(--muted);font-size:13px;margin:2px 0}.itcard .plan-h{position:relative;padding-right:52px}.itcard .plan-h>div:first-child{flex:1 1 100% !important}.itcard .plan-h .kmw{position:absolute;top:6px;right:6px}.itcard .plan-h .evt-top{margin-bottom:2px}.itcard .plan-h .sub{margin-top:4px}
 .pmore{display:block;width:100%;text-align:left;background:none;border:0;padding:6px 0;margin:2px 0 0;font-size:14px;color:var(--muted)}
 .ph h2{font:700 30px/1 var(--display);text-transform:uppercase;letter-spacing:.01em}
 .ph .sub{color:var(--muted);font-size:14px;margin-top:4px;font-variant-numeric:tabular-nums}
@@ -1242,7 +1242,7 @@ function moreHtml(){
     if(DEFERRED)h+='<button type="button" class="btn" data-act="install">Nainstalovat jako aplikaci</button>';
     else h+='<p class="hint">'+(ios?'Na iPhonu: klepni na Sdílet a pak na Přidat na plochu.':'V nabídce prohlížeče zvol Přidat na plochu nebo Nainstalovat aplikaci.')+'</p>';
   }
-  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 21. 11. · Z</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
+  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 22. 11. · A</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
   return h;
 }
 function download(name,blob){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1500)}
@@ -2388,8 +2388,6 @@ function karieraHtml(){
     return '<li class="srow">'+medalHtml(pl,r.place>=1&&r.place<=3)+'<div class="sm"><b>'+esc(r.name)+'</b> <small>'+esc(fmt(parse(r.date),{day:'numeric',month:'numeric',year:'numeric'}))+'</small><div><small>'+(r.place>=1&&r.place<=3?r.place+'. místo':'Účast')+(r.title?' · '+esc(r.title):'')+'</small></div>'+(r.note?'<div class="hint">'+esc(r.note)+'</div>':'')+'</div><button class="btn small" data-act="editawd" data-id="'+i+'">Upravit</button></li>';
   }).join('')+'</ul>';
   h+='</div></section>';
-  var pr=Object.keys(CUSTOM_PROUD).map(function(k){return CUSTOM_PROUD[k]}).filter(function(x){return x&&x.t}).sort(function(x,y){return x.d<y.d?1:-1}).slice(0,30);
-  if(pr.length)h+='<section class="panel"><div class="sect"><div class="sect-h"><h2>Na co jsem pyšný</h2></div><ul class="srows">'+pr.map(function(x){return '<li class="srow"><div class="sd">'+esc(fmt(parse(x.d),{day:'numeric',month:'numeric'}))+'</div><div class="sm">'+esc(x.t)+'</div></li>'}).join('')+'</ul></div></section>';
   return h;
 }
 var seaCtx=null;
@@ -2962,9 +2960,9 @@ function dictSave(){
   setTimeout(function(){toast('Zápas uložen: '+evTitle(e))},300);
 }
 
-var lpCat='all',lpAdded={};
+var lpCat='all',lpAdded={},lpOpen=-1;
 function openLibPick(){
-  lpCat='all';lpAdded={};
+  lpCat='all';lpAdded={};lpOpen=-1;
   openModal('<h3 id="mtitle" tabindex="-1">Přidat cvičení</h3><div class="fld"><label for="lp-q">Hledat v knihovně</label><input id="lp-q" type="search" autocomplete="off" placeholder="Název cvičení"></div>'+
     '<div class="lpcats" id="lp-cats"></div><ul class="plist lpl" id="lp-list"></ul>'+
     '<div class="dact"><button type="button" class="btn" data-act="libnew">Vytvořit nové cvičení</button><button type="button" class="btn primary" data-act="closemodal">Hotovo</button></div>','lp-q',true);
@@ -2974,7 +2972,11 @@ function libPickList(){
   var q=dnorm(($('lp-q')||{}).value||''),cs=$('lp-cats'),ul=$('lp-list');if(!ul)return;
   cs.innerHTML='<button type="button" class="fbtn" data-act="lpcat" data-c="all" aria-pressed="'+(lpCat==='all')+'">Vše</button>'+Object.keys(CAT).map(function(c){return '<button type="button" class="fbtn" data-act="lpcat" data-c="'+c+'" aria-pressed="'+(lpCat===c)+'"><i style="background:'+CAT[c].c+'"></i>'+CAT[c].n+'</button>'}).join('');
   var rows=[];LIB.forEach(function(l,i){if(lpCat!=='all'&&l.c!==lpCat)return;if(q&&dnorm(l.n).indexOf(q)<0)return;rows.push([l,i])});
-  ul.innerHTML=rows.length?rows.slice(0,80).map(function(r){var l=r[0],i=r[1],c=CAT[l.c]||CAT.sila;return '<li><button type="button" data-act="libadd" data-i="'+i+'"><i style="background:'+c.c+'"></i><span class="lpn">'+esc(l.n)+'</span><span class="lpm">'+(l.m?l.m+' min':'')+'</span><span class="lpa">'+(lpAdded[i]?'✓'+(lpAdded[i]>1?' ×'+lpAdded[i]:''):'+')+'</span></button></li>'}).join(''):'<li><span class="hint" style="padding:12px 14px;display:block">Nic jsem nenašel. Zkus jiný název nebo vytvoř nové cvičení.</span></li>';
+  var ph=view.phase||1,inPlan={};phItems(dayOf(view.sel),ph).forEach(function(x){inPlan[x.name]=1});
+  ul.innerHTML=rows.length?rows.slice(0,80).map(function(r){var l=r[0],i=r[1],c=CAT[l.c]||CAT.sila,on=!!inPlan[l.n],op=lpOpen===i;
+    var spec=[];if(l.s&&l.r)spec.push(l.s+' × '+l.r);else if(l.r)spec.push(l.r+' opakování');if(l.p)spec.push('pauza '+l.p+' s');
+    return '<li class="lpi'+(op?' open':'')+'"><div class="lprow"><button type="button" class="lpb" data-act="lpinfo" data-i="'+i+'" aria-expanded="'+op+'"><i style="background:'+c.c+'"></i><span class="lpn">'+esc(l.n)+'</span><span class="lpm">'+(l.m?l.m+' min':'')+'</span></button><button type="button" class="lpa'+(on?' on':'')+'" data-act="libadd" data-i="'+i+'" aria-pressed="'+on+'" aria-label="'+(on?'Odebrat z tréninku: ':'Přidat do tréninku: ')+esc(l.n)+'">'+(on?'✓':'+')+'</button></div>'+
+      (op?'<div class="lpd">'+(spec.length?'<div class="lps">'+esc(spec.join(' · '))+'</div>':'')+(l.d?'<p>'+esc(l.d)+'</p>':'<p class="hint">Bez popisu.</p>')+((l.gear||[]).length?'<div class="lps">Pomůcky: '+esc(l.gear.join(', '))+'</div>':'')+'</div>':'')+'</li>'}).join(''):'<li><span class="hint" style="padding:12px 14px;display:block">Nic jsem nenašel. Zkus jiný název nebo vytvoř nové cvičení.</span></li>';
 }
 function submitEvent(){
   var date=$('ef-date').value;
@@ -3551,7 +3553,10 @@ document.addEventListener('click',function(e){
     case 'add':openExForm(null);break;
     case 'libpick':view.phase=+b.getAttribute('data-p')||1;openLibPick();break;
     case 'lpcat':lpCat=b.getAttribute('data-c')||'all';libPickList();break;
-    case 'libadd':(function(){var li=+b.getAttribute('data-i'),dd=ensure(view.sel);dd.rest=false;dd.items.push(mk(li));save();renderAll();lpAdded[li]=(lpAdded[li]||0)+1;libPickList()})();break;
+    case 'libadd':(function(){var li=+b.getAttribute('data-i'),dd=ensure(view.sel),ph=view.phase||1,nm=LIB[li].n,ex=dd.items.filter(function(x){return (x.ph||1)===ph&&x.name===nm})[0];
+      if(ex){if(ex.done){toast('Splněné cvičení nejde odebrat.');return}dd.items=dd.items.filter(function(x){return x!==ex})}else{dd.rest=false;dd.items.push(mk(li))}
+      save();renderAll();libPickList()})();break;
+    case 'lpinfo':lpOpen=(lpOpen===+b.getAttribute('data-i'))?-1:+b.getAttribute('data-i');libPickList();break;
     case 'libnew':closeModal();openExForm(null);break;
     case 'lib':d=ensure(view.sel);d.rest=false;d.items.push(mk(+b.getAttribute('data-i')));save();renderAll();toast('Cvičení přidáno');break;
     case 'toggle':var pre0=rwSnap(),nowDone=false;dayOf(view.sel).items.forEach(function(x){if(x.id===id){x.done=!x.done;nowDone=x.done}});if(view.pdone&&itFin(dayOf(view.sel)))delete view.pdone[view.sel];view.pop=nowDone?id:null;save();renderAll();if(nowDone)ding();setTimeout(function(){view.pop=null},700);reward(pre0);break;
