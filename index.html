@@ -203,7 +203,7 @@ h1,h2,h3,p{margin:0;text-wrap:balance}
 .phnum{font:800 64px/.85 var(--display);color:#ffd60a}
 .phinfo h2{font:800 32px/1 var(--display);text-transform:uppercase;letter-spacing:.01em;margin:0;overflow-wrap:anywhere}
 .phsub{font-size:13.5px;color:#cfcfc9;margin-top:4px}
-.phbody{padding-top:14px}.phbody .stg{grid-template-columns:repeat(3,minmax(0,1fr))}.phead{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:8px}.phead h2{font:800 24px/1.1 var(--display);text-transform:uppercase;letter-spacing:.02em;margin:0}.pbot{grid-column:1/-1;min-width:0}.xpchip{display:inline-flex;align-items:baseline;gap:4px;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.14);font:600 12px var(--body);color:inherit}.xpchip b{font:800 16px var(--display)}
+.phed{height:260px;margin-top:10px;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}.phed img{pointer-events:none}.phedb{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap}.phedb .hint{flex:1;min-width:140px}.phbody{padding-top:14px}.phbody .stg{grid-template-columns:repeat(3,minmax(0,1fr))}.phead{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:8px}.phead h2{font:800 24px/1.1 var(--display);text-transform:uppercase;letter-spacing:.02em;margin:0}.pbot{grid-column:1/-1;min-width:0}.xpchip{display:inline-flex;align-items:baseline;gap:4px;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.14);font:600 12px var(--body);color:inherit}.xpchip b{font:800 16px var(--display)}
 .pseg-w{display:flex;gap:6px;margin:0 0 8px}
 .sea-w{display:flex;gap:6px;overflow-x:auto;margin:0 0 10px;padding-bottom:4px;scrollbar-width:none}.sea-w::-webkit-scrollbar{display:none}.sea-w .pseg{flex:0 0 auto;padding:0 16px;white-space:nowrap}.sea-note{margin:-2px 0 10px}
 .pcard.pcl{display:block}.pseg{flex:1;min-height:36px;border:0;border-radius:999px;background:transparent;color:var(--muted);font:600 13px var(--body);cursor:pointer;box-shadow:inset 0 0 0 1px var(--line)}.pseg.on{background:var(--ink);color:var(--bg);box-shadow:none}.pcard.pdk .pseg.on{background:var(--ink);color:#0b0b0c;box-shadow:none}.plv{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted);margin:10px 0 6px}.pbar{height:6px;border-radius:3px;background:var(--line);overflow:hidden}.pbar i{display:block;height:100%;background:var(--xp);border-radius:3px}.pbot .stg{grid-template-columns:repeat(3,minmax(0,1fr))}.pleft{min-width:0}.pleft .pchips{margin-top:8px}.pfig{border-radius:0;box-shadow:none;overflow:hidden;display:grid;place-items:center}.pfig img{width:100%;max-height:640px;object-fit:contain;display:block}.pmain{min-width:0}.pmain .sect-h{flex-direction:column;align-items:flex-start;gap:8px}.pleft .acts{margin-top:6px}.lnk{background:none;border:0;padding:6px 0;font:600 13px var(--body);color:var(--muted);text-decoration:underline;text-underline-offset:3px;cursor:pointer}.pcard.pdk .lnk{color:#9a9a94}.pmain>.sth:first-child{margin-top:0}.stdet{margin:12px 0;border-top:1px solid var(--line);padding-top:10px}.stdet summary{cursor:pointer;font:600 14px var(--body);padding:6px 0}.pmain .rec{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 10px}.pmain .rec span{font-size:11px;letter-spacing:0}@media (min-width:640px){.pmain .rec{grid-template-columns:repeat(auto-fit,minmax(110px,1fr))}.pmain .rec span{font-size:12px}}
@@ -1294,7 +1294,7 @@ function moreHtml(){
     if(DEFERRED)h+='<button type="button" class="btn" data-act="install">Nainstalovat jako aplikaci</button>';
     else h+='<p class="hint">'+(ios?'Na iPhonu: klepni na Sdílet a pak na Přidat na plochu.':'V nabídce prohlížeče zvol Přidat na plochu nebo Nainstalovat aplikaci.')+'</p>';
   }
-  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 23. 11. · M</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
+  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 23. 11. · N</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
   return h;
 }
 function download(name,blob){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1500)}
@@ -2611,7 +2611,7 @@ function synHtml(){
   var h='<section class="panel"><div class="sect">'+pills+'<div class="pcard'+(p.photo?(pbgDark(p.pbg)&&!isLight()?' pdk':''):' nop')+'"'+'><div class="phead"><h2>'+esc(p.name)+'</h2>'+kdots('pl',[['editplayer','Upravit kartu',p.id]])+'</div>'+
     (p.photo?'':'<div class="pmain">'+chips+g1+g2+'</div>')+'</div></div></section>';
   if(p.photo){var cut=String(p.photo).indexOf('data:image/png')===0,pz=+p.pz||1,py=p.py===undefined?30:+p.py,sub=[seaRec&&seaRec.club,seaRec&&seaRec.cat,POS[p.pos]].filter(Boolean).map(esc).join(' · ');
-    h='<section class="panel"><div class="sect">'+pills+'<div class="phc"><div class="phero'+(cut?' cut':'')+'"><img src="'+esc(p.photo)+'" alt="Fotka hráče" style="'+(cut?'transform:scale('+pz+');transform-origin:50% 100%':'object-position:50% '+py+'%;transform:scale('+pz+');transform-origin:50% '+py+'%')+'"><div class="phgrad"></div><div class="phkd">'+kdots('pl',[['editplayer','Upravit kartu',p.id]])+'</div>'+
+    h='<section class="panel"><div class="sect">'+pills+'<div class="phc"><div class="phero'+(cut?' cut':'')+'"><img src="'+esc(p.photo)+'" alt="Fotka hráče" style="'+phTf(p)+'"><div class="phgrad"></div><div class="phkd">'+kdots('pl',[['editplayer','Upravit kartu',p.id]])+'</div>'+
       '<div class="phinfo">'+(p.num?'<span class="phnum">'+esc(String(p.num))+'</span>':'')+'<div style="min-width:0"><h2>'+esc(p.name)+'</h2>'+(sub?'<div class="phsub">'+sub+'</div>':'')+'</div></div></div>'+
       '<div class="phbody">'+g1+g2+'</div></div></div></section>'}
   if(sf==='all'||sf===curS)h+='<section class="panel"><div class="sect"><div class="pcard pcl">'+progHtml()+'</div></div></section>';
@@ -2718,6 +2718,21 @@ function bodyHtml(p,w,h){
   return '<span class="bd" style="width:'+w+'px;height:'+h+'px"><img src="'+esc(p.photo)+'" alt=""></span>';
 }
 var PBG_BUSY={};
+function phTf(p){var z=+p.pz||1,x=+p.tx||0,y=p.ty!==undefined?+p.ty:(p.py!==undefined?(50-(+p.py))*0.4:0);return 'transform:translate('+x+'%,'+y+'%) scale('+z+');transform-origin:50% 50%'}
+function phApply(){var ed=$('p-ed');if(!ed||!playerForm||!playerForm.ph)return;var im=ed.querySelector('img');if(im)im.setAttribute('style',phTf({pz:playerForm.ph.z,tx:playerForm.ph.x,ty:playerForm.ph.y}))}
+(function(){var pts={},st=null;
+  function cl(){var q=playerForm.ph;q.z=Math.max(1,Math.min(3,q.z));q.x=Math.max(-60,Math.min(60,q.x));q.y=Math.max(-60,Math.min(60,q.y))}
+  document.addEventListener('pointerdown',function(e){var ed=e.target.closest&&e.target.closest('#p-ed');if(!ed||!playerForm||!playerForm.ph)return;e.preventDefault();try{ed.setPointerCapture(e.pointerId)}catch(_){}pts[e.pointerId]={x:e.clientX,y:e.clientY};var k=Object.keys(pts);var r=ed.getBoundingClientRect();
+    if(k.length===1)st={m:'pan',x:e.clientX,y:e.clientY,ox:playerForm.ph.x,oy:playerForm.ph.y,w:r.width,h:r.height};
+    else if(k.length===2){var a=pts[k[0]],b=pts[k[1]];st={m:'zoom',d:Math.hypot(a.x-b.x,a.y-b.y)||1,oz:playerForm.ph.z}}});
+  document.addEventListener('pointermove',function(e){if(!pts[e.pointerId]||!st||!playerForm||!playerForm.ph)return;pts[e.pointerId]={x:e.clientX,y:e.clientY};var k=Object.keys(pts);
+    if(st.m==='pan'&&k.length===1){playerForm.ph.x=st.ox+(e.clientX-st.x)/st.w*100;playerForm.ph.y=st.oy+(e.clientY-st.y)/st.h*100}
+    else if(st.m==='zoom'&&k.length===2){var a=pts[k[0]],b=pts[k[1]];playerForm.ph.z=st.oz*(Math.hypot(a.x-b.x,a.y-b.y)/st.d)}
+    cl();phApply()});
+  function up(e){delete pts[e.pointerId];var k=Object.keys(pts);if(!k.length)st=null;else if(st&&st.m==='zoom'&&playerForm&&playerForm.ph){var r=$('p-ed').getBoundingClientRect(),a=pts[k[0]];st={m:'pan',x:a.x,y:a.y,ox:playerForm.ph.x,oy:playerForm.ph.y,w:r.width,h:r.height}}}
+  document.addEventListener('pointerup',up);document.addEventListener('pointercancel',up);
+  document.addEventListener('wheel',function(e){var ed=e.target.closest&&e.target.closest('#p-ed');if(!ed||!playerForm||!playerForm.ph)return;e.preventDefault();playerForm.ph.z*=e.deltaY<0?1.06:0.94;cl();phApply()},{passive:false});
+})();
 function pbgDark(c){var m=/(\d+),\s*(\d+),\s*(\d+)/.exec(c||'');return m?(0.3*m[1]+0.59*m[2]+0.11*m[3])<110:false}
 function photoBg(url,cb){
   var im=new Image();im.onload=function(){try{var c=document.createElement('canvas');c.width=24;c.height=24;var g=c.getContext('2d');g.drawImage(im,0,0,24,24);var pts=[[0,0],[23,0],[0,23],[23,23],[0,12],[23,12],[0,6],[23,6],[0,18],[23,18]],R=[],G=[],B=[],AL=0;pts.forEach(function(q){var d=g.getImageData(q[0],q[1],1,1).data;if(d[3]<128)AL++;R.push(d[0]);G.push(d[1]);B.push(d[2])});if(AL>=6){cb('transparent');return}var med=function(a){a.sort(function(x,y){return x-y});return Math.round((a[4]+a[5])/2)};cb('rgb('+med(R)+','+med(G)+','+med(B)+')')}catch(e){cb('')}};im.onerror=function(){cb('')};im.src=url;
@@ -2729,7 +2744,7 @@ function photoFromFile(f,cb){
 }
 document.addEventListener('change',function(e){
   var t=e.target;if(!t||t.id!=='p-photo'||!t.files||!t.files[0]||!playerForm)return;
-  photoFromFile(t.files[0],function(u){if(!u){toast('Fotku se nepodařilo načíst');return}playerForm.photo=u;playerForm.pbg='';photoBg(u,function(bg){if(playerForm)playerForm.pbg=bg});var pv=$('p-prev');if(pv)pv.className='bd';pv.style.cssText='width:72px;height:108px;font-size:26px';pv.innerHTML='<img src="'+u+'" alt="">'});
+  photoFromFile(t.files[0],function(u){if(!u){toast('Fotku se nepodařilo načíst');return}playerForm.photo=u;playerForm.pbg='';photoBg(u,function(bg){if(playerForm)playerForm.pbg=bg});var pv=$('p-prev');if(pv)pv.className='bd';pv.style.cssText='width:72px;height:108px;font-size:26px';pv.innerHTML='<img src="'+u+'" alt="">';playerForm.ph={z:1,x:0,y:0};var ew=$('p-edw'),ed=$('p-ed');if(ew&&ed){ew.hidden=false;ed.className='phed phero'+(u.indexOf('data:image/png')===0?' cut':'');ed.innerHTML='<img src="'+u+'" alt="" draggable="false"><div class="phgrad"></div>';phApply()}});
 });
 /* ===== Postava (hravý vzhled) ===== */
 var LOOK={skins:['#FFD60A','#FBD9C0','#EDB98A','#C98B5E','#8D5A3B','#5B3A29'],skinN:['Zlatá','Světlá','Opálená','Snědá','Tmavá','Velmi tmavá'],
@@ -2858,11 +2873,12 @@ function refreshLook(){
 }
 function openPlayerForm(pid){
   var p=pid?D.players[pid]:null,x=p||{name:'',num:'',pos:'Z'};
-  playerForm={id:pid||null,by:(p&&p.by)||0,photo:(p&&p.photo)||'',pbg:(p&&p.pbg)||'',look:(function(){var o=lookOf(p||{}),q=(p&&p.look)||{};return {st:o.st,skin:o.skin,hair:o.hair,hc:o.hc,jr:o.jr,set:!!q.st}})()};
+  playerForm={id:pid||null,ph:(function(){var t=p?phTf(p).match(/translate\(([-\d.]+)%,([-\d.]+)%\) scale\(([-\d.]+)\)/):null;return t?{x:+t[1],y:+t[2],z:+t[3]}:{z:1,x:0,y:0}})(),by:(p&&p.by)||0,photo:(p&&p.photo)||'',pbg:(p&&p.pbg)||'',look:(function(){var o=lookOf(p||{}),q=(p&&p.look)||{};return {st:o.st,skin:o.skin,hair:o.hair,hc:o.hc,jr:o.jr,set:!!q.st}})()};
   openModal('<h3 id="mtitle">'+(p?'Upravit hráče':'Nový hráč')+'</h3><form id="playerform" novalidate>'+
     '<div class="fld"><label for="p-name">Jméno a příjmení</label><input id="p-name" type="text" maxlength="60" value="'+esc(x.name)+'" autocomplete="off"></div>'+
     '<div class="fld"><label>Fotka</label><div class="phrow"><span id="p-prev" class="'+(x.photo?'bd':'av')+'" style="'+(x.photo?'width:72px;height:108px':'width:64px;height:64px')+';font-size:26px">'+(x.photo?'<img src="'+esc(x.photo)+'" alt="">':esc((x.name||'?').charAt(0).toUpperCase()))+'</span><label class="btn" for="p-photo">Vybrat fotku</label><input id="p-photo" type="file" accept="image/*" style="position:absolute;opacity:0;width:1px;height:1px"><button type="button" class="btn" data-act="rmphoto">Odebrat</button></div>'+
-      '<div class="g2" style="margin-top:8px"><div class="fld"><label for="p-pz">Přiblížení fotky</label><input id="p-pz" type="range" min="100" max="250" step="5" value="'+Math.round((+x.pz||1)*100)+'"></div><div class="fld"><label for="p-py">Posun nahoru / dolů</label><input id="p-py" type="range" min="0" max="100" step="1" value="'+(x.py===undefined?30:+x.py)+'"></div></div></div>'+
+      '<div id="p-edw"'+(x.photo?'':' hidden')+'><div class="phed phero'+(x.photo&&String(x.photo).indexOf('data:image/png')===0?' cut':'')+'" id="p-ed">'+(x.photo?'<img src="'+esc(x.photo)+'" alt="" draggable="false" style="'+phTf(x)+'">':'')+'<div class="phgrad"></div></div>'+
+      '<div class="phedb"><span class="hint" style="margin:0">Posuň prstem, dvěma prsty přibliž.</span><button type="button" class="btn small" data-act="phz" data-d="-1" aria-label="Oddálit">−</button><button type="button" class="btn small" data-act="phz" data-d="1" aria-label="Přiblížit">+</button><button type="button" class="btn small" data-act="phz" data-d="0">Obnovit</button></div></div></div>'+
     '<div class="g2"><div class="fld"><label for="p-num">Číslo dresu</label><input id="p-num" type="number" inputmode="numeric" min="0" max="99" value="'+(x.num||'')+'"></div>'+
     '<div class="fld"><label for="p-pos">Post</label><select id="p-pos">'+Object.keys(POS).map(function(k){return '<option value="'+k+'"'+(x.pos===k?' selected':'')+'>'+POS[k]+'</option>'}).join('')+'</select></div></div>'+
     '<div class="fld"><label for="p-bd">Datum narození</label><input id="p-bd" type="date" min="1980-01-01" max="'+key(new Date())+'" value="'+esc(x.bd||'')+'"><div class="hint" id="p-agehint"></div></div>'+
@@ -2882,7 +2898,7 @@ function submitPlayer(){
   if(/^\d{4}-\d{2}-\d{2}$/.test(bd)&&+bd.slice(0,4)>=1980&&bd<=key(new Date())){p.bd=bd;p.by=+bd.slice(0,4)}else if(playerForm.by)p.by=playerForm.by;
   if(playerForm.look&&playerForm.look.set){var lk=playerForm.look;p.look={st:lk.st,skin:lk.skin,hair:lk.hair,hc:lk.hc,jr:lk.jr}}
   if(playerForm.photo){p.photo=playerForm.photo;if(playerForm.pbg)p.pbg=playerForm.pbg}
-  if($('p-pz')){p.pz=(+$('p-pz').value||100)/100;p.py=+$('p-py').value}
+  if(playerForm.ph){p.pz=playerForm.ph.z;p.tx=playerForm.ph.x;p.ty=playerForm.ph.y;delete p.py}
   if(!playerForm.id)pinSon();
   var id=playerForm.id||uid();
   D.players[id]=p;closeModal();W('teams/'+curTeam+'/players/'+id,p);scheduleRender();
@@ -3500,7 +3516,8 @@ document.addEventListener('click',function(e){
     case 'theme':lsSet('trenink-theme',b.getAttribute('data-v'));applyTheme();$('dlg').innerHTML=moreHtml();renderAll();break;
     case 'snd':lsSet('trenink-snd',sndOn()?'0':'1');$('dlg').innerHTML=moreHtml();if(sndOn())ding();break;
     case 'install':if(DEFERRED){DEFERRED.prompt();DEFERRED=null;closeModal()}break;
-    case 'rmphoto':if(playerForm){playerForm.photo='';var pv2=$('p-prev');if(pv2){pv2.className='av';pv2.style.cssText='width:64px;height:64px;font-size:26px';pv2.innerHTML=esc(($('p-name').value||'?').trim().charAt(0).toUpperCase())}}break;
+    case 'phz':if(playerForm&&playerForm.ph){var dz=+b.getAttribute('data-d');if(dz)playerForm.ph.z=Math.max(1,Math.min(3,playerForm.ph.z*(dz>0?1.15:0.87)));else playerForm.ph={z:1,x:0,y:0};phApply()}break;
+    case 'rmphoto':if(playerForm){playerForm.photo='';if($('p-edw'))$('p-edw').hidden=true;var pv2=$('p-prev');if(pv2){pv2.className='av';pv2.style.cssText='width:64px;height:64px;font-size:26px';pv2.innerHTML=esc(($('p-name').value||'?').trim().charAt(0).toUpperCase())}}break;
     case 'sharecard':shareCard();break;
     case 'icsall':var fut=elist().filter(function(e){return e.date>=key(new Date())});if(!fut.length){toast('Nejsou žádné budoucí události.')}else{icsDownload(fut,'treninky.ics');toast('Soubor kalendáře se stáhl. Otevři ho a přidej události.')}break;
     case 'ics':var ev1=D.events[b.getAttribute('data-id')];if(ev1){var e1=clone(ev1);e1.id=b.getAttribute('data-id');icsDownload([e1],'udalost.ics')}scheduleRender();break;
