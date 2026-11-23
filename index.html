@@ -1073,6 +1073,7 @@ window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();DEF
 if('serviceWorker' in navigator&&location.protocol==='https:'){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}
 var FLAME='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.5 2s1 3.2-1.4 5.9C9 10.2 7 11.7 7 15a5 5 0 0 0 10 0c0-2-.9-3.4-1.8-4.4-.2 1.200-.8 2-1.700 2.300C14.300 9.700 13.700 5.300 12.500 2z"/></svg>';
 var NAVI={
+  dnes:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-6.500 8 6.500V20a1 1 0 0 1-1 1h-4.500v-5.500h-5V21H5a1 1 0 0 1-1-1z"/></svg>',
   tyden:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg>',
   odmeny:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.500l2.600 5.300 5.900.9-4.200 4.100 1 5.800-5.300-2.700-5.300 2.700 1-5.800-4.200-4.100 5.900-.9z"/></svg>',
   rekordy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13.500" r="7"/><path d="M12 13.500V9.500M9.500 3h5M12 3v3.500"/></svg>',
@@ -1104,8 +1105,8 @@ function applyTheme(){
 function enterAnim(){var m=$('main');if(!m)return;m.classList.remove('enter');void m.offsetWidth;m.classList.add('enter');clearTimeout(enterAnim.t);enterAnim.t=setTimeout(function(){m.classList.remove('enter')},900)}
 function renderBnav(){
   var el=$('bnav');if(!el)return;if(!curTeam){el.innerHTML='';return}
-  normTab();var items=[['tyden','Týden'],['rozpis','Rozpis'],['odmeny','Odměny'],['syn','Karta']],isR=view.tab==='tyden'&&view.wm==='r',cur=isR?'rozpis':view.tab;
-  el.innerHTML=items.map(function(t){return '<button type="button" data-act="tab" data-t="'+t[0]+'"'+(cur===t[0]?' aria-current="page"':'')+'>'+NAVI[t[0]]+'<span>'+t[1]+'</span></button>'}).join('')+
+  normTab();var items=[['dnes','Dnes'],['plan','Plán'],['odmeny','Odměny'],['syn','Karta']],cur=view.tab==='tyden'?((view.wm||'d')==='d'?'dnes':'plan'):view.tab;
+  el.innerHTML=items.map(function(t){return '<button type="button" data-act="tab" data-t="'+t[0]+'"'+(cur===t[0]?' aria-current="page"':'')+'>'+(NAVI[t[0]]||NAVI.tyden)+'<span>'+t[1]+'</span></button>'}).join('')+
     '<button type="button" data-act="more"'+(items.some(function(t){return t[0]===cur})?'':' aria-current="page"')+'>'+NAVI.vice+'<span>Více</span></button>';
 }
 function renderRing(){
@@ -1250,7 +1251,7 @@ function moreHtml(){
     if(DEFERRED)h+='<button type="button" class="btn" data-act="install">Nainstalovat jako aplikaci</button>';
     else h+='<p class="hint">'+(ios?'Na iPhonu: klepni na Sdílet a pak na Přidat na plochu.':'V nabídce prohlížeče zvol Přidat na plochu nebo Nainstalovat aplikaci.')+'</p>';
   }
-  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 23. 11. · A</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
+  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 23. 11. · B</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
   return h;
 }
 function download(name,blob){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1500)}
@@ -1447,10 +1448,10 @@ function renderMain(){
   }
   if(!curTeam){el.innerHTML=noTeamHtml();return}
   if(view.tab==='tyden'){
-    var wm=view.wm||'d',sn=subnav('rz',wm,[['d','Dnes'],['t','Plán týdne']]);
-    if(wm==='r')el.innerHTML=rozpisHtml();
-    else if(wm==='k')el.innerHTML=sn+krPanel();
-    else if(wm==='d')el.innerHTML=sn+dnesHtml();
+    var wm=view.wm||'d',sn=subnav('rz',wm,[['t','Týden'],['r','Seznam akcí']]);if(wm==='t'||wm==='r')view.pwm=wm;
+    if(wm==='r')el.innerHTML=sn+rozpisHtml();
+    else if(wm==='k')el.innerHTML=krPanel();
+    else if(wm==='d')el.innerHTML=dnesHtml();
     else{el.innerHTML=sn+lastWeekHtml()+weekNav()+'<div class="strip" id="strip" role="tablist" aria-label="Dny v týdnu"></div><section class="panel" id="panel"></section>';
     renderStrip();renderPanel()}
   }else if(false){}
@@ -3385,7 +3386,7 @@ document.addEventListener('click',function(e){
     case 'pp':view.pp=b.getAttribute('data-v')||'m';renderMain();break;
     case 'rz':view.wm=b.getAttribute('data-v')||'d';enterAnim();renderMain();window.scrollTo(0,0);break;
     case 'sub':view.sub=b.getAttribute('data-v');enterAnim();renderMain();window.scrollTo(0,0);break;
-    case 'tab':view.tab=b.getAttribute('data-t');if(view.tab==='tyden')view.wm='d';if(view.tab==='rozpis'){view.tab='tyden';view.wm='r'}if(view.tab==='syn')view.sub='stat';enterAnim();renderAll();window.scrollTo(0,0);break;
+    case 'tab':view.tab=b.getAttribute('data-t');if(view.tab==='dnes'){view.tab='tyden';view.wm='d'}else if(view.tab==='plan'){view.tab='tyden';view.wm=view.pwm||'t'}else if(view.tab==='tyden')view.wm='d';if(view.tab==='rozpis'){view.tab='tyden';view.wm='r'}if(view.tab==='syn')view.sub='stat';enterAnim();renderAll();window.scrollTo(0,0);break;
     case 'more':openModal(moreHtml());break;
     case 'phase':view.phase=+b.getAttribute('data-p')||1;renderAll();break;
     case 'addphase':var mxp=view.phase||1;dayOf(view.sel).items.forEach(function(x){mxp=Math.max(mxp,x.ph||1)});view.phase=Math.min(3,mxp+1);renderAll();break;
