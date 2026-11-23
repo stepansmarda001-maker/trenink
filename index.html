@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#141414">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Shokee">
-<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" type="image/png" href="icon-192.png">
+<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png?v=3"><link rel="icon" type="image/png" href="icon-192.png?v=3">
 <title>Shokee</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,6 +40,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 h1,h2,h3,p{margin:0;text-wrap:balance}
+.title h1{display:flex;align-items:center;gap:10px}.title h1 .logo{width:.9em;height:.9em;flex:0 0 auto}
 .wrap{max-width:980px;margin:0 auto;padding:0 16px}
 
 /* Header band */
@@ -568,7 +569,7 @@ table.tbl{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;
 <header class="band">
   <div class="wrap">
     <div class="title">
-      <h1>Shokee</h1>
+      <h1><svg class="logo" viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22" fill="#0b0b0c"/><g transform="translate(50 50) scale(.78) translate(-53 -50)" fill="none" stroke="#ffd60a" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"><path d="M18 22 L44 50 L18 78" opacity=".35"/><path d="M40 22 L66 50 L40 78" opacity=".65"/><path d="M62 22 L88 50 L62 78"/></g></svg>Shokee</h1>
       <div class="range" id="range"></div>
     </div>
     <div class="hright"><span class="save" id="save" aria-live="polite"></span><div class="hring" id="hring"></div>
@@ -1251,7 +1252,7 @@ function liveHtml(e){
 }
 function aboutHtml(){
   var Q=function(q,a){return '<details class="faq"><summary>'+q+'</summary><p>'+a+'</p></details>'};
-  return '<div class="about"><h3 id="mtitle" tabindex="-1">Proč Shokee</h3><p class="ab-motto">Show up. Keep going.</p>'+
+  return '<div class="about"><div style="width:72px;height:72px;margin:0 0 12px"><svg style="width:72px;height:72px" viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22" fill="#0b0b0c"/><g transform="translate(50 50) scale(.78) translate(-53 -50)" fill="none" stroke="#ffd60a" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"><path d="M18 22 L44 50 L18 78" opacity=".35"/><path d="M40 22 L66 50 L40 78" opacity=".65"/><path d="M62 22 L88 50 L62 78"/></g></svg></div><h3 id="mtitle" tabindex="-1">Proč Shokee</h3><p class="ab-motto">Show up. Keep going.</p>'+
     '<p>Týmový sport stojí na tom, že každý táhne za jeden provaz. Kdo na tréninku nedává pozor nebo dělá něco jiného, nebrzdí jen sebe, ale i trenéra a všechny spoluhráče. Shokee proto neodměňuje talent ani góly, ale <b>snahu, soustředění a pravidelnost</b>: věci, které může ovlivnit každý hráč.</p>'+
     '<p>Poctivá práce se tu vyplácí víc než šikovnost. Kdo není nejtalentovanější, může díky snaze dosáhnout stejně daleko. Kdo talent má, zjistí, že bez snahy mu nestačí.</p>'+
     '<h4>Zásady</h4><ul class="ab-list">'+
@@ -1282,7 +1283,7 @@ function moreHtml(){
     if(DEFERRED)h+='<button type="button" class="btn" data-act="install">Nainstalovat jako aplikaci</button>';
     else h+='<p class="hint">'+(ios?'Na iPhonu: klepni na Sdílet a pak na Přidat na plochu.':'V nabídce prohlížeče zvol Přidat na plochu nebo Nainstalovat aplikaci.')+'</p>';
   }
-  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 23. 11. · J</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
+  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 23. 11. · L</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
   return h;
 }
 function download(name,blob){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1500)}
