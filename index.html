@@ -1115,9 +1115,7 @@ function renderRing(){
   el.innerHTML='<div class="xpchip" title="Body k utracení"><b>'+bal+'</b> XP</div>'+
     (S.streak>0?'<div class="flame" title="Týdny v řadě aspoň se 3 tréninky">'+FLAME+S.streak+'</div>':'');
 }
-function weekActiveDays(mon){
-  var n=0;for(var i=0;i<7;i++){var kk=key(addDays(mon,i)),d=dayOf(kk);if((d.items||[]).some(function(x){return x.done})||clubAtt(kk))n++}return n;
-}
+function weekActiveDays(mon){return wkInfo(mon).n}
 function todayHtml(){
   var k=key(new Date());if(view.sel!==k)return '';
   var d=dayOf(k),all=(d.items||[]).length,done=d.items.filter(function(x){return x.done}).length,left=d.items.filter(function(x){return !x.done});
@@ -1198,11 +1196,11 @@ function dnesHtml(){
       (ROLE.coach&&!e.played?'<button type="button" class="dn-alt" data-act="resev" data-id="'+e.id+'">Zapsat výsledek</button>':'')+'</section>';});
   h+=tBlk;
   /* týden */
-  var mon=monday(now),act=weekActiveDays(mon),dn=['Po','Út','St','Čt','Pá','So','Ne'],planN=0,leftN=0;
+  var mon=monday(now),wki=wkInfo(mon),act=wki.n,dn=['Po','Út','St','Čt','Pá','So','Ne'],planN=0,leftN=0;
   h+='<section class="dn-card"><div class="dn-row"><div class="dn-k">Tento týden</div><div class="dn-meta">'+(act>=3?'<b class="dn-okc">✓ '+act+' z 3 dnů</b>':act+' z 3 dnů')+'</div></div><div class="dn-days">'+
     dn.map(function(l,i){var dd=addDays(mon,i),kk=key(dd),dnn=((dayOf(kk).items||[]).some(function(x){return x.done}))||clubAtt(kk)>0,isT=kk===tk,pl=!dnn&&kk>=tk&&!dayOf(kk).rest&&(evOfDay(kk).length>0||(dayOf(kk).items||[]).length>0);if(pl)planN++;if(kk>=tk&&!dnn)leftN++;
       return '<button type="button" class="dn-day'+(dnn?' on':'')+(isT?' now':'')+(pl?' dpl':'')+'" data-act="gotoday" data-k="'+kk+'" aria-label="'+esc(fmt(dd,{weekday:'long',day:'numeric',month:'long'})+(dnn?', splněno':pl?', naplánováno':''))+'"><i>'+(dnn?IC.chk:dd.getDate())+'</i><span>'+l+'</span></button>'}).join('')+'</div>'+
-    '<p class="dn-wk">'+(act>=3?'Týdenní cíl splněn. Bonus <b>+'+(100+30*(Math.min(act,7)-3))+' XP</b>'+(act<7?', každý další den přidá +30.':'.'):'Trénuj aspoň 3 dny v týdnu (doma, v klubu i na kroužku) a získáš bonus <b>+100 XP</b>. Chybí ještě '+(3-act)+' '+(3-act===1?'den':'dny')+'.')+(S.streak>0?' Plamínek nahoře ukazuje, kolik týdnů v řadě jsi cíl splnil.':' Po prvním splněném týdnu se nahoře objeví plamínek, který počítá týdny v řadě.')+'</p>'+
+    '<p class="dn-wk">'+(act>=3?'Týdenní cíl splněn. Bonus <b>+'+wki.bonus+' XP</b>'+(wki.newR?' (průměrná snaha '+wki.avg.toFixed(1).replace('.',',')+')':'')+(act<7?', každý další den přidá víc.':'.'):'Trénuj aspoň 3 dny v týdnu (doma, v klubu i na kroužku) a získáš bonus <b>+100 XP</b>, s plnou snahou až <b>+150 XP</b>. Dny se snahou pod 4 se nepočítají. Chybí ještě '+(3-act)+' '+(3-act===1?'den':'dny')+'.')+(S.streak>0?' Plamínek nahoře ukazuje, kolik týdnů v řadě jsi cíl splnil.':' Po prvním splněném týdnu se nahoře objeví plamínek, který počítá týdny v řadě.')+'</p>'+
     '<p class="dn-wk dn-plg"><i></i> naplánováno &nbsp; <i class="ok"></i> splněno</p><button type="button" class="dn-alt" data-act="wmplan">'+(leftN&&planN>=leftN-1?'Zobrazit plán týdne':'Naplánovat další dny')+'</button></section>';
   /* zítra */
   if(!left.length||ill||d.rest){
@@ -1264,7 +1262,7 @@ function moreHtml(){
     if(DEFERRED)h+='<button type="button" class="btn" data-act="install">Nainstalovat jako aplikaci</button>';
     else h+='<p class="hint">'+(ios?'Na iPhonu: klepni na Sdílet a pak na Přidat na plochu.':'V nabídce prohlížeče zvol Přidat na plochu nebo Nainstalovat aplikaci.')+'</p>';
   }
-  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 23. 11. · H</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
+  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 23. 11. · I</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
   return h;
 }
 function download(name,blob){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1500)}
@@ -1938,6 +1936,23 @@ function phDone(it){var ph={},n=0;(it||[]).forEach(function(x){var q=x.ph||1;ph[
 function phItems(d,ph){return (d.items||[]).filter(function(x){return (x.ph||1)===ph})}
 function clubAtt(k){var son=sonP();if(!son)return 0;return evOfDay(k).filter(function(e){var a=D.att[e.id];return e.type==='trenink'&&a&&a.st&&a.st[son.id]==='y'}).length}
 var EFF_FROM='2026-11-23';
+function dayEff(k){
+  var son=sonP(),v=[],d=dayOf(k),ph={};
+  (d.items||[]).forEach(function(x){if(x.done)ph[x.ph||1]=1});
+  Object.keys(ph).forEach(function(q){v.push(d.eff&&d.eff[q]?+d.eff[q]:5)});
+  if(son)evOfDay(k).forEach(function(e){
+    if(e.type==='trenink'){var a=D.att[e.id];if(a&&a.st&&a.st[son.id]==='y')v.push(rtOf(e.id,son.id)||5)}
+    else if(e.played&&nomOf(e).indexOf(son.id)>=0)v.push(rtOf(e.id,son.id)||5);
+  });
+  if(!v.length)return 5;return v.reduce(function(a,b){return a+b},0)/v.length;
+}
+function wkInfo(mon){
+  var n=0,sum=0,newR=key(mon)>=key(monday(parse(EFF_FROM)));
+  for(var i=0;i<7;i++){var kk=key(addDays(mon,i)),d=dayOf(kk);
+    if((d.items||[]).some(function(x){return x.done})||clubAtt(kk)){if(!newR){n++;continue}var ef=dayEff(kk);if(ef>=4){n++;sum+=ef}}}
+  var avg=newR&&n?sum/n:5,base=n>=3?100+30*(Math.min(n,7)-3):0;
+  return {n:n,avg:avg,bonus:Math.round(base*(newR?effMul(avg):1)),newR:newR};
+}
 function effMul(v){return 0.5+(+v||0)/10}
 var EFFL=['','Odmítal spolupracovat, byl jen přítomen','Skoro nic nedělal podle pokynů','Nesoustředil se, musel být opakovaně napomínán','Víc času nesoustředěný než soustředěný','Asi polovinu času dělal něco jiného nebo nedával pozor','Snaha kolísala, část času jen odbýval','Většinou se snažil, pár delších výpadků','Snažil se, občas vypadl ze soustředění','Naplno skoro celou dobu, jen drobné výpadky','Celou dobu naplno a soustředěně, příklad pro ostatní'];
 var effCtx=null;
@@ -1992,19 +2007,19 @@ function rwSnap(){
     var r=CUSTOM_ILL[i];if(!r.to)return;
     for(var n=1;n<=7;n++){if(active[key(addDays(parse(r.to),n))]){back++;break}}
   });
-  var wk5=0,wkx=0,ak=Object.keys(active).sort(),cur=0,best2=0,today=key(new Date()),wkNow=key(monday(new Date()));
+  var wk5=0,wkx=0,wbx=0,ak=Object.keys(active).sort(),cur=0,best2=0,today=key(new Date()),wkNow=key(monday(new Date()));
   if(ak.length){
     for(var w0=monday(parse(ak[0])),wk=key(w0);wk<=wkNow;w0=addDays(w0,7),wk=key(w0)){
-      var act=0,sick=0,rst=0;
-      for(var q=0;q<7;q++){var dk=key(addDays(w0,q));if(active[dk])act++;if(rest[dk])rst++;if(illOn(dk))sick++}
-      if(act>=3){wk5++;wkx+=Math.min(act,7)-3}
+      var act=0,sick=0,rst=0,nw=wk>=key(monday(parse(EFF_FROM))),esum=0;
+      for(var q=0;q<7;q++){var dk=key(addDays(w0,q));if(active[dk]){if(nw){var ef0=dayEff(dk);if(ef0>=4){act++;esum+=ef0}}else act++}if(rest[dk])rst++;if(illOn(dk))sick++}
+      if(act>=3){wk5++;if(nw)wbx+=Math.round((100+30*(Math.min(act,7)-3))*effMul(esum/act));else wbx+=100+30*(Math.min(act,7)-3)}
       if(act>=3){cur++;if(cur>best2)best2=cur}
       else if(sick>=3||rst>=4||wk===wkNow){}
       else cur=0;
     }
   }
   var goalsDone=0;Object.keys(CUSTOM_GOAL).forEach(function(i){if(goalProg(CUSTOM_GOAL[i]).done)goalsDone++});
-  var xp=wk5*100+wkx*30+exM+attM+recN*10+recBrk*50+mxp+rx;
+  var xp=wbx+exM+attM+recN*10+recBrk*50+mxp+rx;
   var S={ex:ex,days:days,cat:perCat,recN:recN,recBrk:recBrk,games:games,goals:goals,assists:assists,gamesAll:games+sumSea('matches'),goalsAll:goals+sumSea('goals'),assistsAll:assists+sumSea('assists'),
     hat:hat,tour:tour,tg:tg,five:five,attY:attY,seasons:Object.keys(sset).length,sset:Object.keys(sset).sort(),medals:medals,goalsDone:goalsDone,golds:golds,indiv:indiv,back:back,streak:cur,best:best2,wk5:wk5,xp:xp,sxp:seaXp(),level:lvOf(xp)};
   S.badges=BADGES.filter(function(b){return b.t(S)}).map(function(b){return b.id});S.xb=fExtra(S);S.badges=S.badges.concat(S.xb);
