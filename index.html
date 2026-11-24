@@ -204,7 +204,7 @@ h1,h2,h3,p{margin:0;text-wrap:balance}
 .phinfo h2{font:800 32px/1 var(--display);text-transform:uppercase;letter-spacing:.01em;margin:0;overflow-wrap:anywhere}
 .phsub{font-size:13.5px;color:#cfcfc9;margin-top:4px}
 .phed{height:260px;margin-top:10px;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}.phed img{pointer-events:none}.phedb{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap}.phedb .hint{flex:1;min-width:140px}.phbody{padding-top:14px}
-.vzh-top{display:flex;gap:16px;align-items:center}.vzh-me{flex:0 0 auto}.bobr{display:block;height:auto;user-select:none;-webkit-user-drag:none;filter:drop-shadow(0 3px 6px rgba(0,0,0,.18))}.cospv .bobr{max-height:100%;width:auto}.bobr.bkw{opacity:0}.bbw{margin-top:12px}.bbw .lkl{margin-top:10px}.bbseg{flex-wrap:wrap}
+.vzh-top{display:flex;gap:16px;align-items:center}.vzh-me{flex:0 0 auto}.bobr{display:block;height:auto;user-select:none;-webkit-user-drag:none;filter:drop-shadow(0 3px 6px rgba(0,0,0,.18))}.cospv .bobr{max-height:100%;width:auto}.bobr.bkw{opacity:0}.bbw{margin-top:12px}.bbw .lkl{margin-top:10px}.bbseg{flex-wrap:wrap}.lkc.bblk{position:relative;opacity:.55;display:flex;align-items:center;justify-content:center}.lkc.bblk span{font:800 12px/1 var(--body);background:rgba(0,0,0,.55);color:#fff;border-radius:99px;padding:3px 6px}
 .cosg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .cosi{border:1.5px solid var(--line);border-top:4px solid var(--rc);border-radius:14px;padding:8px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;background:var(--surface)}
 .cosi.on{box-shadow:0 0 0 2px var(--rc)}.cosi b{font-size:13px;line-height:1.2;min-height:2.4em}
@@ -1301,7 +1301,7 @@ function moreHtml(){
     if(DEFERRED)h+='<button type="button" class="btn" data-act="install">Nainstalovat jako aplikaci</button>';
     else h+='<p class="hint">'+(ios?'Na iPhonu: klepni na Sdílet a pak na Přidat na plochu.':'V nabídce prohlížeče zvol Přidat na plochu nebo Nainstalovat aplikaci.')+'</p>';
   }
-  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 23. 11. · X</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
+  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 24. 11. · A</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
   return h;
 }
 function download(name,blob){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1500)}
@@ -2761,10 +2761,11 @@ var BB={"w": 211, "h": 336, "c": {"00": "data:image/webp;base64,UklGRiJPAABXRUJQ
 var BBZ={1:'ca',2:'sh',3:'sp',4:'so',5:'bo',6:'gl'};
 var BBP=[['sh','Dres'],['sp','Trenky'],['so','Štulpny'],['bo','Kopačky'],['ca','Čepice'],['gl','Rukavice']];
 var BBDEF={sh:'#FFD60A',sp:'#1c1c1e',so:'#FFD60A',bo:'#1c1c1e',ca:'#1c1c1e',gl:'#FFD60A'};
-function colOwned(h){for(var i=0;i<COSL.length;i++){if(COSL[i][2]==='col'&&COSL[i][3]===h)return cosOwned(COSL[i][0])}return false}
+function pcCode(h){for(var i=0;i<PCOL.length;i++)if(PCOL[i][2]===h)return PCOL[i][0];return ''}
+function colOk(pt,h){if(h===BBDEF[pt])return true;var c=pcCode(h);if(c&&(pt==='ca'||pt==='gl'))return true;if(c&&cosOwned('pc-'+pt+'-'+c))return true;for(var i=0;i<COSL.length;i++){if(COSL[i][2]==='col'&&COSL[i][3]===h)return cosOwned(COSL[i][0])}return false}
 function bbOf(p,ov){var l=ov||(p&&p.look)||{},s=l.bb||{},o={top:s.top===0?0:1,bot:s.bot||'s',feet:s.feet||'c',cap:s.cap?1:0,c:{}};
   BBP.forEach(function(q){o.c[q[0]]=(s.c&&s.c[q[0]])||BBDEF[q[0]]});
-  if(!ov){if(o.cap&&!cosOwned('it-cap'))o.cap=0;if(o.bot==='x'&&!cosOwned('it-box'))o.bot='s';BBP.forEach(function(q){if(!colOwned(o.c[q[0]]))o.c[q[0]]=BBDEF[q[0]]})}
+  if(!ov){if(o.cap&&!cosOwned('it-cap'))o.cap=0;BBP.forEach(function(q){if(!colOk(q[0],o.c[q[0]]))o.c[q[0]]=BBDEF[q[0]]})}
   if(o.cap)o.top=1;if(o.bot==='x'&&o.feet==='c')o.feet='s';return o}
 function bbKey(o){return ''+(o.cap?2:o.top?1:0)+({nn:0,ns:1,nc:2,sn:3,xn:4,ss:5,xs:6,sc:7}[o.bot+o.feet]||0)}
 var BBC={},BBI={},BBW={};
@@ -2777,7 +2778,13 @@ function bbTint(k,o,key){
       var id=x.getImageData(0,0,w,h),d=id.data,cs={};
       Object.keys(BBZ).forEach(function(z){var hx=o.c[BBZ[z]]||'#ffffff';cs[z]=[1,3,5].map(function(j){return Math.max(34,parseInt(hx.substr(j,2),16))})});
       for(var i=0;i<d.length;i+=4){var z=Math.round(md[i]/30),c=cs[z];if(c&&d[i+3]){var s=Math.min(1,(d[i]+d[i+1]+d[i+2])/765/0.93);d[i]=c[0]*s;d[i+1]=c[1]*s;d[i+2]=c[2]*s}}
-      x.putImageData(id,0,0);url=cv.toDataURL('image/png')}}catch(e){}
+      x.putImageData(id,0,0);
+      if(k.charAt(0)!=='0'){var x0=w,x1=0,y0=h,y1=0;for(var yy=0;yy<h;yy++)for(var xx=0;xx<w;xx++){if(Math.round(md[(yy*w+xx)*4]/30)===2){if(xx<x0)x0=xx;if(xx>x1)x1=xx;if(yy<y0)y0=yy;if(yy>y1)y1=yy}}
+        if(x1>x0){var sz=Math.round((x1-x0)*0.2),cx=(x0+x1)/2,cy=y0+(y1-y0)*0.42;x.save();x.translate(cx-sz/2,cy-sz/2);
+          x.fillStyle='#0b0b0c';x.beginPath();var rr=sz*0.22;x.moveTo(rr,0);x.arcTo(sz,0,sz,sz,rr);x.arcTo(sz,sz,0,sz,rr);x.arcTo(0,sz,0,0,rr);x.arcTo(0,0,sz,0,rr);x.closePath();x.fill();
+          x.strokeStyle='#ffd60a';x.lineWidth=sz*0.1;x.lineCap='round';x.lineJoin='round';var sc=sz/100*0.78,ox=sz/2-53*sc,oy=sz/2-50*sc;
+          [[18,.35],[40,.65],[62,1]].forEach(function(q){x.globalAlpha=q[1];x.beginPath();x.moveTo(ox+q[0]*sc,oy+22*sc);x.lineTo(ox+(q[0]+26)*sc,oy+50*sc);x.lineTo(ox+q[0]*sc,oy+78*sc);x.stroke()});x.restore()}}
+      url=cv.toDataURL('image/png')}}catch(e){}
     BBC[key]=url;delete BBW[key];
     var L=document.querySelectorAll('img[data-bk="'+key+'"]');for(var j=0;j<L.length;j++){L[j].src=url;L[j].classList.remove('bkw');L[j].removeAttribute('data-bk')}
   });
@@ -2786,28 +2793,31 @@ function bobrImg(p,w,lab,ov){var o=bbOf(p,ov),k=bbKey(o),key=k+'-'+BBP.map(funct
   if(!src&&!BBW[key]){BBW[key]=1;setTimeout(function(){bbTint(k,o,key)},0)}
   return '<img class="bobr'+(src?'':' bkw')+'"'+(src?'':' data-bk="'+key+'"')+' src="'+(src||BB.c[k])+'" alt="'+esc(lab||'Bobr')+'" width="'+w+'" height="'+h+'" draggable="false">'}
 function bbSet(fn){var son=sonP();if(!son)return;var q=clone(D.players[son.id]);q.look=q.look||{};var o=bbOf(son);fn(o);if(o.cap)o.top=1;if(o.bot==='x'&&o.feet==='c')o.feet='s';q.look.bb=o;D.players[son.id]=q;W('teams/'+curTeam+'/players/'+son.id,q);scheduleRender()}
-function bbApply(it){if(it.t==='col'){var pt=view.bbPart||'sh';bbSet(function(o){o.c[pt]=it.v})}else if(it.t==='box')bbSet(function(o){o.bot=o.bot==='x'?'s':'x'});else if(it.t==='cap2')bbSet(function(o){o.cap=o.cap?0:1})}
-function bbOn(o,it){var pt=view.bbPart||'sh';return it.t==='col'?o.c[pt]===it.v:it.t==='box'?o.bot==='x':it.t==='cap2'?!!o.cap:false}
+function bbApply(it){if(it.t==='pc'){var pp=it.id.split('-')[1];bbSet(function(o){o.c[pp]=it.v})}else if(it.t==='col'){var pt=view.bbPart||'sh';bbSet(function(o){o.c[pt]=it.v})}else if(it.t==='box')bbSet(function(o){o.bot=o.bot==='x'?'s':'x'});else if(it.t==='cap2')bbSet(function(o){o.cap=o.cap?0:1})}
+function bbOn(o,it){var pt=view.bbPart||'sh';if(it.t==='pc')return o.c[it.id.split('-')[1]]===it.v;return it.t==='col'?o.c[pt]===it.v:it.t==='box'?o.bot==='x':it.t==='cap2'?!!o.cap:false}
 function bbWardrobe(son){
-  var o=bbOf(son),pt=view.bbPart||'sh';
+  var o=bbOf(son),pt=view.bbPart||'sh',S0=rwSnap(),bal=Math.max(0,S0.xp-S0.sxp-spentXP());
   var sg=function(k,opts){return '<div class="seg bbseg">'+opts.map(function(x){return '<button type="button" class="fbtn" data-act="bbt" data-k="'+k+'" data-v="'+x[0]+'" aria-pressed="'+(String(o[k])===String(x[0]))+'"'+(x[2]?' disabled':'')+'>'+x[1]+'</button>'}).join('')+'</div>'};
-  var h='<div class="bbw"><div class="lkl">Tričko</div>'+sg('top',[[1,'Ano',o.cap],[0,'Ne',o.cap]])+
-    '<div class="lkl">Spodek</div>'+sg('bot',[['s','Trenky']].concat(cosOwned('it-box')?[['x','Boxerky']]:[]).concat([['n','Nic']]))+
+  var pre=o.top===0&&o.bot==='n'&&o.feet==='n'&&!o.cap?'nah':o.top===0&&o.bot==='x'&&o.feet==='n'&&!o.cap?'box':'';
+  if(o.top&&o.bot==='s'&&o.feet==='c'&&!o.cap&&BBP.every(function(q){return o.c[q[0]]===BBDEF[q[0]]}))pre='sho';
+  var h='<div class="bbw"><div class="lkl">Základ zdarma</div><div class="seg bbseg">'+[['nah','Nahý'],['box','Boxerky'],['sho','Shokee dres']].map(function(x){return '<button type="button" class="fbtn" data-act="bbpre" data-v="'+x[0]+'" aria-pressed="'+(pre===x[0])+'">'+x[1]+'</button>'}).join('')+'</div>'+
+    '<div class="lkl">Tričko</div>'+sg('top',[[1,'Ano',o.cap],[0,'Ne',o.cap]])+
+    '<div class="lkl">Spodek</div>'+sg('bot',[['s','Trenky'],['x','Boxerky'],['n','Nic']])+
     '<div class="lkl">Nohy</div>'+sg('feet',[['c','Kopačky',o.bot==='x'],['s','Štulpny'],['n','Naboso']])+
     (cosOwned('it-cap')?'<div class="lkl">Kšiltovka a rukavice</div>'+sg('cap',[[1,'Ano'],[0,'Ne']]):'');
   var parts=BBP.filter(function(q){return q[0]==='sh'||q[0]==='sp'||q[0]==='so'||q[0]==='bo'||cosOwned('it-cap')});
-  h+='<div class="lkl">Barva</div><div class="seg bbseg">'+parts.map(function(q){return '<button type="button" class="fbtn" data-act="bbp" data-v="'+q[0]+'" aria-pressed="'+(pt===q[0])+'">'+q[1]+'</button>'}).join('')+'</div>';
-  var cols=COSL.filter(function(r){return r[2]==='col'&&cosOwned(r[0])});
-  h+='<div class="lksw">'+cols.map(function(r){return '<button type="button" class="lkc" style="background:'+r[3]+'" data-act="bbc" data-v="'+r[3]+'" aria-pressed="'+(o.c[pt]===r[3])+'" aria-label="'+esc(r[1])+'"></button>'}).join('')+'</div><p class="hint" style="margin:6px 0 0">Další barvy a věci si koupíš níž.</p></div>';
+  h+='<div class="lkl">Barvy · 1 XP za barvu</div><div class="seg bbseg">'+parts.map(function(q){return '<button type="button" class="fbtn" data-act="bbp" data-v="'+q[0]+'" aria-pressed="'+(pt===q[0])+'">'+q[1]+'</button>'}).join('')+'</div>';
+  var sw=PCOL.map(function(c){var ok=colOk(pt,c[2]),id='pc-'+pt+'-'+c[0];
+      if(ok)return '<button type="button" class="lkc" style="background:'+c[2]+'" data-act="bbc" data-v="'+c[2]+'" aria-pressed="'+(o.c[pt]===c[2])+'" aria-label="'+esc(c[1])+'"></button>';
+      return '<button type="button" class="lkc bblk" style="background:'+c[2]+'" data-act="cosbuy" data-id="'+id+'" aria-label="'+esc(c[1])+', koupit za 1 XP"'+(bal<1?' disabled':'')+'><span>1</span></button>'}).join('')+
+    COSL.filter(function(r){return r[2]==='col'&&cosOwned(r[0])}).map(function(r){return '<button type="button" class="lkc" style="background:'+r[3]+'" data-act="bbc" data-v="'+r[3]+'" aria-pressed="'+(o.c[pt]===r[3])+'" aria-label="'+esc(r[1])+'"></button>'}).join('');
+  h+='<div class="lksw">'+sw+'</div><p class="hint" style="margin:6px 0 0">Barvy s číslem 1 si koupíš za 1 XP. Vzácné barvy a kšiltovku najdeš níž.</p></div>';
   return h;
 }
-var COSVIS={col:1,box:1,cap2:1,frame:1};
+var COSVIS={col:1,cap2:1,pc:1,frame:1};
 var RAR=[{n:'Běžné',c:'#9a9a94'},{n:'Vzácné',c:'#4c8dff'},{n:'Epické',c:'#a259ff'},{n:'Legendární',c:'#ffb800'},{n:'Mýtické',c:'#ff4fa3'}];
 var COSL=[
- ['cl-wht','Bílá','col','#F5F5F7',0,0],['cl-blk','Černá','col','#1c1c1e',0,0],['cl-yel','Žlutá','col','#FFD60A',0,0],
- ['cl-red','Červená','col','#E5484D',0,200],['cl-blu','Modrá','col','#2F6BFF',0,200],['cl-grn','Zelená','col','#2FA84F',0,200],['cl-org','Oranžová','col','#FF7A1A',0,200],['cl-nav','Tmavě modrá','col','#22307A',0,200],['cl-sky','Nebeská','col','#5FB7FF',0,200],['cl-brd','Vínová','col','#8B1E3F',0,200],
- ['it-box','Boxerky se srdíčky','box','x',0,300],
- ['cl-pnk','Růžová','col','#FF5FA2',1,600],['cl-pur','Fialová','col','#8A3FE0',1,600],['cl-tyr','Tyrkysová','col','#19C3B3',1,600],['cl-neo','Neonová','col','#7CF03B',1,600],['it-cap','Kšiltovka a brankářské rukavice','cap2','1',1,800],
+ ['cl-tyr','Tyrkysová','col','#19C3B3',1,600],['cl-neo','Neonová','col','#7CF03B',1,600],['it-cap','Kšiltovka a brankářské rukavice','cap2','1',1,800],
  ['cl-slv','Stříbrná','col','#C9CED6',2,2000],['cl-gld','Zlatá','col','#E8B923',3,10000],
  ['b-blk','Černé kopačky','boot','#1c1c1e',0,100],['b-yel','Žluté kopačky','boot','#FFD60A',0,150],['b-org','Oranžové kopačky','boot','#FF7A1A',0,150],['b-blu','Modré kopačky','boot','#2F6BFF',0,150],['b-pnk','Růžové kopačky','boot','#FF5FA2',0,150],['b-grn','Zelené kopačky','boot','#2FA84F',0,150],
  ['s-wht','Bílé štulpny','sock','#F5F5F7',0,100],['s-blk','Černé štulpny','sock','#1c1c1e',0,100],['s-yel','Žluté štulpny','sock','#FFD60A',0,100],['s-red','Červené štulpny','sock','#E5484D',0,100],['s-blu','Modré štulpny','sock','#2F6BFF',0,100],
@@ -2822,22 +2832,24 @@ var COSL=[
  ['k-gold','Zlatý hráč','skin','gold',3,10000],['f-gld','Zlatý rámeček karty','frame','#FFD60A',3,10000],
  ['k-night','Noční hvězda','skin','night',4,15000]
 ];
+var PCOL=[['wht','Bílá','#F5F5F7'],['blk','Černá','#1c1c1e'],['yel','Žlutá','#FFD60A'],['red','Červená','#E5484D'],['blu','Modrá','#2F6BFF'],['grn','Zelená','#2FA84F'],['org','Oranžová','#FF7A1A'],['pur','Fialová','#8A3FE0'],['pnk','Růžová','#FF5FA2']];
+[['sh','Dres'],['sp','Trenky'],['so','Štulpny'],['bo','Kopačky']].forEach(function(q){PCOL.forEach(function(c){if(c[2]!==BBDEF[q[0]])COSL.push(['pc-'+q[0]+'-'+c[0],q[1]+': '+c[1].toLowerCase(),'pc',c[2],0,1])})});
 var COSI={};COSL.forEach(function(r){COSI[r[0]]={id:r[0],n:r[1],t:r[2],v:r[3],r:r[4],c:r[5]}});
-var SLOTN={col:'Barva',box:'Boxerky',cap2:'Kšiltovka',boot:'Kopačky',sock:'Štulpny',hb:'Čelenka',wb:'Potítka',cap:'Páska',gl:'Rukavice',jp:'Vzor dresu',frame:'Rámeček karty',skin:'Skin'};
+var SLOTN={col:'Barva',pc:'Barva',cap2:'Kšiltovka',boot:'Kopačky',sock:'Štulpny',hb:'Čelenka',wb:'Potítka',cap:'Páska',gl:'Rukavice',jp:'Vzor dresu',frame:'Rámeček karty',skin:'Skin'};
 var SKINS={fire:{jr:'#1b1b1d',boot:'#FF5A1F',sock:'#1b1b1d',tr:'#FF7A1A'},gold:{jr:'#E5A800',boot:'#FFD60A',sock:'#E5A800',tr:'#fff4c2'},night:{jr:'#141432',boot:'#5FD3FF',sock:'#141432',tr:'#5FD3FF'}};
 function cosOwned(id){var it=COSI[id];return !!(it&&it.c===0&&COSVIS[it.t])||!!CUSTOM_COS[id]}
 function cosSpent(){var n=0;Object.keys(CUSTOM_COS).forEach(function(i){n+=+(CUSTOM_COS[i].c)||0});return n}
 function cosEq(p){return (p&&p.look&&p.look.eq)||{}}
 function cosFrame(p){var e=cosEq(p);return e.frame&&COSI[e.frame]&&cosOwned(e.frame)?COSI[e.frame].v:''}
-function cosPreview(p,it,w){if(COSVIS[it.t]&&it.t!=='frame'){var L0={bb:clone(bbOf(p))};if(it.t==='col')L0.bb.c.sh=it.v;else if(it.t==='box'){L0.bb.bot='x';if(L0.bb.feet==='c')L0.bb.feet='s'}else if(it.t==='cap2'){L0.bb.cap=1;L0.bb.top=1}return bobrImg(p,w,it.n,L0)}var L=clone(lookOf(p||{}));L.eq=clone(L.eq||{});if(it.t==='skin'){L.eq={skin:it.id}}else{delete L.eq.skin;L.eq[it.t]=it.id}if(it.t==='gl'){}return bobrImg(p,w,it.n,L)}
+function cosPreview(p,it,w){if(COSVIS[it.t]&&it.t!=='frame'){var L0={bb:clone(bbOf(p))};if(it.t==='col')L0.bb.c.sh=it.v;else if(it.t==='pc'){var pp=it.id.split('-')[1];L0.bb.c[pp]=it.v;L0.bb.top=1;if(pp==='sp'&&L0.bb.bot!=='s')L0.bb.bot='s';if(pp==='bo'){L0.bb.feet='c';L0.bb.bot='s'}if(pp==='so'&&L0.bb.feet==='n')L0.bb.feet='s'}else if(it.t==='box'){L0.bb.bot='x';if(L0.bb.feet==='c')L0.bb.feet='s'}else if(it.t==='cap2'){L0.bb.cap=1;L0.bb.top=1}return bobrImg(p,w,it.n,L0)}var L=clone(lookOf(p||{}));L.eq=clone(L.eq||{});if(it.t==='skin'){L.eq={skin:it.id}}else{delete L.eq.skin;L.eq[it.t]=it.id}if(it.t==='gl'){}return bobrImg(p,w,it.n,L)}
 function vzhledHtml(){
   var S=rwSnap(),son=sonP(),bal=Math.max(0,S.xp-S.sxp-spentXP());
   if(!son)return '<section class="panel"><div class="empty"><b>Nejdřív hráč</b>Na Kartě hráče si vytvoř svého hráče a označ ho hvězdičkou. Pak mu tady můžeš kupovat vzhled.</div></section>';
   var eq=cosEq(son),bo=bbOf(son),VL=COSL.filter(function(r){return COSVIS[r[2]]&&r[5]>0}),owned=VL.filter(function(r){return cosOwned(r[0])}).length;
   var h='<section class="panel"><div class="sect"><div class="vzh-top"><div class="vzh-me">'+bobrImg(son,110,'Můj bobr')+'</div><div><div class="shbal"><b>'+bal+' XP</b><span>k utracení</span></div><p class="hint" style="margin:8px 0 0">Jen vzhled. Body ani hodnocení nemění. Koupená věc ti zůstane navždy. Máš '+owned+' z '+VL.length+'.</p>'+
-    '<button type="button" class="btn small" data-act="cosoff" style="margin-top:8px">Výchozí vzhled</button></div></div>'+bbWardrobe(son)+'</div></section>';
+    '</div></div>'+bbWardrobe(son)+'</div></section>';
   RAR.forEach(function(ra,ri){
-    var its=COSL.filter(function(r){return r[4]===ri&&COSVIS[r[2]]&&r[5]>0}).map(function(r){return COSI[r[0]]});if(!its.length)return;
+    var its=COSL.filter(function(r){return r[4]===ri&&COSVIS[r[2]]&&r[2]!=='pc'&&r[5]>0}).map(function(r){return COSI[r[0]]});if(!its.length)return;
     h+='<section class="panel"><div class="sect"><div class="sect-h"><h2 style="color:'+ra.c+'">'+ra.n+'</h2></div><div class="cosg">'+its.map(function(it){
       var own=cosOwned(it.id),on=it.t==='frame'?eq[it.t]===it.id:bbOn(bo,it),miss=it.c-bal;
       var pv=it.t==='frame'?'<span class="cosfr" style="border-color:'+it.v+'"><i></i><i></i></span>':cosPreview(son,it,72);
@@ -3693,10 +3705,12 @@ document.addEventListener('click',function(e){
     case 'rz':view.wm=b.getAttribute('data-v')||'d';enterAnim();renderMain();window.scrollTo(0,0);break;
     case 'osub':view.osub=b.getAttribute('data-v');enterAnim();renderMain();window.scrollTo(0,0);break;
     case 'cosbuy':(function(){var it=COSI[rid];if(!it||cosOwned(rid))return;var S0=rwSnap(),bal=Math.max(0,S0.xp-S0.sxp-spentXP());if(bal<it.c){toast('Na to zatím nemáš dost XP.');return}
+      if(it.t==='pc'){var o1={c:it.c,at:Date.now()};CUSTOM_COS[rid]=o1;W('cos/'+rid,o1);bbApply(it);toast('Koupeno: '+it.n+' · '+it.c+' XP');return}
       openModal('<h3 id="mtitle" tabindex="-1">Koupit '+esc(it.n)+'?</h3><div style="display:flex;justify-content:center;margin:8px 0">'+(it.t==='frame'?'<span class="cosfr" style="border-color:'+it.v+';width:110px;height:150px"><i></i><i></i></span>':cosPreview(sonP(),it,140))+'</div><p>'+RAR[it.r].n+' · <b>'+it.c+' XP</b>. Po koupi ti zbude '+(bal-it.c)+' XP.</p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zpět</button><button type="button" class="btn primary" data-act="cosok" data-id="'+it.id+'">Koupit a nasadit</button></div>','mtitle')})();break;
     case 'cosok':(function(){var it=COSI[rid];if(!it||cosOwned(rid))return;var o={c:it.c,at:Date.now()};CUSTOM_COS[rid]=o;W('cos/'+rid,o);closeModal();if(COSVIS[it.t]&&it.t!=='frame'){var o0=bbOf(sonP());if(!bbOn(o0,it))bbApply(it)}else cosSetEq(rid,true);fanfare();toast('Máš novou věc: '+it.n)})();break;
     case 'coseq':(function(){var son=sonP(),it=COSI[rid];if(!son||!it||!cosOwned(rid))return;if(COSVIS[it.t]&&it.t!=='frame'){if(it.t==='col'&&bbOn(bbOf(son),it))return;bbApply(it)}else cosSetEq(rid,cosEq(son)[it.t]!==rid)})();break;
     case 'cosoff':cosSetEq(null,false);bbSet(function(o){o.top=1;o.bot='s';o.feet='c';o.cap=0;o.c=clone(BBDEF)});break;
+    case 'bbpre':(function(){var v=b.getAttribute('data-v');bbSet(function(o){o.cap=0;if(v==='nah'){o.top=0;o.bot='n';o.feet='n'}else if(v==='box'){o.top=0;o.bot='x';o.feet='n'}else{o.top=1;o.bot='s';o.feet='c';o.c=clone(BBDEF)}})})();break;
     case 'bbt':(function(){var k=b.getAttribute('data-k'),v=b.getAttribute('data-v');bbSet(function(o){o[k]=(k==='top'||k==='cap')?+v:v})})();break;
     case 'bbp':view.bbPart=b.getAttribute('data-v');renderMain();break;
     case 'bbc':(function(){var v=b.getAttribute('data-v'),pt=view.bbPart||'sh';bbSet(function(o){o.c[pt]=v})})();break;
