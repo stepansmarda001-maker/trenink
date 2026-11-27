@@ -1363,7 +1363,7 @@ function moreHtml(){
     if(DEFERRED)h+='<button type="button" class="btn" data-act="install">Nainstalovat jako aplikaci</button>';
     else h+='<p class="hint">'+(ios?'Na iPhonu: klepni na Sdílet a pak na Přidat na plochu.':'V nabídce prohlížeče zvol Přidat na plochu nebo Nainstalovat aplikaci.')+'</p>';
   }
-  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><button type="button" class="btn" data-act="cosreset" style="margin-top:8px">Vrátit XP za koupené věci</button><p class="hint" style="margin:6px 0 0">Zruší všechny nákupy v šatně a rámečky a vrátí za ně XP. Bobr dostane zpátky výchozí oblečení. Tréninky a XP zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 27. 11. · I</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
+  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><button type="button" class="btn" data-act="cosreset" style="margin-top:8px">Vrátit XP za koupené věci</button><p class="hint" style="margin:6px 0 0">Zruší všechny nákupy v šatně a rámečky a vrátí za ně XP. Bobr dostane zpátky výchozí oblečení. Tréninky a XP zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 27. 11. · J</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
   return h;
 }
 function download(name,blob){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1500)}
@@ -1702,6 +1702,7 @@ function planSection(k,d,ph0,mxp0){
   if(!hide&&!d.rest)pm.push(['itwhen',(d.time||d.place)?'Změnit čas a místo':'Čas a místo','x']);
   if(!hide)pm.push(['copy','Kopírovat plán','x'],['rest',d.rest?'Zrušit volno':'Označit jako volno','x']);
   if(hide)pm.push(['planhide','Zobrazit plán','x']);
+  if(!hide&&!d.rest&&(all||ph>1||d.time||d.place))pm.push(['delph','Smazat trénink'+(mxp>1?' '+ph:''),String(ph),'danger']);
   h+=kdots('plan'+ph,pm)+'</div></div>';
   if(hide)return h;
   if(!d.rest&&all&&!fin)h+='<div class="prog" aria-hidden="true"><i style="width:'+Math.round(done/all*100)+'%"></i></div>';
@@ -4145,6 +4146,13 @@ document.addEventListener('click',function(e){
     case 'lib':d=ensure(view.sel);d.rest=false;d.items.push(mk(+b.getAttribute('data-i')));save();renderAll();toast('Cvičení přidáno');break;
     case 'toggle':var pre0=rwSnap(),nowDone=false;dayOf(view.sel).items.forEach(function(x){if(x.id===id){x.done=!x.done;nowDone=x.done}});if(view.pdone&&itFin(dayOf(view.sel)))delete view.pdone[view.sel];view.pop=nowDone?id:null;save();renderAll();if(nowDone)ding();setTimeout(function(){view.pop=null},700);reward(pre0);if(nowDone){var tk0=b.closest('.dn')?key(new Date()):view.sel;setTimeout(function(){itEffPrompt(tk0)},1300)}break;
     case 'edit':var it=dayOf(view.sel).items.filter(function(x){return x.id===id})[0];if(it)openExForm(it);break;
+    case 'delph':(function(){var k=view.sel,ph=+rid||1,d0=dayOf(k),n=phItems(d0,ph).length;
+      undo={k:k,snap:JSON.stringify(d0)};var d1=ensure(k);
+      d1.items=(d1.items||[]).filter(function(x){return (x.ph||1)!==ph}).map(function(x){if((x.ph||1)>ph)x.ph=(x.ph||1)-1;return x});
+      if(d1.eff){var ne={};Object.keys(d1.eff).forEach(function(q){q=+q;if(q<ph)ne[q]=d1.eff[q];else if(q>ph)ne[q-1]=d1.eff[q]});d1.eff=ne}
+      if(!d1.items.length){delete d1.time;delete d1.place;delete view.planHide[k]}
+      if(view.addPh&&view.addPh[k]){var mx=0;d1.items.forEach(function(x){mx=Math.max(mx,x.ph||1)});if(mx>1)view.addPh[k]=mx;else delete view.addPh[k]}
+      view.phase=1;save();renderAll();toast(n?'Trénink smazán':'Prázdný trénink odebrán',!!n)})();break;
     case 'del':d=ensure(view.sel);d.items=d.items.filter(function(x){return x.id!==id});save();renderAll();toast('Cvičení smazáno');break;
     case 'up':move(id,-1);break;
     case 'down':move(id,1);break;
