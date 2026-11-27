@@ -478,7 +478,7 @@ table.tbl{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;
 .grow{display:grid;grid-template-columns:96px 1fr 56px 56px 34px;gap:6px;margin-bottom:6px;align-items:center}
 .grow input{border:1.5px solid var(--line);background:var(--bg);border-radius:8px;padding:7px 8px;min-width:0;width:100%;min-height:40px}
 .grow button{height:36px}
-.ef [data-only]{display:none}
+.ef [data-only]{display:none}.ef[data-t="turnaj"] .efd[data-only~="turnaj"],.ef[data-t="zapas"] .efd[data-only~="zapas"]{display:block}.efd{border:1.5px dashed var(--line);border-radius:14px;padding:10px 12px;margin:0 0 12px;flex-direction:column;gap:8px}.efd summary{cursor:pointer;font-weight:600;display:flex;align-items:center;gap:8px;list-style:none}.efd summary svg{width:18px;height:18px}.efd[open] summary{margin-bottom:8px}.efd textarea{width:100%;margin:6px 0 8px}
 .ef[data-t="trenink"] [data-only~="trenink"],.ef[data-t="zapas"] [data-only~="zapas"],.ef[data-t="turnaj"] [data-only~="turnaj"]{display:flex}
 .ef[data-t="turnaj"] #ef-gwrap{display:block}
 #ef-gwrap{display:none;margin-bottom:12px}
@@ -1363,7 +1363,7 @@ function moreHtml(){
     if(DEFERRED)h+='<button type="button" class="btn" data-act="install">Nainstalovat jako aplikaci</button>';
     else h+='<p class="hint">'+(ios?'Na iPhonu: klepni na Sdílet a pak na Přidat na plochu.':'V nabídce prohlížeče zvol Přidat na plochu nebo Nainstalovat aplikaci.')+'</p>';
   }
-  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><button type="button" class="btn" data-act="cosreset" style="margin-top:8px">Vrátit XP za koupené věci</button><p class="hint" style="margin:6px 0 0">Zruší všechny nákupy v šatně a rámečky a vrátí za ně XP. Bobr dostane zpátky výchozí oblečení. Tréninky a XP zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 27. 11. · G</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
+  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><button type="button" class="btn" data-act="cosreset" style="margin-top:8px">Vrátit XP za koupené věci</button><p class="hint" style="margin:6px 0 0">Zruší všechny nákupy v šatně a rámečky a vrátí za ně XP. Bobr dostane zpátky výchozí oblečení. Tréninky a XP zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 27. 11. · H</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
   return h;
 }
 function download(name,blob){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1500)}
@@ -1623,7 +1623,8 @@ function resultHtml(e){
     h+='<ul class="games">'+e.games.map(function(g){
       var sc=(typeof g.a==='number'&&typeof g.b==='number')?g.a+' : '+g.b:'';
       var ex=[],hasM=typeof g.min==='number',hasP=typeof g.pm==='number';
-      if(hasP&&g.pm<=0)ex.push('nehrál');
+      if(!e.played&&!sc&&!hasP){if(hasM)ex.push(g.min+' min')}
+      else if(hasP&&g.pm<=0)ex.push('nehrál');
       else if(hasM)ex.push('hrál '+(hasP?g.pm:g.min)+' z '+g.min+' min');
       else if(hasP)ex.push('hrál '+g.pm+' min');
       if(typeof g.g==='number'||typeof g.as==='number')ex.push('góly '+(g.g||0)+' · asist. '+(g.as||0));
@@ -1661,7 +1662,7 @@ function eventCard(e,opt){
   var tg='';
   h+='<div class="evt-top'+(tg?' evt-hd':'')+'"'+tg+'><span class="chip evtype">'+T.n+'</span>';
   if(opt&&opt.date)h+='<span class="evt-dur">'+esc(fmt(parse(e.date),{weekday:'short',day:'numeric',month:'numeric'}))+'</span>';
-  h+='<span class="evt-time">'+esc((e.time||'')+(e.end?'–'+e.end:''))+'</span><span class="evt-dur">'+(e.meet?'sraz '+esc(e.meet)+' · ':'')+(e.type==='turnaj'?(tourGames(e).length?tourGames(e).length+' zápasů · '+evMin(e)+' min':''):(e.dur?e.dur+' min':''))+'</span></div>';
+  h+='<span class="evt-time">'+esc((e.time||'')+(e.end?'–'+e.end:''))+'</span><span class="evt-dur">'+(e.meet?'sraz '+esc(e.meet)+' · ':'')+(e.type==='turnaj'?(tourGames(e).length?(function(n){return n+' '+(n===1?'zápas':n<5?'zápasy':'zápasů')})(tourGames(e).length)+' · '+evMin(e)+' min':''):(e.dur?e.dur+' min':''))+'</span></div>';
   h+='<h3 class="evt-title'+(tg?' evt-hd':'')+'"'+tg+'>'+esc(evTitle(e))+(tg?'<span class="arr">▴</span>':'')+'</h3>';
   if(e.place)h+='<div class="evt-meta">'+esc(e.place)+'</div>';
   h+=resultHtml(e);h+=liveHtml(e);
@@ -3317,12 +3318,62 @@ function gamesRows(){
       '<div class="tgr tgr5">'+inp(i,'a',g.a,'My','n')+inp(i,'b',g.b,'Oni','n')+inp(i,'min',g.min,'Minut','n')+inp(i,'g',g.g,'Mé góly','n')+inp(i,'as',g.as,'Mé asist.','n')+'</div><div class="tgr tgr2">'+inp(i,'pm',g.pm,'Můj čas ve hře (min)','n','celý zápas')+'<label class="tgc tgk"><small>Chytal jsem</small><span><input type="checkbox" data-gi="'+i+'" data-gf="gk"'+(g.gk?' checked':'')+' aria-label="Chytal jsem, zápas '+(i+1)+'"></span></label></div>'+(g.gk?'<div class="tgr">'+inp(i,'sv',g.sv,'Zákroky (chycené střely)','n')+'</div>':'')+'</div>';
   }).join('');
 }
+/* ===== diktování plánu turnaje / zápasu (předem) ===== */
+function planParse(txt){
+  var t=dictPrep(txt).replace(/p[uů]l\s+(jedn|druh|tře|tre|čtvrt|ctvrt|pát|pat|šest|sest|sedm|osm|devát|devat|desát|desat|jedenáct|jedenact|dvanáct|dvanact)\S*/gi,function(a,w){var L=['jedn','druh','tre','ctvrt','pat','sest','sedm','osm','devat','desat','jedenact','dvanact'],i=L.indexOf(dnorm(w));if(i<0)return a;return (i===0?12:i)+':30'}),n=t.split('').map(function(c){return c.normalize('NFD').charAt(0).toLowerCase()}).join(''),o={games:[]};
+  var TM=/(\d{1,2})(?:\s*[:.]\s*(\d{2})|\s*(?:hod\w*|h)\b)/g,times=[],m;
+  while((m=TM.exec(n))){var h=+m[1],mi=m[2]?+m[2]:0;if(h>=1&&h<=6)h+=12;if(h<24&&mi<60)times.push({s:m.index,e:m.index+m[0].length,v:(h<10?'0':'')+h+':'+(mi<10?'0':'')+mi})}
+  var BV=/\b(?:v|ve|od|na)\s+(\d{1,2})(?![\d:.]|\s*(?:min|hod|h\b|gol|:))/g;
+  while((m=BV.exec(n))){var hh=+m[1],st=m.index+m[0].length-m[1].length;if(hh>=6&&hh<24&&!times.some(function(x){return st>=x.s&&st<x.e}))times.push({s:st,e:st+m[1].length,v:(hh<10?'0':'')+hh+':00'})}
+  times.sort(function(a,b){return a.s-b.s});
+  var before=function(x,k){return n.slice(Math.max(0,x.s-k),x.s)};
+  var lm=n.match(/(?:po|kazd\w*|delk\w*|trva\w*|hraje se|zapasy\w*|hrajeme)\D{0,20}?(\d{1,3})\s*min/)||n.match(/(\d{1,3})\s*min/);
+  if(lm)o.min=+lm[1];
+  var games=[];
+  times.forEach(function(x,i){
+    var b=before(x,24);
+    if(/sraz\w*\D*$/.test(b)){o.meet=x.v;return}
+    if(/(?:konec|konci\w*|skonc\w*|do)\D{0,8}$/.test(b)){o.end=x.v;return}
+    if(/(?:zacat\w*|zacina\w*|start\w*)\D{0,8}$/.test(b)&&!/proti|zapas/.test(b)){o.time=x.v;return}
+    var nx=times[i+1]?times[i+1].s:t.length,seg=t.slice(x.e,nx),cut=seg.search(/[,;\n]|\.(?!\d)/);if(cut>=0)seg=seg.slice(0,cut);
+    seg=seg.replace(/\b\d+\s*min\w*/gi,'').replace(/^\s*(?:hodin\w*|hod)\b/i,'').trim();
+    var pm=seg.match(/^(?:(?:a|pak|potom|hrajeme|zápas|zapas)\s+)*(?:(proti|se|s|vs\.?)\s+)?(.*)$/i),prep=pm&&pm[1]?dnorm(pm[1]).replace(/^se$/,'s'):'',opp=pm?pm[2]:seg;
+    if(!opp){var pre=t.slice(i?times[i-1].e:0,x.s),c2=Math.max(pre.lastIndexOf(','),pre.lastIndexOf(';'),pre.lastIndexOf('.'));pre=pre.slice(c2+1).replace(/\b(?:v|ve|od|na|v\s+čase)\s*$/i,'').replace(/^\s*(?:a|pak|potom)?\s*(?:první|druhý|třetí|čtvrtý|pátý|šestý|další|poslední)?\s*(?:zápas|utkání)?\s*(?:je|bude|hrajeme)?\s*(proti|se|s)?\s*/i,function(a,p){prep=p?dnorm(p).replace(/^se$/,'s'):'';return ''}).trim();opp=pre}
+    opp=opp.replace(/\s+(?:v|ve|na|od|a|pak|potom)$/i,'').trim();
+    if(prep&&opp){var ws=opp.split(' ');ws[ws.length-1]=dictUndecl(ws[ws.length-1],prep);opp=ws.join(' ')}
+    if(opp)opp=opp.charAt(0).toUpperCase()+opp.slice(1);
+    games.push({t:x.v,opp:opp.slice(0,40)});
+  });
+  o.games=games;
+  var po=t.match(/proti\s+([A-ZÁ-Ž][\wÀ-ž\-]*(?:\s+[A-ZÁ-Ž][\wÀ-ž\-]*)*)/);if(po){var pw=po[1].split(' ');pw[pw.length-1]=dictUndecl(pw[pw.length-1],'proti');o.opp=pw.join(' ')}
+  if(!o.time&&games.length)o.time=games[0].t;
+  if(!o.end&&games.length&&o.min){var lt=games[games.length-1].t.split(':'),em=+lt[0]*60+ +lt[1]+o.min;o.end=(Math.floor(em/60)%24<10?'0':'')+Math.floor(em/60)%24+':'+(em%60<10?'0':'')+em%60}
+  var pl=n.match(/(?:misto|hriste|stadion|areal|adresa|kde)\w*\s*(?:je|bude)?\s*[:\-]?\s*(?:v|ve|na)?\s*([^,;\n]+)/);
+  if(pl)o.place=t.substr(pl.index+pl[0].length-pl[1].length,pl[1].length).replace(/\.\s*$/,'').trim();
+  else{var PV=/(?:^|[\s,])(?:v|ve|na)\s+([A-ZÁ-Ž][\wÀ-ž\-]*(?:\s+[A-ZÁ-Ž][\wÀ-ž\-]*)*)/g,pv;while((pv=PV.exec(t))){var pb=dnorm(t.slice(Math.max(0,pv.index-8),pv.index));if(!/proti|\bs\s*$/.test(pb)){o.place=pv[0].replace(/^[\s,]+/,'');break}}}
+  var tt=t.match(/turnaj\w*\s+(?!v\s|ve\s|na\s|je\s|bude\s|proti\s)([A-ZÁ-Ž][^,;.\n]*?)(?=\s+(?:v|ve|na)\s|[,;.\n]|$)/i);
+  if(tt&&!/^\d/.test(tt[1]))o.title=tt[1].trim();
+  o.ok=!!(games.length||o.meet||o.place);
+  return o;
+}
+function planFill(){
+  var ta=$('ef-dict');if(!ta)return;var r=planParse(ta.value),out=$('ef-dout'),typ=$('ef-type').value,done=[];
+  if(!r.ok){out.textContent='Nic jsem nerozpoznal. Zkus třeba: „Turnaj Zimní pohár v Kladně, sraz v 8:15, zápasy po 12 minutách, v 9:00 proti Spartě, v 9:40 proti Slavii.“';return}
+  var setv=function(id,v,lab){if(v&&$(id)){$(id).value=v;done.push(lab)}};
+  if(typ==='zapas'){var g0=r.games[0];setv('ef-time',r.time||(g0&&g0.t),'začátek');setv('ef-meet',r.meet,'sraz');setv('ef-place',r.place,'místo');setv('ef-opp',(g0&&g0.opp)||r.opp,'soupeř');if(r.min)setv('ef-dur',String(r.min),'délka')}
+  else{setv('ef-time',r.time,'začátek');setv('ef-meet',r.meet,'sraz');setv('ef-end',r.end,'konec');setv('ef-place',r.place,'místo');setv('ef-title',r.title,'název');
+    if(r.games.length){var sp0=sonP(),old=evForm.games.filter(function(g){return g.opp||g.t||g.a!==null&&g.a!==undefined});
+      evForm.games=r.games.map(function(g,i){var p=old[i]||{};return {t:g.t,opp:g.opp||p.opp||'',a:p.a!==undefined?p.a:null,b:p.b!==undefined?p.b:null,min:r.min||p.min||null,g:p.g!==undefined?p.g:null,as:p.as!==undefined?p.as:null,pm:p.pm,gk:p.gk!==undefined?p.gk:!!(sp0&&sp0.pos==='B')}});
+      $('ef-games').innerHTML=gamesRows();done.push(r.games.length+' '+(r.games.length===1?'zápas':r.games.length<5?'zápasy':'zápasů'))}}
+  out.textContent=done.length?'Vyplněno: '+done.join(', ')+'. Zkontroluj údaje níž a ulož.':'Nic jsem nerozpoznal.';
+}
 function openEventForm(o){
   var e=o.id?D.events[o.id]:null,t=e?e.type:(o.type||'trenink'),T=EVT[t];
   var x=e?clone(e):{type:t,date:o.date||view.sel,time:T.time,dur:(t==='zapas'?'':T.dur),place:'',opp:'',title:'',where:'home',note:'',games:[],nomMax:teamSize()};
   if(o.prefill)for(var pk in o.prefill)x[pk]=o.prefill[pk];
   evForm={id:e?o.id:null,games:(x.games||[]).map(function(g){return {t:g.t||'',opp:g.opp||'',a:g.a,b:g.b,min:g.min,g:g.g,as:g.as,pm:g.pm}})};
   openModal('<h3 id="mtitle" tabindex="-1">'+(e?'Upravit událost':'Nová událost')+'</h3><form id="evform" class="ef" data-t="'+t+'" novalidate>'+
+    (e?'':'<details class="efd" data-only="zapas turnaj"><summary>'+MIC+'Nadiktovat místo, sraz a zápasy</summary><p class="hint">Klepni do pole a na klávesnici stiskni mikrofon. Řekni třeba: „Turnaj Zimní pohár v Kladně, sraz v 8:15, zápasy po 12 minutách, v 9:00 proti Spartě, v 9:40 proti Slavii, v 10:20 Dukla.“</p><textarea id="ef-dict" rows="3" placeholder="Nadiktuj nebo napiš" autocomplete="off"></textarea><button type="button" class="btn" data-act="efdict">Vyplnit formulář</button><p class="hint" id="ef-dout" role="status"></p></details>')+
     '<div class="fld"><label for="ef-type">Druh</label><select id="ef-type">'+Object.keys(EVT).map(function(k){return '<option value="'+k+'"'+(t===k?' selected':'')+'>'+EVT[k].n+'</option>'}).join('')+'</select></div>'+
     '<div class="g2"><div class="fld"><label for="ef-date">Datum</label><input id="ef-date" type="date" value="'+esc(x.date)+'"></div><div class="fld"><label for="ef-time">Začátek</label><input id="ef-time" type="time" value="'+esc(x.time||'')+'"></div></div>'+
     '<div class="g2"><div class="fld" data-only="zapas turnaj"><label for="ef-meet">Sraz</label><input id="ef-meet" type="time" value="'+esc(x.meet||'')+'"></div>'+
@@ -4059,6 +4110,7 @@ document.addEventListener('click',function(e){
     case 'attev':openAttendance(rid);break;
     case 'resev':openResult(rid);break;
     case 'allyes':activeP().forEach(function(p){var s=$('att-'+p.id);if(s)s.value='y'});break;
+    case 'efdict':planFill();break;
     case 'addgame':var sp0=sonP();evForm.games.push({t:'',opp:'',a:null,b:null,min:null,g:null,as:null,gk:!!(sp0&&sp0.pos==='B')});$('ef-games').innerHTML=gamesRows();break;
     case 'rmgame':evForm.games.splice(+b.getAttribute('data-n'),1);$('ef-games').innerHTML=gamesRows();break;
     case 'doconfirm':doConfirm(b.getAttribute('data-do'),rid);break;
