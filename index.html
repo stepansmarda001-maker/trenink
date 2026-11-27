@@ -478,7 +478,7 @@ table.tbl{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;
 .grow{display:grid;grid-template-columns:96px 1fr 56px 56px 34px;gap:6px;margin-bottom:6px;align-items:center}
 .grow input{border:1.5px solid var(--line);background:var(--bg);border-radius:8px;padding:7px 8px;min-width:0;width:100%;min-height:40px}
 .grow button{height:36px}
-.ef [data-only]{display:none}.ef[data-t="turnaj"] .efd[data-only~="turnaj"],.ef[data-t="zapas"] .efd[data-only~="zapas"]{display:block}.efd{border:1.5px dashed var(--line);border-radius:14px;padding:10px 12px;margin:0 0 12px;flex-direction:column;gap:8px}.efd summary{cursor:pointer;font-weight:600;display:flex;align-items:center;gap:8px;list-style:none}.efd summary svg{width:18px;height:18px}.efd[open] summary{margin-bottom:8px}.efd textarea{width:100%;margin:6px 0 8px}
+.lclamp{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.detail>p,.lpd>p,p.note{white-space:pre-line}.ef [data-only]{display:none}.ef[data-t="turnaj"] .efd[data-only~="turnaj"],.ef[data-t="zapas"] .efd[data-only~="zapas"]{display:block}.efd{border:1.5px dashed var(--line);border-radius:14px;padding:10px 12px;margin:0 0 12px;flex-direction:column;gap:8px}.efd summary{cursor:pointer;font-weight:600;display:flex;align-items:center;gap:8px;list-style:none}.efd summary svg{width:18px;height:18px}.efd[open] summary{margin-bottom:8px}.efd textarea{width:100%;margin:6px 0 8px}
 .ef[data-t="trenink"] [data-only~="trenink"],.ef[data-t="zapas"] [data-only~="zapas"],.ef[data-t="turnaj"] [data-only~="turnaj"]{display:flex}
 .ef[data-t="turnaj"] #ef-gwrap{display:block}
 #ef-gwrap{display:none;margin-bottom:12px}
@@ -1363,7 +1363,7 @@ function moreHtml(){
     if(DEFERRED)h+='<button type="button" class="btn" data-act="install">Nainstalovat jako aplikaci</button>';
     else h+='<p class="hint">'+(ios?'Na iPhonu: klepni na Sdílet a pak na Přidat na plochu.':'V nabídce prohlížeče zvol Přidat na plochu nebo Nainstalovat aplikaci.')+'</p>';
   }
-  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><button type="button" class="btn" data-act="cosreset" style="margin-top:8px">Vrátit XP za koupené věci</button><p class="hint" style="margin:6px 0 0">Zruší všechny nákupy v šatně a rámečky a vrátí za ně XP. Bobr dostane zpátky výchozí oblečení. Tréninky a XP zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 27. 11. · H</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
+  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><button type="button" class="btn" data-act="cosreset" style="margin-top:8px">Vrátit XP za koupené věci</button><p class="hint" style="margin:6px 0 0">Zruší všechny nákupy v šatně a rámečky a vrátí za ně XP. Bobr dostane zpátky výchozí oblečení. Tréninky a XP zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 27. 11. · I</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
   return h;
 }
 function download(name,blob){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1500)}
@@ -1518,7 +1518,7 @@ function knihovnaHtml(){
       h+=list.map(function(p){
         var l=p.l,spec=[];if(l.s&&l.r)spec.push(l.s+' × '+l.r);if(l.m)spec.push(l.m+' min');
         var key=l.custom?l.id:bkey(l.n);
-        return '<div class="lrow"><div><b>'+esc(l.n)+'</b> <small>'+spec.join(' · ')+((l.imgs||[]).length?(spec.length?' · ':'')+'obrázky '+l.imgs.length:'')+(l.video?' · video':'')+'</small>'+(l.d?'<div class="hint">'+esc(l.d)+'</div>':'')+'</div>'+
+        return '<div class="lrow"><div><b>'+esc(l.n)+'</b> <small>'+spec.join(' · ')+((l.imgs||[]).length?(spec.length?' · ':'')+'obrázky '+l.imgs.length:'')+(l.video?' · video':'')+'</small>'+(l.d?'<div class="hint lclamp">'+esc(l.d)+'</div>':'')+'</div>'+
           kdots('ex:'+key,l.custom?[['editlib','Upravit',l.id],['dellib','Smazat',l.id,'dng']]:[['editbase','Upravit',String(p.i)],['hidebase','Smazat',key,'dng']])+'</div>';
       }).join('');
     }
@@ -3712,7 +3712,7 @@ function openExForm(item,lib){
       '<div class="fld"><label for="f-min">Čas (min)</label><input id="f-min" type="number" inputmode="numeric" min="0" max="600" value="'+(x.min||'')+'"></div>'+
       '<div class="fld"><label for="f-rest">Pauza (s)</label><input id="f-rest" type="number" inputmode="numeric" min="0" max="900" value="'+(x.rest||'')+'"></div>'+
     '</div>'+
-    '<div class="fld"><label for="f-desc">Krátký popis</label><textarea id="f-desc" maxlength="500" placeholder="Jak se cvičení provádí">'+esc(x.desc)+'</textarea></div>'+
+    '<div class="fld"><label for="f-desc">Popis</label><textarea id="f-desc" maxlength="4000" style="min-height:170px" placeholder="Jak se cvičení provádí, na co si dát pozor, jednodušší a těžší varianta…">'+esc(x.desc)+'</textarea></div>'+
     '<div class="fld"><label for="f-video">Vložit odkaz na video</label><input id="f-video" type="text" inputmode="url" autocomplete="off" placeholder="https://..." value="'+esc(x.video)+'"></div>'+
     '<fieldset class="fld gearf"><legend>Pomůcky, které budu potřebovat</legend><div class="fchips" id="f-gear">'+(function(){var xg=(x.gear||[]).map(gnorm),al=gearAll();return al.concat(xg.filter(function(g){return al.indexOf(g)<0})).map(function(g){return gearChk(g,xg.indexOf(g)>=0)}).join('')})()+'</div><div class="gadd"><input id="f-newgear" type="text" maxlength="40" placeholder="Další pomůcka, např. Kužely žluté" autocomplete="off"><button type="button" class="btn" data-act="addgear">Přidat</button></div></fieldset>'+
     '<div class="fld"><label for="f-files">Obrázkový návod</label><input id="f-files" type="file" accept="image/*" multiple><div class="fimgs" id="f-imgs"></div></div>'+
