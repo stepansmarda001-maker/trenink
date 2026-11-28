@@ -478,7 +478,7 @@ table.tbl{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;
 .grow{display:grid;grid-template-columns:96px 1fr 56px 56px 34px;gap:6px;margin-bottom:6px;align-items:center}
 .grow input{border:1.5px solid var(--line);background:var(--bg);border-radius:8px;padding:7px 8px;min-width:0;width:100%;min-height:40px}
 .grow button{height:36px}
-.lclamp{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.detail>p,.lpd>p,p.note{white-space:pre-line}.ef [data-only]{display:none}.ef[data-t="turnaj"] .efd[data-only~="turnaj"],.ef[data-t="zapas"] .efd[data-only~="zapas"]{display:block}.efd{border:1.5px dashed var(--line);border-radius:14px;padding:10px 12px;margin:0 0 12px;flex-direction:column;gap:8px}.efd summary{cursor:pointer;font-weight:600;display:flex;align-items:center;gap:8px;list-style:none}.efd summary svg{width:18px;height:18px}.efd[open] summary{margin-bottom:8px}.efd textarea{width:100%;margin:6px 0 8px}
+.lclamp{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.detail>p,.lpd>p,p.note{white-space:pre-line}.missb{margin:8px 0 2px;padding:8px 12px;border-radius:12px;background:var(--bg);border:1px dashed var(--line);font-weight:600;color:var(--muted)}.dn-row2{display:flex;gap:8px;flex-wrap:wrap}.ef [data-only]{display:none}.ef[data-t="turnaj"] .efd[data-only~="turnaj"],.ef[data-t="zapas"] .efd[data-only~="zapas"]{display:block}.efd{border:1.5px dashed var(--line);border-radius:14px;padding:10px 12px;margin:0 0 12px;flex-direction:column;gap:8px}.efd summary{cursor:pointer;font-weight:600;display:flex;align-items:center;gap:8px;list-style:none}.efd summary svg{width:18px;height:18px}.efd[open] summary{margin-bottom:8px}.efd textarea{width:100%;margin:6px 0 8px}
 .ef[data-t="trenink"] [data-only~="trenink"],.ef[data-t="zapas"] [data-only~="zapas"],.ef[data-t="turnaj"] [data-only~="turnaj"]{display:flex}
 .ef[data-t="turnaj"] #ef-gwrap{display:block}
 #ef-gwrap{display:none;margin-bottom:12px}
@@ -1273,7 +1273,7 @@ function dnesHtml(){
       (son&&ROLE.coach?'<button type="button" class="dn-alt'+(y?' on':'')+'" data-act="clubdone" data-id="'+e.id+'" aria-pressed="'+y+'">'+(y?'✓ Odtrénováno':'Byl jsem <small>+'+(+e.dur||60)+' XP</small>')+'</button>':'')+'</div></section>';});
   others.forEach(function(e){
     h+='<section class="dn-card dn-slim"><div class="dn-k">'+(e.type==='turnaj'?'Turnaj dnes':'Zápas dnes')+'</div><div class="dn-t2">'+esc(evTitle(e))+(e.time?' · '+esc(e.time):'')+'</div>'+(e.place?'<div class="dn-meta">'+pin+esc(e.place)+'</div>':'')+
-      (ROLE.coach&&!e.played?'<button type="button" class="dn-alt" data-act="resev" data-id="'+e.id+'">Zapsat výsledek</button>':'')+'</section>';});
+      (e.miss&&!e.played?'<div class="dn-meta"><b>Nezúčastnil se · '+esc(MISSR[e.miss.why]||'jiný důvod')+'</b></div>':ROLE.coach&&!e.played?'<div class="dn-row2"><button type="button" class="dn-alt" data-act="resev" data-id="'+e.id+'">Zapsat výsledek</button><button type="button" class="dn-alt" data-act="missev" data-id="'+e.id+'">Nezúčastnil se</button></div>':'')+'</section>';});
   h+=tBlk;
   /* týden */
   var mon=monday(now),wki=wkInfo(mon),act=wki.n,dn=['Po','Út','St','Čt','Pá','So','Ne'],planN=0,leftN=0;
@@ -1363,7 +1363,7 @@ function moreHtml(){
     if(DEFERRED)h+='<button type="button" class="btn" data-act="install">Nainstalovat jako aplikaci</button>';
     else h+='<p class="hint">'+(ios?'Na iPhonu: klepni na Sdílet a pak na Přidat na plochu.':'V nabídce prohlížeče zvol Přidat na plochu nebo Nainstalovat aplikaci.')+'</p>';
   }
-  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><button type="button" class="btn" data-act="cosreset" style="margin-top:8px">Vrátit XP za koupené věci</button><p class="hint" style="margin:6px 0 0">Zruší všechny nákupy v šatně a rámečky a vrátí za ně XP. Bobr dostane zpátky výchozí oblečení. Tréninky a XP zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 27. 11. · J</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
+  h+='<h4>Data</h4><button type="button" class="btn" data-act="backup">Záloha a synchronizace</button><button type="button" class="btn" data-act="refreshapp" style="margin-top:8px">Načíst novou verzi aplikace</button><p class="hint" style="margin:6px 0 0">Stáhne nejnovější verzi stránky. Tvoje data zůstanou.</p><button type="button" class="btn" data-act="cosreset" style="margin-top:8px">Vrátit XP za koupené věci</button><p class="hint" style="margin:6px 0 0">Zruší všechny nákupy v šatně a rámečky a vrátí za ně XP. Bobr dostane zpátky výchozí oblečení. Tréninky a XP zůstanou.</p><p class="hint" style="text-align:center;margin:18px 0 4px"><b>Shokee</b><br>Show up. Keep going.<br><small style="opacity:.7">verze 28. 11. · A</small></p><div class="dact"><button type="button" class="btn" data-act="closemodal">Zavřít</button></div></div>';
   return h;
 }
 function download(name,blob){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1500)}
@@ -1650,6 +1650,13 @@ function evMenu(e){
   return '<span class="kmw"><button type="button" class="ib kdots" data-act="kmenu" data-k="'+esc(k)+'" aria-haspopup="menu" aria-expanded="'+open+'" aria-label="Možnosti">'+DOTS+'</button>'+
     (open?'<div class="kmenu" role="menu">'+it.map(function(i){return '<button type="button" role="menuitem" data-act="'+i[0]+'" data-id="'+esc(i[1])+'"'+(i[3]?' data-d="'+esc(i[3])+'"':'')+'>'+i[2]+'</button>'}).join('')+'</div>':'')+'</span>';
 }
+
+var MISSR={nemoc:'nemoc',zraneni:'zranění',jine:'jiný důvod'};
+function openMiss(id){var e=D.events[id];if(!e)return;var ill=illOn(e.date);
+  openModal('<h3 id="mtitle" tabindex="-1">Nezúčastnil se</h3><p class="hint">'+esc(evTitle(e))+', '+esc(fmt(parse(e.date),{weekday:'long',day:'numeric',month:'long'}))+'. Nic se nezapočítá do statistik a série tréninků se nepřeruší.</p>'+
+    '<div class="fld"><label>Proč</label><div class="seg" id="ms-why">'+Object.keys(MISSR).map(function(k,i){return '<button type="button" class="fbtn" data-act="misswhy" data-v="'+k+'" aria-pressed="'+((ill?ill.type:'nemoc')===k)+'">'+MISSR[k].charAt(0).toUpperCase()+MISSR[k].slice(1)+'</button>'}).join('')+'</div></div>'+
+    (ill?'':'<label class="cool" id="ms-illw"><input type="checkbox" id="ms-ill" checked> Zapsat i do Nemoc a zranění od '+esc(fmt(parse(e.date),{day:'numeric',month:'numeric'}))+' (konec doplníš, až se uzdraví)</label>')+
+    '<div class="dact"><button type="button" class="btn" data-act="closemodal">Zrušit</button><button type="button" class="btn primary" data-act="missok" data-id="'+id+'">Uložit</button></div>','mtitle')}
 function eventCard(e,opt){
   var T=e.kr?{n:'Kroužek',s:'KR',c:'#a16207'}:(EVT[e.type]||EVT.trenink),kids=myKids(),mineIn=nomOf(e).filter(function(pid){return kids.indexOf(pid)>=0});
   if(opt&&opt.px&&ROLE.coach&&e.type==='trenink'){
@@ -1665,12 +1672,15 @@ function eventCard(e,opt){
   h+='<span class="evt-time">'+esc((e.time||'')+(e.end?'–'+e.end:''))+'</span><span class="evt-dur">'+(e.meet?'sraz '+esc(e.meet)+' · ':'')+(e.type==='turnaj'?(tourGames(e).length?(function(n){return n+' '+(n===1?'zápas':n<5?'zápasy':'zápasů')})(tourGames(e).length)+' · '+evMin(e)+' min':''):(e.dur?e.dur+' min':''))+'</span></div>';
   h+='<h3 class="evt-title'+(tg?' evt-hd':'')+'"'+tg+'>'+esc(evTitle(e))+(tg?'<span class="arr">▴</span>':'')+'</h3>';
   if(e.place)h+='<div class="evt-meta">'+esc(e.place)+'</div>';
-  h+=resultHtml(e);h+=liveHtml(e);
+  var miss=e.miss&&!e.played;
+  if(miss)h+='<div class="missb">Nezúčastnil se · '+esc(MISSR[e.miss.why]||'jiný důvod')+'</div>';else{h+=resultHtml(e);h+=liveHtml(e)}
   if(ROLE.coach){
     h+='<div class="evact">';
     if(!e.kr)h+='<button class="btn" data-act="ics" data-id="'+e.id+'">Do kalendáře</button>';
-    if(e.type!=='trenink')h+='<button class="btn" data-act="resev" data-id="'+e.id+'">Výsledek a statistiky</button>';
+    if(miss)h+='<button class="btn" data-act="missundo" data-id="'+e.id+'">Přece se zúčastnil</button>';
+    else{if(e.type!=='trenink')h+='<button class="btn" data-act="resev" data-id="'+e.id+'">Výsledek a statistiky</button>';
     if(e.type!=='trenink')h+='<button class="btn" data-act="awdev" data-id="'+e.id+'">🏅 Ocenění</button>';
+    if(e.type!=='trenink'&&!e.played&&!e.kr)h+='<button class="btn" data-act="missev" data-id="'+e.id+'">Nezúčastnil se</button>'}
     if(e.kr){var kat=D.att[e.id],kdone=kat&&kat.st&&sonP()&&kat.st[sonP().id]==='y';if(e.date>=key(new Date())&&!kdone)h+='<button class="btn" data-act="krskip" data-id="'+e.kr+'" data-d="'+e.date+'">Odpadá</button>';h+='<button class="btn" data-act="editkr" data-id="'+e.kr+'">Upravit kroužek</button></div>';}
     else h+='<button class="btn" data-act="editev" data-id="'+e.id+'">Upravit</button></div>';
   }
@@ -4048,6 +4058,10 @@ document.addEventListener('click',function(e){
     case 'newkr':openKrForm(null);break;
     case 'editkr':openKrForm(rid);break;
     case 'delkr':openConfirm('Kroužek se smaže i s docházkou v historii, XP za něj ubyde. Pokud kroužek jen skončil, raději ho uprav a vyplň Do data.','delkr',rid);break;
+    case 'missev':openMiss(rid);break;
+    case 'misswhy':document.querySelectorAll('#ms-why .fbtn').forEach(function(x){x.setAttribute('aria-pressed',x===b)});var iw=$('ms-illw');if(iw)iw.style.display=b.getAttribute('data-v')==='jine'?'none':'';break;
+    case 'missok':(function(){var e=D.events[rid];if(!e)return;var wb=document.querySelector('#ms-why [aria-pressed=true]'),why=wb?wb.getAttribute('data-v'):'jine',ci=$('ms-ill');var q=clone(e);q.miss={why:why,at:Date.now()};D.events[rid]=q;W('teams/'+curTeam+'/events/'+rid,q);if(ci&&ci.checked&&why!=='jine'&&!illOn(e.date)){var iid=uid(),io={type:why==='zraneni'?'zraneni':'nemoc',from:e.date,to:'',note:'',created:Date.now()};CUSTOM_ILL[iid]=io;W('ill/'+iid,io)}closeModal();renderAll();toast('Zapsáno: nezúčastnil se')})();break;
+    case 'missundo':(function(){var e=D.events[rid];if(!e)return;var q=clone(e);delete q.miss;D.events[rid]=q;W('teams/'+curTeam+'/events/'+rid,q);renderAll()})();break;
     case 'krskip':var kk=CUSTOM_KR[rid],kd=b.getAttribute('data-d');if(kk){var ko=clone(kk);ko.skip=ko.skip||{};ko.skip[kd]=1;CUSTOM_KR[rid]=ko;W('kr/'+rid,ko);scheduleRender();toast('Kroužek ten den odpadá. Naplánuj si individuální trénink.')}break;
     case 'krunskip':var k2=CUSTOM_KR[rid],kd2=b.getAttribute('data-d');if(k2){var k3=clone(k2);delete (k3.skip||{})[kd2];CUSTOM_KR[rid]=k3;W('kr/'+rid,k3);closeModal();openKrForm(rid);scheduleRender()}break;
     case 'phist':histOpen();break;
